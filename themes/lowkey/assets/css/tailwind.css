@@ -239,7 +239,7 @@
   }
 
   header nav > ul {
-    @apply flex flex-wrap justify-center uppercase text-xs font-semibold gap-7;
+    @apply flex flex-wrap justify-start uppercase text-xs font-semibold gap-7;
   }
 
   nav a,
@@ -374,9 +374,23 @@
     @apply list-none;
   }
 
+  .theme-icon.light:hover {
+    background-color: #303a5c;
+    border-radius: 4px;
+  }
+
+  .theme-icon.dark:hover {
+    background-color: #ededed;
+    border-radius: 4px;
+  }
+
+  .theme-icon svg {
+    padding: 2px;
+  }
+
   /* Misc */
   #site-title {
-    @apply text-center sm:text-left text-4xl font-extrabold text-gray-800 dark:text-gray-100;
+    @apply text-center sm:text-left text-3xl font-extrabold text-gray-800 dark:text-gray-100;
   }
 
   .header {

@@ -741,7 +741,7 @@ video {
   header nav > ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1.75rem;
   font-size: 0.75rem;
   line-height: 1rem;
@@ -1351,11 +1351,22 @@ nav a.active {
 #content span.task-list + ul {
   list-style-type: none;
 }
+.theme-icon.light:hover {
+    background-color: #303a5c;
+    border-radius: 4px;
+  }
+.theme-icon.dark:hover {
+    background-color: #ededed;
+    border-radius: 4px;
+  }
+.theme-icon svg {
+    padding: 2px;
+  }
 /* Misc */
 #site-title {
   text-align: center;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
   font-weight: 800;
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity));
