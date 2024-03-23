@@ -1,0 +1,29 @@
+{{ define "main" }} 
+
+<div class="flex flex-col gap-1">
+  <h1 class="title-small">
+    {{ if .Params.header }}
+      {{ .Params.header }}
+    {{ else }}
+      {{ .Title }}
+    {{ end }}
+  </h1>
+
+  {{ with .Content }}
+    {{ . }}
+  {{ end }}
+</div>
+
+<section class="py-10 flex flex-col gap-10">
+  <ul class="taxonomy-list">
+    {{ range $index, $pages := .Pages }} 
+      <li>
+        <a href=" {{ .Permalink }} ">
+          {{ .Title }} ({{ len .Pages }})
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</section>
+
+{{ end }}

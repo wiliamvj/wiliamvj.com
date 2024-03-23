@@ -1,0 +1,28 @@
+<article class="flex flex-col gap-1">
+  <h1>
+    <a href="{{ .Permalink }}">{{ .Title }}</a>
+  </h1>
+  
+  <span class="date">
+    <time datetime="{{ .PublishDate }}" title='{{ .PublishDate.Format "Mon, Jan 2, 2006, 3:04 PM MST" }}'>
+      {{ .PublishDate.Format "02/01/2006" }}
+    </time>
+  </span>
+
+  <div class="description">
+    {{ if .Params.description }}
+      {{ .Params.description }}
+    {{ else if .Summary }}
+      {{ .Summary }}
+    {{ end }}
+  </div>
+
+  <div class="mt-2">
+    <a class="read-more" href="{{ .Permalink }}">
+      {{ i18n "readMore" }}
+      <span class="w-4 h-4 stroke-2">
+        {{ partial "utils/icon" "arrow-right" }}
+      </span>
+    </a>
+  </div>
+</article>

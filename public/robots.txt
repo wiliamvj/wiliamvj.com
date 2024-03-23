@@ -1,0 +1,19 @@
+User-agent: *
+
+Disallow: /
+
+Disallow: /categories/
+
+Disallow: /categories/nestjs/
+
+Disallow: /posts/
+
+Disallow: /posts/nestjs-contratos/2023-10-12-nestjs-contratos/
+
+Disallow: /categories/css/
+
+Disallow: /categories/javascript/
+
+Disallow: /tags/
+
+Disallow: /categories/uncategories/

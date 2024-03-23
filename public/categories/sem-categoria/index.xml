@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sem Categoria on Wiliam V. Joaquim</title>
+    <link>http://localhost:1313/categories/sem-categoria/</link>
+    <description>Recent content in Sem Categoria on Wiliam V. Joaquim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>{year}</copyright>
+    <lastBuildDate>Sat, 23 Mar 2024 15:06:59 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/sem-categoria/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2023-11-01-Fmt-Go</title>
+      <link>http://localhost:1313/posts/fmt-go/2023-11-01-fmt-go/</link>
+      <pubDate>Sat, 23 Mar 2024 15:06:59 -0300</pubDate>
+      <guid>http://localhost:1313/posts/fmt-go/2023-11-01-fmt-go/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

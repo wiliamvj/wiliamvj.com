@@ -1,0 +1,31 @@
+[[main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/"
+    weight = 1
+
+[[main]]
+    identifier = "newsletter"
+    name = "Newsletter"
+    url = "https://wiliamvj.substack.com/"
+    weight = 2
+
+# Social Media Configuration
+
+[[social]]
+    identifier = "twitter"
+    name = "Twitter"
+    url = "#"
+    weight = 1
+
+[[social]]
+    identifier = "instagram"
+    name = "Instagram"
+    url = "#"
+    weight = 2
+
+[[social]]
+    identifier = "github"
+    name = "GitHub"
+    url = "#"
+    weight = 3

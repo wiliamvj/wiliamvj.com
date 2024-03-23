@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default `en` }}" class="scroll-smooth dark">
+  <head>
+    {{- partial "head/index" . -}}
+  </head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      {{ partial "header/index" . }} {{ partial "header/theme-button" . }}
+    </div>
+
+    <main id="content">{{- block "main" . -}} {{- end }}</main>
+
+    {{- partial "footer/index" . -}}
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{{ define "main" }}
+
+{{ $pages := .Pages }}
+{{ $paginator := .Paginate $pages }}
+
+<div class="flex flex-col gap-1">
+  <h1 class="text-2xl font-extrabold">
+    {{ if .Params.header }}
+      {{ .Params.header }}
+    {{ else }}
+      {{ .Title }}
+      {{ end }}
+    </h1>
+  
+  {{ with .Content }}
+    {{ . }}
+  {{ end }}
+</div>
+
+<section class="flex flex-col gap-10">
+  {{ range $index, $pages := $paginator.Pages }}
+    {{ partial "list/default" . }}
+  {{ end }}
+</section>
+
+{{ if gt $paginator.TotalPages 1 }}
+  {{ partial "list/pagination" . }}
+{{ end }}
+
+{{ end }}
