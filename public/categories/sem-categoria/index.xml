@@ -7,13 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 23 Mar 2024 15:06:59 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 23 Mar 2024 15:14:48 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/sem-categoria/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>2023-11-01-Fmt-Go</title>
-      <link>http://localhost:1313/posts/fmt-go/2023-11-01-fmt-go/</link>
-      <pubDate>Sat, 23 Mar 2024 15:06:59 -0300</pubDate>
-      <guid>http://localhost:1313/posts/fmt-go/2023-11-01-fmt-go/</guid>
+      <title>Como deixar o Swagger com tema dark mode usando NestJS</title>
+      <link>http://localhost:1313/posts/swagger-dark-nestjs/2023-11-05-dark-mode-swagger-nestjs/</link>
+      <pubDate>Sat, 23 Mar 2024 15:14:48 -0300</pubDate>
+      <guid>http://localhost:1313/posts/swagger-dark-nestjs/2023-11-05-dark-mode-swagger-nestjs/</guid>
       <description></description>
     </item>
   </channel>

@@ -3,19 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
+    <lastmod>2023-11-05T15:14:48-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/swagger-dark-nestjs/</loc>
+    <lastmod>2023-11-05T15:14:48-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2023-11-05T15:14:48-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/fmt-go/</loc>
+    <lastmod>2023-11-01T15:06:59-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/nestjs-contratos/</loc>
     <lastmod>2023-10-11T14:56:59-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2023-10-11T14:56:59-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/nestjs/</loc>
-    <lastmod>2023-10-11T14:56:59-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2023-10-11T14:56:59-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/nestjs-contratos/2023-10-12-nestjs-contratos/</loc>
-    <lastmod>2023-10-11T14:56:59-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/css/</loc>
   </url><url>

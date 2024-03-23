@@ -2,13 +2,15 @@ User-agent: *
 
 Disallow: /
 
-Disallow: /categories/
-
-Disallow: /categories/nestjs/
+Disallow: /posts/swagger-dark-nestjs/
 
 Disallow: /posts/
 
-Disallow: /posts/nestjs-contratos/2023-10-12-nestjs-contratos/
+Disallow: /posts/fmt-go/
+
+Disallow: /posts/nestjs-contratos/
+
+Disallow: /categories/
 
 Disallow: /categories/css/
 

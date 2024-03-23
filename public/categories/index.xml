@@ -7,22 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 23 Mar 2024 15:06:59 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Sem Categoria</title>
-      <link>http://localhost:1313/categories/sem-categoria/</link>
-      <pubDate>Sat, 23 Mar 2024 15:06:59 -0300</pubDate>
-      <guid>http://localhost:1313/categories/sem-categoria/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>NestJS</title>
-      <link>http://localhost:1313/categories/nestjs/</link>
-      <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>
-      <guid>http://localhost:1313/categories/nestjs/</guid>
-      <description></description>
-    </item>
     <item>
       <title>CSS</title>
       <link>http://localhost:1313/categories/css/</link>

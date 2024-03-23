@@ -7,20 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Wed, 01 Nov 2023 15:06:59 -0300</lastBuildDate>
+    <lastBuildDate>Sun, 05 Nov 2023 15:14:48 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Como deixar o Swagger com tema dark mode usando NestJS</title>
+      <link>http://localhost:1313/posts/swagger-dark-nestjs/</link>
+      <pubDate>Sun, 05 Nov 2023 15:14:48 -0300</pubDate>
+      <guid>http://localhost:1313/posts/swagger-dark-nestjs/</guid>
+      <description>O tema padrão claro do Swagger já incomodou você? Isso já me incomodou muito e hoje vou mostrar como deixar em Dark mode para quem utiliza o NestJS.</description>
+    </item>
+    <item>
       <title>Desvendando o package fmt do Go</title>
-      <link>http://localhost:1313/posts/fmt-go/2023-11-01-fmt-go/</link>
+      <link>http://localhost:1313/posts/fmt-go/</link>
       <pubDate>Wed, 01 Nov 2023 15:06:59 -0300</pubDate>
-      <guid>http://localhost:1313/posts/fmt-go/2023-11-01-fmt-go/</guid>
+      <guid>http://localhost:1313/posts/fmt-go/</guid>
       <description>O pacote fmt é um pacote padrão do Go e muito utilizado, porém para quem esta iniciando em Go pode parecer um pouco confuso.</description>
     </item>
     <item>
       <title>Usando contratos com NestJS, facilitando seus testes unitários</title>
-      <link>http://localhost:1313/posts/nestjs-contratos/2023-10-12-nestjs-contratos/</link>
+      <link>http://localhost:1313/posts/nestjs-contratos/</link>
       <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>
-      <guid>http://localhost:1313/posts/nestjs-contratos/2023-10-12-nestjs-contratos/</guid>
+      <guid>http://localhost:1313/posts/nestjs-contratos/</guid>
       <description>O que são contratos? Contratos são uma forma de separar as responsabilidades entre as partes que utilizam essa implementação, contratos são muito utilizados no contexto de desenvolvimento de software seguindo o padrão DDD (Domain-Driven Design).</description>
     </item>
   </channel>
