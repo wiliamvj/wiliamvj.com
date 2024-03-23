@@ -6,8 +6,8 @@ theme = 'lowkey'
 title = 'Wiliam V. Joaquim'
 enableRobotsTXT = true
 summaryLength = 15
-paginate = 5
-
+paginate = 8
+googleAnalytics = "G-TG8KZ9PQBT"
 
 [markup]
   [markup.highlight]

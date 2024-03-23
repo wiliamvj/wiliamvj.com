@@ -18,16 +18,16 @@ enableEmoji = true
 
 # giscus is a comment system based on GitHub Discussions. see https://giscus.app
 [giscus]       
-    enable = false
-    repo = ""
-    repoId = ""
-    category = "Announcements"
-    categoryId = ""
-    # mapping = "pathname"  # comment value is the default value
+    enable = true
+    repo = "wiliamvj/wiliamvj.com"
+    repoId = "R_kgDOKqMPTA"
+    category = "General"
+    categoryId = "DIC_kwDOKqMPTM4CbzWf"
+    mapping = "pathname"  # comment value is the default value
     # strict = 0
     # reactionsEnabled = 1
     # emitMetadata = 0
     # inputPosition = "top"
-    # theme = "light"
+    theme = "dark"
     # lang = "zh-CN"
-    # lazyLoading = true
+    lazyLoading = true
