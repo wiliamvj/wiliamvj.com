@@ -1,6 +1,15 @@
-<button class="toggle-theme" aria-label="Toggle Theme" title="Toggle Theme" onclick="toggleTheme()">
-  <span class="theme-icon light"> {{ partial "utils/icon" "sun" }} </span>
-  <span class="theme-icon dark"> {{ partial "utils/icon" "moon" }} </span>
+<button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    {{ partial "utils/icon" "sun" }}
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    {{ partial "utils/icon" "moon" }}
+  </span>
 </button>
 
 <script>

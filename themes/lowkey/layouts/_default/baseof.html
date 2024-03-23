@@ -6,7 +6,10 @@
 
   <body class="max-w-screen-md mx-auto">
     <div class="header">
-      {{ partial "header/index" . }} {{ partial "header/theme-button" . }}
+      {{ partial "header/index" . }}
+      <div class="lg:inline-block hidden">
+        {{ partial "header/theme-button" . }}
+      </div>
     </div>
 
     <main id="content">{{- block "main" . -}} {{- end }}</main>

@@ -2,32 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:53266/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2023-11-11T15:39:40-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:53266/posts/swagger-dark-golang/</loc>
+    <loc>http://localhost:1313/posts/swagger-dark-golang/</loc>
     <lastmod>2023-11-11T15:39:40-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:53266/posts/</loc>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2023-11-11T15:39:40-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:53266/posts/swagger-dark-nestjs/</loc>
+    <loc>http://localhost:1313/posts/swagger-dark-nestjs/</loc>
     <lastmod>2023-11-05T15:14:48-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:53266/posts/fmt-go/</loc>
+    <loc>http://localhost:1313/posts/fmt-go/</loc>
     <lastmod>2023-11-01T15:06:59-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:53266/posts/nestjs-contratos/</loc>
+    <loc>http://localhost:1313/posts/nestjs-contratos/</loc>
     <lastmod>2023-10-11T14:56:59-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:53266/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url><url>
-    <loc>http://localhost:53266/categories/css/</loc>
+    <loc>http://localhost:1313/categories/css/</loc>
   </url><url>
-    <loc>http://localhost:53266/categories/javascript/</loc>
+    <loc>http://localhost:1313/categories/javascript/</loc>
   </url><url>
-    <loc>http://localhost:53266/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
   </url><url>
-    <loc>http://localhost:53266/categories/uncategories/</loc>
+    <loc>http://localhost:1313/categories/uncategories/</loc>
   </url>
 </urlset>

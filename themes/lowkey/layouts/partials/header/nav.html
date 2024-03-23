@@ -1,14 +1,17 @@
 <nav>
-  <ul>
-    {{ $currentPage := . }} 
-    {{ range site.Menus.main }} 
-    {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }} 
-    {{- $page_url := $currentPage.Permalink | absLangURL }}
+  <ul class="px-4 lg:px-0">
+    {{ $currentPage := . }} {{ range site.Menus.main }} {{- $menu_item_url :=
+    (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL
+    }} {{- $page_url := $currentPage.Permalink | absLangURL }}
     <li>
-      <a href="{{ .URL }}" class="{{ if eq $menu_item_url $page_url }} active {{ end }}">
+      <a
+        href="{{ .URL }}"
+        class="{{ if eq $menu_item_url $page_url }} active {{ end }}"
+      >
         {{ .Name }}
       </a>
     </li>
     {{ end }}
+    <li class="-mt-2 block lg:hidden">{{ partial "header/theme-button" . }}</li>
   </ul>
 </nav>
