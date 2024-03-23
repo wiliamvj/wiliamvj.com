@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Wiliam V. Joaquim</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>http://localhost:53266/categories/</link>
     <description>Recent content in Categories on Wiliam V. Joaquim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>{year}</copyright>
-    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:53266/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CSS</title>
-      <link>http://localhost:1313/categories/css/</link>
+      <link>http://localhost:53266/categories/css/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/css/</guid>
+      <guid>http://localhost:53266/categories/css/</guid>
       <description></description>
     </item>
     <item>
       <title>JavaScript</title>
-      <link>http://localhost:1313/categories/javascript/</link>
+      <link>http://localhost:53266/categories/javascript/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/javascript/</guid>
+      <guid>http://localhost:53266/categories/javascript/</guid>
       <description>Description</description>
     </item>
     <item>
       <title>Uncategories</title>
-      <link>http://localhost:1313/categories/uncategories/</link>
+      <link>http://localhost:53266/categories/uncategories/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/uncategories/</guid>
+      <guid>http://localhost:53266/categories/uncategories/</guid>
       <description>Description</description>
     </item>
   </channel>
