@@ -7,8 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 25 Nov 2023 17:11:00 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 05 Dec 2023 17:38:31 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API completa em Golang - Parte 2</title>
+      <link>http://localhost:1313/posts/api-golang-parte-2/</link>
+      <pubDate>Tue, 05 Dec 2023 17:38:31 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-2/</guid>
+      <description>O que vamos fazer? Na parte 2 do nosso crud, vamos configurar nosso banco de dados com docker, sqlc, migrations, go chi, vamos criar nossas primeiras tabelas no banco e também vamos configurar as assinaturas das nossas interfaces.</description>
+    </item>
+    <item>
+      <title>API completa em Golang - Parte 1</title>
+      <link>http://localhost:1313/posts/api-golang-parte-1/</link>
+      <pubDate>Fri, 01 Dec 2023 17:31:01 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-1/</guid>
+      <description>Apresentação Estou iniciando uma série de posts onde vamos criar uma API em Go de forma completa.</description>
+    </item>
     <item>
       <title>Tenha controle sobre seu SQL com Golang e SQLC</title>
       <link>http://localhost:1313/posts/golang-sqlc/</link>

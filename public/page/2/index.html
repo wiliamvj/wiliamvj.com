@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" class="scroll-smooth dark">
+<html lang="pt" class="scroll-smooth dark">
   <head>
 	<meta name="generator" content="Hugo 0.124.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
 
@@ -50,7 +50,7 @@
         href="/"
         class=" active "
       >
-        Posts
+        Artigos
       </a>
     </li>
     
@@ -60,6 +60,15 @@
         class=""
       >
         Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US 🇺🇸
       </a>
     </li>
     
@@ -85,8 +94,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
 
-    if (!theme || theme === 'light') {
-      setTheme('light');
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
     } else {
       setTheme(theme);
     }
@@ -153,8 +162,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
 
-    if (!theme || theme === 'light') {
-      setTheme('light');
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
     } else {
       setTheme(theme);
     }
@@ -200,36 +209,6 @@
 <section class="pb-10 flex flex-col gap-10">
    <article class="flex flex-col gap-1">
   <h1>
-    <a href="http://localhost:1313/posts/fmt-go/">Desvendando o package fmt do Go</a>
-  </h1>
-  
-  <span class="date">
-    <time datetime="2023-11-01 15:06:59 -0300 -03" title='Wed, Nov 1, 2023, 3:06 PM -03'>
-      01/11/2023
-    </time>
-  </span>
-
-  <div class="description">
-    
-      O pacote fmt é um pacote padrão do Go e muito utilizado, porém para quem esta iniciando em Go pode parecer um pouco confuso.
-    
-  </div>
-
-  <div class="mt-2">
-    <a class="read-more" href="http://localhost:1313/posts/fmt-go/">
-      Ler mais
-      <span class="w-4 h-4 stroke-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-</svg>
-
-      </span>
-    </a>
-  </div>
-</article>
-
-   <article class="flex flex-col gap-1">
-  <h1>
     <a href="http://localhost:1313/posts/nestjs-contratos/">Usando contratos com NestJS, facilitando seus testes unitários</a>
   </h1>
   
@@ -267,13 +246,14 @@
   
   <div>
     
-      <a href="/" class="pagination-button">
-        <span class="h-4 w-4 stroke-2"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <a href="/" class="pagination-button">
+      <span class="h-4 w-4 stroke-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
 </svg>
- </span>
-        Newer Posts
-      </a>
+
+      </span>Anteriores
+    </a>
     
   </div>
 
@@ -298,25 +278,31 @@
 </div>
  <div class="order-1 sm:order-2">
   <ul class="flex sm:justify-end gap-5">
-    
-    
-    <li>    
-      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer">linkedin</a>
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
     </li>
     
-    <li>    
-      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer">x</a>
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
     </li>
     
-    <li>    
-      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer">github</a>
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
     </li>
     
-    <li>    
-      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer">dev.to</a>
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
     </li>
-    
-    
+     
   </ul>
 </div>
 

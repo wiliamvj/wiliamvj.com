@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API completa em Golang - Parte 2</title>
+<meta name="description" content="O que vamos fazer? Na parte 2 do nosso crud, vamos configurar nosso banco de dados com docker, sqlc, migrations, go chi, vamos criar nossas primeiras tabelas no banco e também vamos configurar as assinaturas das nossas interfaces.">
+<link rel="canonical" href="http://localhost:1313/posts/api-golang-parte-2/">
+<link rel="robots" href="/robots.txt" />
+
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="http://localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="http://localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hucbf2afd9e62dc6021c155b0731b41164_625734_80x80_fill_q90_box_smart1.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1080"
+      height="1080"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="http://localhost:1313/">
+  <h1 id="site-title">Wiliam V. Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+      >
+        Artigos
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+      >
+        Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US 🇺🇸
+      </a>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">API completa em Golang - Parte 2</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2023-12-05 17:38:31 -0300 -03"
+        title='Tue, Dec 5, 2023, 5:38 PM -03'
+      >
+        05/12/2023 - Tempo estimado de leitura: 11 minutos
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+  <section><p><img alt="thumbnail" src="/posts/api-golang-parte-2/ODggcvG44fhfry546K.png"></p>
+<h2 id="o-que-vamos-fazer">O que vamos fazer?</h2>
+<p>Na parte 2 do nosso crud, vamos configurar nosso banco de dados com docker, sqlc, migrations, go chi, vamos criar nossas primeiras tabelas no banco e também vamos configurar as assinaturas das nossas interfaces.</p>
+<p>Se ainda não viu a <a href="/posts/api-golang-parte-1/">parte 1</a>, leia esse post primeiro.</p>
+<h2 id="configurando-o-banco-de-dados">Configurando o banco de dados</h2>
+<p>Vamos criar na raiz do projeto um arquivo <code>docker-compose.yml</code> para criar uma imagem do postgreSQL:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;3.9&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">postgres</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">container_name</span>: postgres_apigo
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">image</span>: postgres:14.5
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_HOST</span>: ${POSTGRES_HOST}
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_PASSWORD</span>: ${POSTGRES_PASSWORD}
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_USER</span>: ${POSTGRES_USER}
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_DB</span>: ${POSTGRES_DB}
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">PG_DATA</span>: /var/lib/postgresql/data
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#bd93f9">5432</span>:<span style="color:#bd93f9">5432</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">volumes</span>:
+</span></span><span style="display:flex;"><span>      - apigo:/var/lib/postgresql/data
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">apigo</span>:
+</span></span></code></pre></div><p>O código acima vai criar uma imagem do postgreSQL e um volume, para garantir que nossos dados não sejam perdidos sempre que o docker parar. Vamos precisar também de um arquivo <code>.env</code> para guardadas as credenciais de acesso ao banco de dados, também na raiz do projeto:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  POSTGRES_DB=<span style="color:#f1fa8c">&#34;golang_api_users&#34;</span>
+</span></span><span style="display:flex;"><span>  POSTGRES_USER=<span style="color:#f1fa8c">&#34;golang_api_users&#34;</span>
+</span></span><span style="display:flex;"><span>  POSTGRES_PASSWORD=<span style="color:#f1fa8c">&#34;golang_api_users&#34;</span>
+</span></span><span style="display:flex;"><span>  POSTGRES_HOST=<span style="color:#f1fa8c">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>  POSTGRES_PORT=<span style="color:#f1fa8c">&#34;5432&#34;</span>
+</span></span><span style="display:flex;"><span>  DATABASE_URL=<span style="color:#f1fa8c">&#34;postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable&#34;</span>
+</span></span></code></pre></div><p>Agora ao rodar o comando <code>docker compose up -d</code> nosso banco vai ser criado e estará pronto para uso.</p>
+<h2 id="configurando-o-golang-migrate">Configurando o Golang Migrate</h2>
+<p>Agora vamos configurar o golang migrate para lidar com nossas migrations, já fiz um <a href="https://wiliamvj.com/posts/migrations-golang/">post</a> sobre o assunto, recomendo ler antes.</p>
+<p>Os comandos do golang migrate são um pouco extenso e cansativo de digitar, por isso vamos criar o arquivo <code>makefile</code> para facilitar o uso dos comandos:</p>
+<p>Crie um arquivo <code>makefile</code> na raiz do projeto:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>  include .env
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  create_migration:
+</span></span><span style="display:flex;"><span>    migrate create -ext<span style="color:#ff79c6">=</span>sql -dir<span style="color:#ff79c6">=</span>internal/database/migrations -seq init
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  migrate_up:
+</span></span><span style="display:flex;"><span>    migrate -path<span style="color:#ff79c6">=</span>internal/database/migrations -database <span style="color:#f1fa8c">&#34;postgresql://</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_USER</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">:</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_PASSWORD</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">@</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_HOST</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">:</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_PORT</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_DB</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">?sslmode=disable&#34;</span> -verbose up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  migrate_down:
+</span></span><span style="display:flex;"><span>    migrate -path<span style="color:#ff79c6">=</span>internal/database/migrations -database <span style="color:#f1fa8c">&#34;postgresql://</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_USER</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">:</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_PASSWORD</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">@</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_HOST</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">:</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_PORT</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">POSTGRES_DB</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">?sslmode=disable&#34;</span> -verbose down
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  .PHONY: create_migration migrate_up migrate_down
+</span></span></code></pre></div><p>No arquivo incluímos o nosso <code>.env</code> para o makefile poder ter acesso as credenciais do banco de dados, depois criamos 3 comandos, para gerar novas migrations sequenciais, uma para aplicar as migrations e outra para reverter.</p>
+<p>Vamos rodar o comando para criar as migrations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  make create_migration
+</span></span></code></pre></div><p>Você vai perceber que foi gerado uma pasta chamada migrations dentro de <strong>internal/migrations*</strong> e dois arquivos <code>.sql</code>, vai ser nesses arquivos que vamos escrever nosso sql para manipular nosso banco de dados. Você pode alterar o caminho em que as migrations foram geradas, basta alterar no arquivo <code>makefile</code>.</p>
+<h2 id="criando-nossa-primeira-tabela">Criando nossa primeira tabela</h2>
+<p>Com nossa migrations pronta, podemos criar nossa primeira tabela, vamos criar a tabela user com os primeiros campos que vamos precisar, vamos criar no arquivo <code>up</code> gerado pelo golang-migrate, no meu caso chamado <code>000001_init.up.sql</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">CREATE</span> <span style="color:#ff79c6">TABLE</span> users (
+</span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
+</span></span><span style="display:flex;"><span>    name <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    email <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">UNIQUE</span>,
+</span></span><span style="display:flex;"><span>    password <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    created_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">DEFAULT</span> <span style="color:#ff79c6">CURRENT_TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>    updated_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span></code></pre></div><p>Repare que o <code>id</code> da nossa tabela <code>users</code> é um <code>VARCHAR(36)</code>, vamos usar o <a href="https://bit.ly/414qfto">uuid</a>, poderíamos usar uma extensão do postgreSQL como o <a href="https://www.postgresql.org/docs/current/uuid-ossp.html">uuid-ossp</a> para gerar nossos ids, porém se nossa aplicação ficar responsável por gerar seu próprios ids, teremos a possibilidade de saber o <code>id</code> do nosso usuário antes mesmo de salvar no banco de dados, mas se preferir você pode instalar essa extensão e deixar o banco de dados responsável por gerar o <code>id</code> do usuário.</p>
+<p>Nossa migration que desfaz isso, chamamos de down <code>000001_init.down.sql</code> ficaria assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">EXISTS</span> users;
+</span></span></code></pre></div><p>Isso remove a tabela que criamos. Agora vamos rodar as migrations com nosso <code>make</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  make migrate_up
+</span></span></code></pre></div><p>Se tudo rodar sem erro, isso vai aparecer no seu terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  2023/12/05 09:13:51 Start buffering 1/u init
+</span></span><span style="display:flex;"><span>  2023/12/05 09:13:51 Read and execute 1/u init
+</span></span><span style="display:flex;"><span>  2023/12/05 09:13:51 Finished 1/u init <span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">read</span> 4.167125ms, ran 6.650125ms<span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>  2023/12/05 09:13:51 Finished after 13.853791ms
+</span></span><span style="display:flex;"><span>  2023/12/05 09:13:51 Closing <span style="color:#8be9fd;font-style:italic">source</span> and database
+</span></span></code></pre></div><p>Agora se acessar a tabela, usando o <a href="https://www.pgadmin.org/">pgAdmin</a> ou <a href="https://dbeaver.io/download/">DBeaver</a> ou <a href="https://www.beekeeperstudio.io/">BeeKeeper</a>, vai ver ver que a tabela users foi gerada com sucesso.</p>
+<p><img alt="SQL struct" src="/posts/api-golang-parte-2/fgGHJ768ghghjghG.png"></p>
+<p>Rodando o comando abaixo, nossa tabela é deletada, mas cuidado! Esse comando apaga todos os dados!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  make migrate_down
+</span></span></code></pre></div><h2 id="configurando-o-sqlc">Configurando o SQLC</h2>
+<p>Vamos iniciar a configuração do sqlc, também já fiz post sobre <a href="https://wiliamvj.com/posts/golang-sqlc/">como utilizar o go com sqlc</a>.</p>
+<p>Primeiro precisamos criar um arquivo de configuração do sqlc na raiz do projeto, chamado <code>sqlc.yaml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">sql</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ff79c6">schema</span>: <span style="color:#f1fa8c">&#39;internal/database/migrations&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">queries</span>: <span style="color:#f1fa8c">&#39;internal/database/queries&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">engine</span>: <span style="color:#f1fa8c">&#39;postgresql&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">gen</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">go</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">package</span>: <span style="color:#f1fa8c">&#39;sqlc&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">out</span>: <span style="color:#f1fa8c">&#39;internal/database/sqlc&#39;</span>
+</span></span></code></pre></div><p>Nesse arquivo determinamos o banco de dados que vamos usar, o caminho onde vai estão nossas migrations, queries e o caminho onde o sqlc vai salvar os arquivos gerados, você pode optar por outro caminho para salvar os arquivos do sqlc, assim como o nome do package.</p>
+<p>Vamos criar nossa primeira query, apenas para buscar um usuário pelo id, dentro da pasta queries crie um arquivo chamado <code>user.sql</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: GetUserByID :one
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span> <span style="color:#ff79c6">*</span> <span style="color:#ff79c6">from</span> users u <span style="color:#ff79c6">where</span> u.id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>;
+</span></span></code></pre></div><p>Pegamos todos os dados da tabela <code>users</code>, não é uma boa prática, o correto é pegar somente os campos que vamos utilizar, mas vamos alterar isso futuramente. Usamos query annotations para guiar o sqlc na geração <code>GetUserByID</code> é o nome da nossa função, <code>:one</code> informa ao sqlc que queremos retornar apenas 1 registro.</p>
+<p>Rodando o comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  sqlc generate
+</span></span></code></pre></div><p>Vamos gerar nossa pasta chamada <strong>sqlc</strong> dentro de <strong>internal/database</strong>, nessa pasta é onde vai ter todo o código gerado pelo sqlc, essa pasta não vamos alterar nada, para o sqlc é apenas isso, durante o projeto vamos criando novas queries.</p>
+<h2 id="criando-nossas-interfaces">Criando nossas interfaces</h2>
+<p>Vamos usar uma estratégia parecida com OOP, onde vamos criar contratos, e cada função que utilizar esse contrato, precisa implementar conforme determinamos.</p>
+<p>Nosso <code>handler</code>, <code>service</code> e <code>repository</code> terão seus próprios contratos, os contratos facilitam inclusive nos testes unitários.</p>
+<h3 id="handler-interface">handler interface</h3>
+<p>Vamos criar do handler, dentro da pasta <strong>handler</strong>, vamos criar outra pasta para os handlers do usuário, chamada <strong>userhandler</strong>. dentro da pasta vamos criar um arquivo chamada <code>user_interface_handler.go</code>, você pode chamar como desejar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> userhandler
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> <span style="color:#f1fa8c">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUserHandler</span>() UserHandler {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>handler{}
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> handler <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserHandler <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Veja que temos o <code>NewUserHandler</code> ele vai service como nosso constructor, onde ele vai criar uma instância do <code>handler</code> que é privado somente ao package <code>userhandler</code> e vai retornar nossa interface <code>UserHandler</code>, nessa interface vai ficar nossos método, por enquanto temos apenas o <code>CreateUser</code>.</p>
+<p>Utilizando dessa forma, vai nos ajudar muito, perceba que o editor já deve estar acusando erro:</p>
+<p><img alt="interface error" src="/posts/api-golang-parte-2/ofhi78F34fghjHLaqSD.png"></p>
+<p>Isso acontece por que ninguém implementa nossa interface, quando utilizarmos o <code>CreateUser</code> com a exata assinatura que determinamos, o erro vai desaparecer.</p>
+<p>Mas, para nosso <code>handler</code> funcionar ele precisa de um service, pois após receber a requisição precisamos chamar o service, então o <code>NewUserHandler</code> precisa obrigatoriamente da instância do <code>service</code> para funcionar, vamos criar a interface do service.</p>
+<h3 id="service-interface">service interface</h3>
+<p>Vai ser muito parecido com a interface do handler, crie uma pasta <strong>userservice</strong> dentro da pasta <strong>service</strong> e um arquivo chamado <code>user_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> userservice
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUserService</span>() UserService {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>service{}
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> service <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>() <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Mesmo conceito, nosso <code>CreateUser</code> vai receber um <code>dto</code>, mas por enquanto não vamos passar parâmetros.</p>
+<p>Porém nosso service, depende de um repository, para poder funcionar, nosso <code>NewUserService</code> vai receber uma instância do repository, vamos criar a interface também.</p>
+<h3 id="repository-interface">repository interface</h3>
+<p>Crie uma pasta chamada <strong>userepository</strong> dentro de <strong>repository</strong> e um arquivo chamado <code>user_interface_repository.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> userrepository
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUserRepository</span>() UserRepository {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>repository{}
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> repository <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserRepository <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>() <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Mesma estrutura do service e handler, mas nosso repository agora precisa receber uma conexão com o banco de dados e nossas queries geradas pelo sqlc, ficando assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUserRepository</span>(db <span style="color:#ff79c6">*</span>sql.DB, q <span style="color:#ff79c6">*</span>sqlc.Queries) UserRepository {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>repository{
+</span></span><span style="display:flex;"><span>      db,
+</span></span><span style="display:flex;"><span>      q,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> repository <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    db      <span style="color:#ff79c6">*</span>sql.DB
+</span></span><span style="display:flex;"><span>    queries <span style="color:#ff79c6">*</span>sqlc.Queries
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserRepository <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>() <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Ainda vamos receber o erro, pois não implementam a interface.</p>
+<p><em>Não seria necessário criar um módulo de repository, você poderia pegar direto dentro do código gerado pelo sqlc, porém é uma boa prática desacoplar, caso futuramente não seja mais utilizado o sqlc, alteramos apenas nosso repository, sem alterar a camada anterior.</em></p>
+<h3 id="finalizando-as-interfaces">finalizando as interfaces</h3>
+<p>Com nossas interfaces definidas, vamos ajustar nosso handler e service:</p>
+<p>Nosso <code>user_interface_service.go</code> agora recebe uma instância do repository:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUserService</span>(repo userrepository.UserRepository) UserService {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>service{
+</span></span><span style="display:flex;"><span>      repo,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> service <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    repo userrepository.UserRepository
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>() <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nosso <code>user_interface_handler.go</code> agora recebe uma instância do service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUserHandler</span>(service userservice.UserService) UserHandler {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>handler{
+</span></span><span style="display:flex;"><span>      service,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> handler <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    service userservice.UserService
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserHandler <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><h3 id="implementando">implementando</h3>
+<p>Precisamos implementar nossas interfaces, para o Go parar de acusar erro, vamos implementar o handler, dentro da pasta <strong>userhandler</strong> crie um arquivo chamado <code>user_interface_handler.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {}
+</span></span></code></pre></div><p>Essa função recebe um ponteiro do handler, que implementa nossa interface, o erro já parou, pois implementamos nossa interface conforme esperado, por enquanto vamos retornar apenas um <code>nil</code>, vamos fazer o mesmo para o service e repository:</p>
+<p><code>user_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">CreateUser</span>() <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>user_repository.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">CreateUser</span>() <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Com isso os erros de interface não implementada são resolvidos.</p>
+<h2 id="configurando-o-viper">Configurando o Viper</h2>
+<p>Para finalizar a parte 2, precisamos criar uma função que criar nossa conexão com o banco de dados, mas o banco de dados precisa consumir as credenciais salva no nosso <code>.env</code> para isso vamos utilizar o <a href="https://github.com/spf13/viper">viper</a>, não vou me aprofundar no viper, mas você pode entender melhor nesse <a href="https://aprendagolang.com.br/2021/11/04/carregando-configuracoes-com-viper/">post</a>.</p>
+<p>Dentro da pasta <strong>config</strong> vamos criar outra pasta chamada <strong>env</strong> e um arquivo chamado <code>env.go</code>, esses nomes você pode renomear como achar melhor.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> env
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;github.com/spf13/viper&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> Env <span style="color:#ff79c6">*</span>config
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> config <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    GoEnv       <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`mapstructure:&#34;GO_ENV&#34;`</span>
+</span></span><span style="display:flex;"><span>    GoPort      <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`mapstructure:&#34;GO_PORT&#34;`</span>
+</span></span><span style="display:flex;"><span>    DatabaseURL <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`mapstructure:&#34;DATABASE_URL&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">LoadingConfig</span>(path <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>config, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    viper.<span style="color:#50fa7b">SetConfigFile</span>(<span style="color:#f1fa8c">&#34;app_config&#34;</span>)
+</span></span><span style="display:flex;"><span>    viper.<span style="color:#50fa7b">SetConfigType</span>(<span style="color:#f1fa8c">&#34;env&#34;</span>)
+</span></span><span style="display:flex;"><span>    viper.<span style="color:#50fa7b">AddConfigPath</span>(path)
+</span></span><span style="display:flex;"><span>    viper.<span style="color:#50fa7b">SetConfigFile</span>(<span style="color:#f1fa8c">&#34;.env&#34;</span>)
+</span></span><span style="display:flex;"><span>    viper.<span style="color:#50fa7b">AutomaticEnv</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> viper.<span style="color:#50fa7b">ReadInConfig</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = viper.<span style="color:#50fa7b">Unmarshal</span>(<span style="color:#ff79c6">&amp;</span>Env)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> Env, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Vamos usar no momento apenas 3 variáveis:</p>
+<ul>
+<li><code>GO_ENV</code>: Determina o ambiente, pode ser <code>production</code>, <code>development</code>, <code>stage</code>.</li>
+<li><code>GO_PORT</code>: Determina a porta que vamos usar para receber requisições, vamos usar a porta <code>:8080</code>,</li>
+<li><code>DATABASE_URL</code>: Aqui fica a url de conexão com o banco de dados.</li>
+</ul>
+<p>Criamos uma função <code>LoadingConfig</code> para carregar os arquivos com o viper, por fim disponibilizamos de forma global na nossa aplicação o <code>var Env *config</code>, para ser usado e acessar os valores dos nossos environments.</p>
+<p>Não se esqueça de rodar o <code>go mod tidy</code>, para instalar o viper.</p>
+<h2 id="criando-a-conexão-com-o-postgresql">Criando a conexão com o PostgreSQL</h2>
+<p>Vamos iniciar uma única conexão com o banco de dados, e compartilhar essa conexão com toda a nossa aplicação, para isso vamos criar um arquivo chamado <code>connection.go</code> dentro da pasta <strong>database</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> database
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;database/sql&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;log/slog&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _ <span style="color:#f1fa8c">&#34;github.com/lib/pq&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;github.com/wiliamvj/api-users-golang/config/env&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewDBConnection</span>() (<span style="color:#ff79c6">*</span>sql.DB, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    postgresURI <span style="color:#ff79c6">:=</span> env.Env.DatabaseURL
+</span></span><span style="display:flex;"><span>    db, err <span style="color:#ff79c6">:=</span> sql.<span style="color:#50fa7b">Open</span>(<span style="color:#f1fa8c">&#34;postgres&#34;</span>, postgresURI)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = db.<span style="color:#50fa7b">Ping</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      db.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Info</span>(<span style="color:#f1fa8c">&#34;database connected&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;database&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> db, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Criamos uma função <code>NewDBConnection</code>, que vai ser responsável por iniciar uma conexão com o postgreSQL e retornar um ponteiro dessa conexão.</p>
+<p>Talvez você precisa importar o driver do postgreSQL manualmente, o auto import as vezes não importa corretamente <code>_ &quot;github.com/lib/pq&quot;</code>.</p>
+<h2 id="criando-nossas-rotas">Criando nossas rotas</h2>
+<p>Precisamos criar nossas rotas, vamos usar o <a href="https://github.com/go-chi/chi">Go Chi</a> para isso,
+dentro da pasta <strong>handler</strong>, vamos criar uma pasta chamada <strong>routes</strong> e um arquivo chamado <code>user_routes.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">InitUserRoutes</span>(router chi.Router, h userhandler.UserHandler) {
+</span></span><span style="display:flex;"><span>    router.<span style="color:#50fa7b">Route</span>(<span style="color:#f1fa8c">&#34;/user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>      r.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.CreateUser)
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Criamos uma função <code>InitUserRoutes</code>, que será responsável por criar uma estância das rotas para os usuários, a função vai receber um <code>chi.Router</code> e a instância da nossa interface <code>UserHandler</code>, vai criar um grupo de rotas chamado <code>user</code>, e teremos um método <code>post</code> que vai chamar o handler <code>CreateUser</code> da nossa interface, apenas isso é o suficiente, para iniciar, vamos alterar depois nossas routes, adicionado middlewares, autenticação jwt.</p>
+<p>Não se esqueça de rodar o <code>go mod tidy</code> para instalar o go chi.</p>
+<h2 id="criando-as-instâncias-e-rodando-o-projeto">Criando as instâncias e rodando o projeto</h2>
+<p>Criamos bastante coisa no projeto, praticamente toda a estrutura está pronta, agora precisamos apenas inserir a regra de negócio, mas antes vamos iniciar nosso projeto, para isso vamos gerar as instâncias necessárias no arquivo <code>main.go</code> na pasta <strong>cmd/webserver</strong>, nosso <code>main.go</code> ficou assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>    logger.<span style="color:#50fa7b">InitLogger</span>()
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Info</span>(<span style="color:#f1fa8c">&#34;starting api&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _, err <span style="color:#ff79c6">:=</span> env.<span style="color:#50fa7b">LoadingConfig</span>(<span style="color:#f1fa8c">&#34;.&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;failed to load environment variables&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;main&#34;</span>))
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    dbConnection, err <span style="color:#ff79c6">:=</span> database.<span style="color:#50fa7b">NewDBConnection</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to connect to database&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;main&#34;</span>))
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    router <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">NewRouter</span>()
+</span></span><span style="display:flex;"><span>    queries <span style="color:#ff79c6">:=</span> sqlc.<span style="color:#50fa7b">New</span>(dbConnection)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    userRepo <span style="color:#ff79c6">:=</span> userrepository.<span style="color:#50fa7b">NewUserRepository</span>(dbConnection, queries)
+</span></span><span style="display:flex;"><span>    newUserService <span style="color:#ff79c6">:=</span> userservice.<span style="color:#50fa7b">NewUserService</span>(userRepo)
+</span></span><span style="display:flex;"><span>    newUserHandler <span style="color:#ff79c6">:=</span> userhandler.<span style="color:#50fa7b">NewUserHandler</span>(newUserService)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// init routes
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    routes.<span style="color:#50fa7b">InitUserRoutes</span>(router, newUserHandler)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    port <span style="color:#ff79c6">:=</span> fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;:%s&#34;</span>, env.Env.GoPort)
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Info</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;server running on port %s&#34;</span>, port))
+</span></span><span style="display:flex;"><span>    err = http.<span style="color:#50fa7b">ListenAndServe</span>(port, router)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to start server&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;main&#34;</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Primeiro, iniciamos nosso logs, depois carregamos nossas envs, caso retorne erro, paramos por aqui, sem os dados da <code>env</code>, não podemos prosseguir, depois iniciamos a conexão com o banco de dados, também paramos caso retorne erro.</p>
+<p>Depois iniciamos as queries do sqlc, passando a conexão com o banco, por fim iniciamos o encadeamento das nossas interfaces, onde o repository precisa do <code>dbConnection</code> e <code>queries</code> e o service precisa do <code>userRepo</code> e nosso handler precisa do <code>newUserService</code>.</p>
+<p>Depois iniciamos nossas rotas com o go chi <code>chi.NewRouter()</code>, iniciamos o <code>InitUserRoutes</code> passando o <code>router</code> criando acima, por fim iniciamos o server com o <code>http.ListenAndServe(port, router)</code>.</p>
+<p>Finalmente podemos rodar nossa aplicação com:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go run cmd/webserver/main.go
+</span></span></code></pre></div><p>output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;time&#34;</span>:<span style="color:#f1fa8c">&#34;2023-12-05T09:16:11.42702-03:00&#34;</span>,<span style="color:#f1fa8c">&#34;level&#34;</span>:<span style="color:#f1fa8c">&#34;INFO&#34;</span>,<span style="color:#f1fa8c">&#34;msg&#34;</span>:<span style="color:#f1fa8c">&#34;starting api&#34;</span><span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;time&#34;</span>:<span style="color:#f1fa8c">&#34;2023-12-05T09:16:11.456843-03:00&#34;</span>,<span style="color:#f1fa8c">&#34;level&#34;</span>:<span style="color:#f1fa8c">&#34;INFO&#34;</span>,<span style="color:#f1fa8c">&#34;msg&#34;</span>:<span style="color:#f1fa8c">&#34;database connected&#34;</span>,<span style="color:#f1fa8c">&#34;package&#34;</span>:<span style="color:#f1fa8c">&#34;database&#34;</span><span style="color:#ff79c6">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">{</span><span style="color:#f1fa8c">&#34;time&#34;</span>:<span style="color:#f1fa8c">&#34;2023-12-05T09:16:11.456901-03:00&#34;</span>,<span style="color:#f1fa8c">&#34;level&#34;</span>:<span style="color:#f1fa8c">&#34;INFO&#34;</span>,<span style="color:#f1fa8c">&#34;msg&#34;</span>:<span style="color:#f1fa8c">&#34;Server running on port :8080&#34;</span><span style="color:#ff79c6">}</span>
+</span></span></code></pre></div><h2 id="considerações-finais">Considerações finais</h2>
+<p>Fizemos muita coisa na parte 2, deixamos todo o projeto configurado e pronto para receber a lógica da aplicação.</p>
+<h2 id="próximos-passos">Próximos passos</h2>
+<p>Bom, essa foi a parte 2, na parte 3 vamos começar o crud do nosso usuário e validações usando nosso dto.</p>
+<h2 id="link-do-repositório">Link do repositório</h2>
+<p><a href="https://github.com/wiliamvj/api-users-golang">repositório</a> do projeto</p>
+<p><a href="https://github.com/egonelbre/gophers">Gopher credits</a></p>
+</section>
+
+  
+    
+  
+    <div class="giscus-comment">
+    <script
+      src="https://giscus.app/client.js"
+      data-repo="wiliamvj/wiliamvj.com"
+      data-repo-id="R_kgDOKqMPTA"
+      data-category="General"
+      data-category-id="DIC_kwDOKqMPTM4CbzWf"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="dark"
+      data-lang="en"
+      
+        data-loading="lazy"
+      
+      crossorigin="anonymous"
+      async
+    >
+    </script>
+</div>
+  
+
+    
+  
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2024 —
+  <a href="http://localhost:1313/">Wiliam V. Joaquim</a> 
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+</body>
+</html>
