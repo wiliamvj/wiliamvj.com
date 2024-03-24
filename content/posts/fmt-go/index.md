@@ -5,6 +5,8 @@ draft: false
 tableOfContents: false
 ---
 
+![thumbnail](iiph6pld3fw52byv31rc6.png)
+
 O pacote [fmt](https://pkg.go.dev/fmt) é um pacote padrão do Go e muito utilizado, porém para quem esta iniciando em Go pode parecer um pouco confuso.
 
 ## Afinal o que é o pacote fmt?

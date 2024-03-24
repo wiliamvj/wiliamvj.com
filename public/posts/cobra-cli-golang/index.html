@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O poder do CLI com Golang e Cobra CLI</title>
+<meta name="description" content="Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface.">
+<link rel="canonical" href="http://localhost:1313/posts/cobra-cli-golang/">
+<link rel="robots" href="/robots.txt" />
+
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="http://localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="http://localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hucbf2afd9e62dc6021c155b0731b41164_625734_80x80_fill_q90_box_smart1.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1080"
+      height="1080"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="http://localhost:1313/">
+  <h1 id="site-title">Wiliam V. Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+      >
+        Artigos
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+      >
+        Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US 🇺🇸
+      </a>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">O poder do CLI com Golang e Cobra CLI</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2023-11-15 16:40:41 -0300 -03"
+        title='Wed, Nov 15, 2023, 4:40 PM -03'
+      >
+        15/11/2023 - Tempo estimado de leitura: 13 minutos
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+  <section><p><img alt="thumbnail" src="/posts/cobra-cli-golang/thumb_efefewfweGFH567.png"></p>
+<p>Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface. Como por exemplo o <a href="https://git-scm.com/">git</a> e o <a href="https://www.docker.com/">Docker</a> , praticamente usamos a CLI deles o tempo inteiro, quando executamos um <code>git commit -m &quot;commit message&quot;</code> ou <code>docker ps -a</code> estamos utilizando uma CLI. Vou deixar um <a href="https://dev.to/bboyakers/what-is-a-cli-53a6">artigo</a> que detalha melhor o que é uma CLI.</p>
+<p>Nesse post vamos criar um boilerplate para projetos em GO, onde com apenas 1 comando via CLI, vai ser criado toda a estrutura do projeto.</p>
+<h2 id="go-e-cli">GO e CLI</h2>
+<p>Bom, o Go é extremamente poderoso para contrução de CLI, é umas das linguagens mais utilizadas para isso, não é atoa que é a amplamente utilizada entre os DevOps, justamente por ser tão poderosa e simples.</p>
+<p>Só para dar um exemplo do poder do Go para construções de CLI, você já deve ter utilizado ou pelo menos ouviu falar do <a href="https://www.docker.com/">Docker</a>, <a href="https://github.com/kubernetes/kubernetes">Kubernetes</a>, <a href="https://github.com/prometheus/prometheus">Prometheus</a>, <a href="https://github.com/hashicorp/terraform">Terraform</a>,mas o que todos eles tem em comum? todos eles tem grande parte da sua usabilidade via CLI e são desenvolvidos em Go 🐿.</p>
+<h2 id="iniciando-uma-cli-com-go">Iniciando uma CLI com GO</h2>
+<p>O Go tem um pacote para lidar com CLI de forma nativa. Mas vamos abordar de forma rápida, o intuito do post é utilizar o pacote <a href="https://github.com/spf13/cobra">Cobra CLI</a>, que vai facilitar a construção da nossa CLI.</p>
+<p>Vamos utilizar o pacote <a href="https://pkg.go.dev/flag">flag</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;flag&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>    dateFlag <span style="color:#ff79c6">:=</span> flag.<span style="color:#50fa7b">Bool</span>(<span style="color:#f1fa8c">&#34;date&#34;</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;Exibir a data atual&#34;</span>)
+</span></span><span style="display:flex;"><span>    flag.<span style="color:#50fa7b">Parse</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">*</span>dateFlag {
+</span></span><span style="display:flex;"><span>      currentTime <span style="color:#ff79c6">:=</span> time.<span style="color:#50fa7b">Now</span>()
+</span></span><span style="display:flex;"><span>      fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Data atual:&#34;</span>, currentTime.<span style="color:#50fa7b">Format</span>(<span style="color:#f1fa8c">&#34;2006-01-02 15:04:05&#34;</span>))
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nesse exemplo acima, criamos uma flag <code>date</code>, ao passar essa flag é retornado a data atual, algo bem simples, rodando o projeto com <code>go run main.go --date</code>, vamos ter o valor <code>Data atual: 2023-11-15 12:26:14</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  dateFlag <span style="color:#ff79c6">:=</span> flag.<span style="color:#50fa7b">Bool</span>(<span style="color:#f1fa8c">&#34;date&#34;</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;Exibir a data atual&#34;</span>)
+</span></span></code></pre></div><p>No código acima, criamos uma flag, o primeiro argumento <code>date</code> é o nome de flag, o false como valor padrão significa que, se você rodar o programa sem especificar explicitamente a flag &ndash;date, o valor associado a <code>dateFlag</code> será <code>false</code>. Isso permite que o programa tenha um comportamento padrão específico caso essa flag não seja fornecida quando o programa é executado, já o terceiro argumento <code>Exibir a data atual</code> é o detalhe do que essa flag faz.</p>
+<p>Se rodarmos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go run main.go -h
+</span></span></code></pre></div><p>Recebemos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  -date
+</span></span><span style="display:flex;"><span>    Exibir a data atual
+</span></span></code></pre></div><p>Podemos usar a flag com <code>--date</code> ou <code>-date</code>, o Go já faz a verificação automática.</p>
+<p>Podemos fazer todo o nosso boilerplate com essa abordage, porém vamos facilitar um pouco e usar o pacote <a href="https://github.com/spf13/cobra">Cobra CLI</a>.</p>
+<h2 id="cobra-cli">Cobra CLI</h2>
+<p>Esse pacote é muito utilizado para contruções de CLI poderosas, é utilizado por exemplo para o <a href="https://kubernetes.io/">Kubernetes CLI</a> e <a href="https://github.com/cli/cli">GitHub CLI</a>, além de oferecer alguns recursos bacanas como preenchimento automático do <a href="https://pt.wikipedia.org/wiki/Shell_(computa%C3%A7%C3%A3o)">shell</a>, reconhecimento automático de sinalizadores (as tags), podendo utilizar <code>-h</code> ou <code>-help</code> por exemplo, entre outras facilidades.</p>
+<h2 id="criando-o-projeto">Criando o projeto</h2>
+<p>Nosso projeto vai ser bem simples, vamos ter apenas o <code>main.go</code> e o <code>go.mod</code> e consequentemente nosso <code>go.sum</code>, vamos iniciar o projeto com o comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go mod init github.com/wiliamvj/boilerplate-cli-go
+</span></span></code></pre></div><p><em>Você pode utilizar o nome que desejar</em>, por convenção geralmente criamos o nome do projeto sendo o link do nosso repositório.</p>
+<p>ficando assim:</p>
+<p><img alt="Project structure" src="/posts/cobra-cli-golang/iudfiRET56df.png"></p>
+<p>Agora vamos baixar o pacote Cobra com o comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go get -u github.com/spf13/cobra@latest
+</span></span></code></pre></div><p>Nosso boilerplate vai ter uma estrutura bem simples, a ideia é criar uma estrutura muito utilizada pela comunidade em Go, veja como vai ficar:</p>
+<p><img alt="Project structure" src="/posts/cobra-cli-golang/dfgI9dfRNj6456.png"></p>
+<ul>
+<li><strong>cmd</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/cmd">Aqui</a> é onde vamos deixar o <code>main.go</code> que inicia nosso app.</li>
+<li><strong>internal</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/internal">Nessa pasta</a> onde deve ficar todo o código da nossa aplicação.
+<ul>
+<li><strong>handler</strong>: Aqui vai ficar os arquivos responsáveis por receber nossas solicitações http, você pode conhecer também como controllers.
+<ul>
+<li><strong>routes</strong>: Aqui vamos organizar nossas rotas.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Não é a estrutura completa, estamos apenas criando o básico para o nosso exemplo.</p>
+<p>Todo o nosso código vai se concentrar em nosso <code>main.go</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;github.com/spf13/cobra&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> rootCommand = <span style="color:#ff79c6">&amp;</span>cobra.Command{}
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> projectName, projectPath <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> cmd = <span style="color:#ff79c6">&amp;</span>cobra.Command{
+</span></span><span style="display:flex;"><span>      Use:   <span style="color:#f1fa8c">&#34;create&#34;</span>,
+</span></span><span style="display:flex;"><span>      Short: <span style="color:#f1fa8c">&#34;Create boilerplate for a new project&#34;</span>,
+</span></span><span style="display:flex;"><span>      Run: <span style="color:#8be9fd;font-style:italic">func</span>(cmd <span style="color:#ff79c6">*</span>cobra.Command, args []<span style="color:#8be9fd">string</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// validations
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span> projectName <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>          fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;You must supply a project name.&#34;</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> projectPath <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>          fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;You must supply a project path.&#34;</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Creating project...&#34;</span>)
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cmd.<span style="color:#50fa7b">Flags</span>().<span style="color:#50fa7b">StringVarP</span>(<span style="color:#ff79c6">&amp;</span>projectName, <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&#34;</span>, <span style="color:#f1fa8c">&#34;Name of the project&#34;</span>)
+</span></span><span style="display:flex;"><span>    cmd.<span style="color:#50fa7b">Flags</span>().<span style="color:#50fa7b">StringVarP</span>(<span style="color:#ff79c6">&amp;</span>projectPath, <span style="color:#f1fa8c">&#34;path&#34;</span>, <span style="color:#f1fa8c">&#34;p&#34;</span>, <span style="color:#f1fa8c">&#34;&#34;</span>, <span style="color:#f1fa8c">&#34;Path where the project will be created&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    rootCommand.<span style="color:#50fa7b">AddCommand</span>(cmd)
+</span></span><span style="display:flex;"><span>    rootCommand.<span style="color:#50fa7b">Execute</span>()
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>O código acima é apenas para iniciar o nosso CLI, vamos ter apenas duas váriaveis:</p>
+<ul>
+<li><code>projectName</code>: será o nome do nosso projeto que vamos capturar no input da nossa CLI.</li>
+<li><code>projectPath</code>: será o caminho onde o boilerplate será criado, vamos capturar no input do CLI.</li>
+<li><code>&amp;cobra.Command{}</code>: inicia o pacote Cobra.</li>
+<li><code>Run:</code> Recebe uma funcão anônima, é nessa função que capturamos o input do usuário digitado no CLI e validamos, nossa validação é simples, apenas verificamos se o <code>projectName</code> e o <code>projectPath</code> não são nulos.</li>
+<li><code>cmd.Flags()</code>: Aqui criamos as flags com sinalizadores, dessa forma pode ser usado <code>-name</code> ou <code>-n</code>, ambos serão aceitos, também colocamos a descrição do que esse sinalizado faz.</li>
+<li><code>rootCommand.AddCommand(cmd)</code>: Adicionamos nosso <code>cmd</code> ao <code>rootCommand</code> criado no inicio do nosso <code>main.go</code>.</li>
+<li><code>rootCommand.Execute()</code>: Por fim, executamos nossa CLI.</li>
+</ul>
+<p>Isso é tudo que precisamos para deixar nossa CLI funcionando, claro que sem a lógica do nosso boilerplate, mas com isso já conseguimos utilizar via terminal. Vamos testar!</p>
+<p><em>Podemos fazer um build do projeto o usar sem o build</em></p>
+<p>Com build:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go build -o cli .
+</span></span></code></pre></div><p>Vai criar na raiz um arquivo chamado <code>cli</code>, vamos rodar o binário da nossa CLI:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli --help
+</span></span></code></pre></div><p>Vamos ter uma saida igual a essa:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Usage:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">[</span>command<span style="color:#ff79c6">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Available Commands:
+</span></span><span style="display:flex;"><span>    completion  Generate the autocompletion script <span style="color:#ff79c6">for</span> the specified shell
+</span></span><span style="display:flex;"><span>    create      Create boilerplate <span style="color:#ff79c6">for</span> a new project
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">help</span>        Help about any <span style="color:#8be9fd;font-style:italic">command</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Flags:
+</span></span><span style="display:flex;"><span>    -h, --help   <span style="color:#8be9fd;font-style:italic">help</span> <span style="color:#ff79c6">for</span> this <span style="color:#8be9fd;font-style:italic">command</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Use <span style="color:#f1fa8c">&#34; [command] --help&#34;</span> <span style="color:#ff79c6">for</span> more information about a command.
+</span></span></code></pre></div><p>Veja que já temos as dicas de como utilizar o comando que criamos <code>create  Create boilerplate for a new project</code>, se rodarmos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create --help
+</span></span></code></pre></div><p>Teremos:</p>
+<pre tabindex="0"><code>  Create boilerplate for a new project
+
+  Usage:
+    create [flags]
+
+  Flags:
+    -h, --help          help for create
+    -n, --name string   Name of the project
+    -p, --path string   Path where the project will be created
+</code></pre><p>Vamos rodar agora passando nossas flags:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create -n my-project -p ~/documents
+</span></span></code></pre></div><p>Vamos ter nossa mensagem <code>Creating project...</code>, indicando que funcionou, mas nada ainda acontece, pois não implementamos a lógica.</p>
+<p>Podemos ainda criar subcomandos, novas flags, novas validações, mas por enquanto vamos deixar assim, se quiser você pode criar mais opções, veja a <a href="https://pkg.go.dev/github.com/spf13/cobra#section-documentation">documentação</a> do pacote Cobra.</p>
+<h2 id="criando-o-boilerplate">Criando o boilerplate</h2>
+<p>Com a nossa CLI pronta, vamos agora a lógica do boilerplate, que é bem simples, teremos que criar as pastas, depois precisamos criar os arquivos e por fim abrir os arquivos e inserir o código, para isso vamos utilizar bastante o pacote <a href="https://pkg.go.dev/os">os</a> do Go, que permite acessar recursos do sistema operacional.</p>
+<p>Vamos primeiro pegar o diretório principal e validar se já existe uma pasta com o nome que vai se usado para criar o nosso projeto:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  globalPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(projectPath, projectName)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> _, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Stat</span>(globalPath); err <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Project directory already exists.&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Se passarmos o <code>projectName</code> como <strong>test</strong> e o <code>projectPath</code> como <code>/documents</code>, isso valida se não existe nenhuma outra pasta em <strong>documents</strong> chamado <strong>test</strong>, se existir returnamos e devolvemos uma mensagem de erro.</p>
+<p>Você pode modificar e caso exista uma pasta com mesmo nome, alterar o nome do <code>projectName</code> ou deletar a pasta que já existe, mas por hora vamos apenas retornar erro.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(globalPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nessa parte, vamos criar o diretório no caminho que foi informado usando nossa flag <code>-p</code>, se usarmos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create -n my-project -p ~/documents
+</span></span></code></pre></div><h3 id="iniciando-o-go">Iniciando o Go</h3>
+<p>Vai ser criado uma pasta chamada <strong>my-project</strong> no diretório <strong>documents</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  startGo <span style="color:#ff79c6">:=</span> exec.<span style="color:#50fa7b">Command</span>(<span style="color:#f1fa8c">&#34;go&#34;</span>, <span style="color:#f1fa8c">&#34;mod&#34;</span>, <span style="color:#f1fa8c">&#34;init&#34;</span>, projectName)
+</span></span><span style="display:flex;"><span>  startGo.Dir = globalPath
+</span></span><span style="display:flex;"><span>  startGo.Stdout = os.Stdout
+</span></span><span style="display:flex;"><span>  startGo.Stderr = os.Stderr
+</span></span><span style="display:flex;"><span>  err <span style="color:#ff79c6">:=</span> startGo.<span style="color:#50fa7b">Run</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>No código acima executamos o comando para iniciar o projeto em Go, vai ser criado no diretório raiz que escolhemos, no nosso exemplo vai rodar dentro de <strong>documents/my-project</strong>, isso vai criar o arquivo <code>go.mod</code> e vai definir o nome do módulo como <strong>my-projects</strong>.</p>
+<ul>
+<li><code>exec.Command</code>: Cria o comando que vamos rodar no terminal, no caso vai ser <code>go mod init my-project</code>.</li>
+<li><code>startGo.Dir</code>: Determinar onde vai rodar esse comando, no exemplo vai rodar em <strong>documents/my-project</strong>.</li>
+<li><code>startGo.Stdout</code>: Vai colocar no terminal o retorno do comando, vai retornar <code>go: creating new go.mod: module my-project</code>.</li>
+<li><code>startGo.Stderr </code>: Redireciona a saida de um possivel erro para onde o programa está sendo executado.</li>
+<li><code>startGo.Run()</code>: Por fim, executamos tudo.</li>
+</ul>
+<h3 id="criando-as-pastas">Criando as pastas</h3>
+<p>Vamos criar nossas pastas, são elas <strong>cmd</strong>, <strong>internal</strong>, <strong>handler</strong> e <strong>routes</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  cmdPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(globalPath, <span style="color:#f1fa8c">&#34;cmd&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(cmdPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  internalPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(globalPath, <span style="color:#f1fa8c">&#34;internal&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(internalPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  handlerPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(internalPath, <span style="color:#f1fa8c">&#34;handler&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(handlerPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  routesPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(handlerPath, <span style="color:#f1fa8c">&#34;routes&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(routesPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Esse código acima cria na sequência as pastas necessárias, usando <code>os.Mkdir</code>, (<a href="https://pkg.go.dev/os#Mkdir">veja nas docs</a>), para as pastas <strong>handler</strong> e <strong>routes</strong>, precisamos acessar a pasta <strong>internal</strong>, pois serão criadas dentro da <strong>internal</strong>, para isso pegamos usando o <code>Join</code> mesclamos o caminho, ficando:</p>
+<ul>
+<li><code>handlerPath</code>: <strong>documents/my-project/internal</strong></li>
+<li><code>routesPath</code>: <strong>documents/my-project/internal/handler</strong></li>
+</ul>
+<h3 id="criando-os-arquivos">Criando os arquivos</h3>
+<p>Com as pastas criadas, vamos criar os aquivos, para exemplo vamos criar o <code>main.go</code> é claro e o <code>routes.go</code>, dentro da pasta <strong>routes</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  mainPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(cmdPath, <span style="color:#f1fa8c">&#34;main.go&#34;</span>)
+</span></span><span style="display:flex;"><span>  mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(mainPath)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">defer</span> mainFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  routesFilePath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(routesPath, <span style="color:#f1fa8c">&#34;routes.go&#34;</span>)
+</span></span><span style="display:flex;"><span>  routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(routesFilePath)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">defer</span> routesFile.<span style="color:#50fa7b">Close</span>()
+</span></span></code></pre></div><p>Acima criamos os arquivos <code>main.go</code> e <code>routes.go</code>.</p>
+<ul>
+<li><code>mainPath</code>: determinamos o caminho, usando o <code>mainPath</code> usado para criar a pasta <strong>cmd</strong>.</li>
+<li><code>os.Create(mainPath)</code>: Criamos o arquivo, no diretório especificado. (<strong>documents/my-project/cmd</strong>)</li>
+<li><code>routesFilePath</code>: determinamos o caminho, usando o <code>routesPath</code> usado para criar a pasta <strong>routes</strong>.</li>
+<li><code>os.Create(routesFilePath)</code>: Criamos o arquivo, no diretório especificado. (<strong>documents/my-project/internal/handler/routes</strong>)</li>
+<li><code>defer routesFile.Close()</code>: Fechamos o arquivo, <code>defer</code>, usando essa palavra reservada do GO, garantimos que a última coisa a acontecer é fechar o arquivo. Veja mais sobre o <code>defer</code> <a href="https://go.dev/blog/defer-panic-and-recover">aqui</a>.</li>
+</ul>
+<h3 id="escrevendo-nos-arquivos">Escrevendo nos arquivos</h3>
+<p>Com as pastas e arquivos criados, agora vamos escrever nos arquivos <code>main.go</code> e <code>routes.go</code>, vamos fazer algo simples, apenas para exemplo, para organizar melhor, vamos separar em funções que escrevem em cada arquivo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteMainFile</span>(mainPath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package main
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  import &#34;fmt&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  func main() {
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">    fmt.Println(&#34;Hello World!&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  `</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">OpenFile</span>(mainPath, os.O_WRONLY|os.O_APPEND, <span style="color:#bd93f9">0666</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> mainFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _, err = mainFile.<span style="color:#50fa7b">Write</span>(packageContent)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Na função acima, recemos por parâmetro o <code>mainPath</code>, que é o caminho do arquivo, vamos adiciona um código simples, que apenas fazer o log de um <em>Hello World</em>.</p>
+<ul>
+<li><code>packageContent</code>: Criamos o código que vai ser escrito no arquivo.</li>
+<li><code>os.OpenFile</code>: Abrimos o arquivo especificado em <code>mainPath</code>.</li>
+<li><code>defer mainFile.Close()</code>: Fechamos o arquivo por último com <code>defer</code>.</li>
+<li><code>mainFile.Write</code>: Por fim, escrevemos no arquivo, e tratamos o erro se houver.</li>
+</ul>
+<p><code>O_WRONLY</code> e <code>O_APPEND</code>, são constantes usadas para definir modo de abertura de um arquivo, <code>O_WRONLY</code> indica que o arquivo será aberto apenas para escrita, <code>O_APPEND</code>isso faz com o conteúdo adicionado serão acrescentados no fim do arquivo, sem sobrescrever o conteúdo existente.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package routes
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  // Seu código aqui
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  `</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">OpenFile</span>(routesFilePath, os.O_WRONLY|os.O_APPEND, <span style="color:#bd93f9">0666</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> routesFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _, err = routesFile.<span style="color:#50fa7b">Write</span>(packageContent)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Fazemos o mesmo para o arquivo <code>routes.go</code>.</p>
+<p>Agora basta chamar as novas funções na função <code>main</code>, ficando assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  mainPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(cmdPath, <span style="color:#f1fa8c">&#34;main.go&#34;</span>)
+</span></span><span style="display:flex;"><span>  mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(mainPath)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">defer</span> mainFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">WriteMainFile</span>(mainPath); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  routesFilePath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(routesPath, <span style="color:#f1fa8c">&#34;routes.go&#34;</span>)
+</span></span><span style="display:flex;"><span>  routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(routesFilePath)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">defer</span> routesFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><h3 id="código-final">Código final</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;os/exec&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;path/filepath&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;github.com/spf13/cobra&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> rootCommand = <span style="color:#ff79c6">&amp;</span>cobra.Command{}
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> projectName, projectPath <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> cmd = <span style="color:#ff79c6">&amp;</span>cobra.Command{
+</span></span><span style="display:flex;"><span>      Use:   <span style="color:#f1fa8c">&#34;create&#34;</span>,
+</span></span><span style="display:flex;"><span>      Short: <span style="color:#f1fa8c">&#34;Create boilerplate for a new project&#34;</span>,
+</span></span><span style="display:flex;"><span>      Run: <span style="color:#8be9fd;font-style:italic">func</span>(cmd <span style="color:#ff79c6">*</span>cobra.Command, args []<span style="color:#8be9fd">string</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> projectName <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>          fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;You must supply a project name.&#34;</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> projectPath <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>          fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;You must supply a project path.&#34;</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Creating project...&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        globalPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(projectPath, projectName)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> _, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Stat</span>(globalPath); err <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Project directory already exists.&#34;</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(globalPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        startGo <span style="color:#ff79c6">:=</span> exec.<span style="color:#50fa7b">Command</span>(<span style="color:#f1fa8c">&#34;go&#34;</span>, <span style="color:#f1fa8c">&#34;mod&#34;</span>, <span style="color:#f1fa8c">&#34;init&#34;</span>, projectName)
+</span></span><span style="display:flex;"><span>        startGo.Dir = globalPath
+</span></span><span style="display:flex;"><span>        startGo.Stdout = os.Stdout
+</span></span><span style="display:flex;"><span>        startGo.Stderr = os.Stderr
+</span></span><span style="display:flex;"><span>        err <span style="color:#ff79c6">:=</span> startGo.<span style="color:#50fa7b">Run</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cmdPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(globalPath, <span style="color:#f1fa8c">&#34;cmd&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(cmdPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        internalPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(globalPath, <span style="color:#f1fa8c">&#34;internal&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(internalPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        handlerPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(internalPath, <span style="color:#f1fa8c">&#34;handler&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(handlerPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        routesPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(handlerPath, <span style="color:#f1fa8c">&#34;routes&#34;</span>)
+</span></span><span style="display:flex;"><span>        fmt.<span style="color:#50fa7b">Println</span>(routesPath)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(routesPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        mainPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(cmdPath, <span style="color:#f1fa8c">&#34;main.go&#34;</span>)
+</span></span><span style="display:flex;"><span>        mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(mainPath)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">defer</span> mainFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">WriteMainFile</span>(mainPath); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        routesFilePath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(routesPath, <span style="color:#f1fa8c">&#34;routes.go&#34;</span>)
+</span></span><span style="display:flex;"><span>        routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(routesFilePath)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">defer</span> routesFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          log.<span style="color:#50fa7b">Fatal</span>(err)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cmd.<span style="color:#50fa7b">Flags</span>().<span style="color:#50fa7b">StringVarP</span>(<span style="color:#ff79c6">&amp;</span>projectName, <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#f1fa8c">&#34;n&#34;</span>, <span style="color:#f1fa8c">&#34;&#34;</span>, <span style="color:#f1fa8c">&#34;Name of the project&#34;</span>)
+</span></span><span style="display:flex;"><span>    cmd.<span style="color:#50fa7b">Flags</span>().<span style="color:#50fa7b">StringVarP</span>(<span style="color:#ff79c6">&amp;</span>projectPath, <span style="color:#f1fa8c">&#34;path&#34;</span>, <span style="color:#f1fa8c">&#34;p&#34;</span>, <span style="color:#f1fa8c">&#34;&#34;</span>, <span style="color:#f1fa8c">&#34;Path where the project will be created&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    rootCommand.<span style="color:#50fa7b">AddCommand</span>(cmd)
+</span></span><span style="display:flex;"><span>    rootCommand.<span style="color:#50fa7b">Execute</span>()
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteMainFile</span>(mainPath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package main
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  import &#34;fmt&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  func main() {
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">    fmt.Println(&#34;Hello World!&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  `</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">OpenFile</span>(mainPath, os.O_WRONLY|os.O_APPEND, <span style="color:#bd93f9">0666</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> mainFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _, err = mainFile.<span style="color:#50fa7b">Write</span>(packageContent)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package routes
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  // Seu código aqui
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  `</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">OpenFile</span>(routesFilePath, os.O_WRONLY|os.O_APPEND, <span style="color:#bd93f9">0666</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> routesFile.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _, err = routesFile.<span style="color:#50fa7b">Write</span>(packageContent)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><h2 id="testando-a-cli">Testando a CLI</h2>
+<p>Bom, com tudo pronto, vamos testar! Para isso vamos compilar nosso código com o bom e velho <code>go build</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go build -o cli .
+</span></span></code></pre></div><p>Executando a CLI:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create -n my-project -p ~/documents
+</span></span></code></pre></div><p>Vamos ter o retorno:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Creating project...
+</span></span><span style="display:flex;"><span>  go: creating new go.mod: module my-project
+</span></span></code></pre></div><p>Acessando nosso projeto e abrindo no Visual Studio Code com:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">cd</span> /documents/my-project <span style="color:#ff79c6">&amp;&amp;</span> code .
+</span></span></code></pre></div><p>Teremos noss boilerplate criado:</p>
+<p><img alt="Final Project" src="/posts/cobra-cli-golang/fg&gfhUughp0.png"></p>
+<p>Se rodarmos o projeto criado via CLI, podemos ver que tudo funciona.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go run cmd/main.go
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  output:
+</span></span><span style="display:flex;"><span>    Hello World!
+</span></span></code></pre></div><p>Com isso finalizamos a criação de nossa CLI que cria um boilerplate.</p>
+<h2 id="considerações-finais">Considerações finais</h2>
+<p>Vimos o poder que uma CLI pode nos proporcionar, sem contar a rapidez da sua execução. Usando o pacote <a href="https://github.com/spf13/cobra">Cobra CLI</a> temos ainda mais facilidade, a criação de um boilerplate é apenas um exemplo, podemos automatizar muitas tarefas.</p>
+<p>O nosso boilerplate poderia ser ainda mais automatizado, conseguimos por exemplo instalar um pacote como o <a href="https://go-chi.io/">Go Chi</a>, criando endpoints padrões, tudo isso usando a CLI, você pode até mesmo criar seu próprio framework, já pensou que com apenas 1 comando seu projeto inicial já vem todo configurado?</p>
+<p>Com o conhecimento em na criação de CLI, você tem um grande poder em suas mãos!</p>
+<h2 id="link-do-repositório">Link do repositório</h2>
+<p><a href="https://github.com/wiliamvj/boilerplate-cli-go/blob/main/main.go">repositório</a> do projeto</p>
+</section>
+
+  
+    
+  
+    <div class="giscus-comment">
+    <script
+      src="https://giscus.app/client.js"
+      data-repo="wiliamvj/wiliamvj.com"
+      data-repo-id="R_kgDOKqMPTA"
+      data-category="General"
+      data-category-id="DIC_kwDOKqMPTM4CbzWf"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="dark"
+      data-lang="en"
+      
+        data-loading="lazy"
+      
+      crossorigin="anonymous"
+      async
+    >
+    </script>
+</div>
+  
+
+    
+  
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2024 —
+  <a href="http://localhost:1313/">Wiliam V. Joaquim</a> 
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+</body>
+</html>

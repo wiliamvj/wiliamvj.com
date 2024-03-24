@@ -5,6 +5,8 @@ draft: false
 tableOfContents: false
 ---
 
+![thumbnail](8df7g897dfg98dfg7.png)
+
 ## What are contracts?
 
 Contracts are a way of separating responsibilities between the parties that use this implementation, contracts are widely used in the context of software development following the DDD (Domain-Driven Design) standard.

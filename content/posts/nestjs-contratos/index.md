@@ -5,6 +5,8 @@ draft: false
 tableOfContents: false
 ---
 
+![thumbnail](8df7g897dfg98dfg7.png)
+
 ## O que são contratos?
 
 Contratos são uma forma de separar as responsabilidades entre as partes que utilizam essa implementação, contratos são muito utilizados no contexto de desenvolvimento de software seguindo o padrão DDD (Domain-Driven Design).

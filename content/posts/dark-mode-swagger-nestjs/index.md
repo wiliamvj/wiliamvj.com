@@ -6,6 +6,8 @@ draft: false
 tableOfContents: false
 ---
 
+![thumbnail](fsdf98s0f980sd.png)
+
 O tema padrão claro do [Swagger](https://swagger.io/) já incomodou você? Isso já me incomodou muito e hoje vou mostrar como deixar em Dark mode para quem utiliza o NestJS.
 
 ## O que é o Swagger?

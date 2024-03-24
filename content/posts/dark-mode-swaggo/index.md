@@ -5,6 +5,8 @@ draft: false
 tableOfContents: false
 ---
 
+![thumbnail](345kfh4ddlo08gw.png)
+
 Recentemente criei um port mostrando como deixar o Swagger com tema dark mode utilizando [NestJS](posts/swagger-dark-nestjs/), agora vou mostrar como deixar o Swagger em dark mode utilizando o [Swaggo](https://github.com/swaggo/swag) com Go.
 
 ## O que é o Swaggo?
