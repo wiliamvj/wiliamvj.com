@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
 
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Usando contratos com NestJS, facilitando seus testes unitários</title>
-<meta name="description" content="O que são contratos? Contratos são uma forma de separar as responsabilidades entre as partes que utilizam essa implementação, contratos são muito utilizados no contexto de desenvolvimento de software seguindo o padrão DDD (Domain-Driven Design).">
-<link rel="canonical" href="http://localhost:1313/posts/nestjs-contratos/">
+<title>Using contracts with NestJS, facilitating your unit tests</title>
+<meta name="description" content="What are contracts? Contracts are a way of separating responsibilities between the parties that use this implementation, contracts are widely used in the context of software development following the DDD (Domain-Driven Design) standard.">
+<link rel="canonical" href="http://localhost:1313/en/posts/nestjs-contratos/">
 <link rel="robots" href="/robots.txt" />
 
 <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
@@ -46,10 +46,10 @@
      
     <li>
       <a
-        href="/"
+        href="/en"
         class=""
       >
-        Artigos
+        Posts
       </a>
     </li>
     
@@ -64,10 +64,10 @@
     
     <li>
       <a
-        href="/en/"
+        href="/"
         class=""
       >
-        en-US 🇺🇸
+        pt-BR 🇧🇷
       </a>
     </li>
     
@@ -207,7 +207,7 @@
 
 <article class="flex flex-col gap-10">
   <header class="flex flex-col gap-2">
-    <h2 class="title-small">Usando contratos com NestJS, facilitando seus testes unitários</h2>
+    <h2 class="title-small">Using contracts with NestJS, facilitating your unit tests</h2>
 
     <div class="meta">
       
@@ -215,7 +215,7 @@
         datetime="2023-10-11 14:56:59 -0300 -03"
         title='Wed, Oct 11, 2023, 2:56 PM -03'
       >
-        11/10/2023 - Tempo estimado de leitura: 7 minutos
+        11/10/2023 - Estimated reading time: 7 minutes
       </time>
 
        
@@ -224,15 +224,15 @@
 
   
 
-  <section><h2 id="o-que-são-contratos">O que são contratos?</h2>
-<p>Contratos são uma forma de separar as responsabilidades entre as partes que utilizam essa implementação, contratos são muito utilizados no contexto de desenvolvimento de software seguindo o padrão DDD (Domain-Driven Design).</p>
-<p>Digamos que temos um service chama <code>UserService</code>, este service precisa fazer uma chamada no banco de dados e buscar dados do usuário. Para isso temos uma camada de repository, que é responsável por se comunicar com o banco de dados. Neste exemplo, ficaria assim:</p>
+  <section><h2 id="what-are-contracts">What are contracts?</h2>
+<p>Contracts are a way of separating responsibilities between the parties that use this implementation, contracts are widely used in the context of software development following the DDD (Domain-Driven Design) standard.</p>
+<p>Let&rsquo;s say we have a service called <code>UserService</code>, this service needs to make a call to the database and fetch user data. For this we have a repository layer, which is responsible for communicating with the database. In this example, it would look like this:</p>
 <p><code>controller</code> &gt; <code>service</code> &gt; <code>repository</code></p>
-<p>Imagine que você vai escrever um teste unitário para a camada de service, porém como se trata de um teste unitário, você não deveria chamar o repository e chamar o banco de dados, para isso entra o contrato.</p>
-<p>Ficaria assim:</p>
+<p>Imagine that you are going to write a unit test for the service layer, but as it is a unit test, you should not call the repository and call the database, that is why the contract comes into play.</p>
+<p>Would be like this:</p>
 <p><code>controller</code> &gt; <code>service</code> &gt; <code>contract</code> &gt; <code>repository</code></p>
-<p>Vamos ao código:
-No exemplo abaixo temos um service simples, que busca o usuário pelo id, chamando diretamente o nosso repository.</p>
+<p>Let&rsquo;s go to the code:
+In the example below we have a simple service, which searches for the user by id, directly calling our repository.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">@Injectable</span>()
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">class</span> UserService {
 </span></span><span style="display:flex;"><span> <span style="color:#ff79c6">constructor</span>(<span style="color:#ff79c6">private</span> repository: <span style="color:#8be9fd">UserRepository</span>) {}
@@ -242,7 +242,7 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">!</span>findUser <span style="color:#ff79c6">throw</span> <span style="color:#ff79c6">new</span> NotFoundException(<span style="color:#f1fa8c">&#34;user not found&#34;</span>)
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Abaixo nosso repository, no exemplo utilizamos o ORM Prisma, mas poderia ser qualquer outro. Buscamos o user pelo ID, caso não encontre retornamos <code>null</code>, se não, retornamos o usuário.</p>
+</span></span></code></pre></div><p>Below is our repository, in the example we use the Prisma ORM, but it could be any other. We search for the user by ID, if we don&rsquo;t find it we return <code>null</code>, if not, we return the user.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">@Injectable</span>()
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">class</span> UserRepository {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">constructor</span>(<span style="color:#ff79c6">private</span> prisma: <span style="color:#8be9fd">PrismaService</span>) {}
@@ -257,12 +257,12 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> findUser;
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Agora, imagine fazer o teste unitário do nosso service, você precisaria fazer mocks do seu repository, porém ele depende da conexão com o Prisma, então precisaria criar um mock dessa conexão também, isso torna o teste mais demorado e cansativo. Mas pode ser resolvido com contratos.</p>
-<p>Vamos lá, abaixo criamos um contrato usando classe abstrata:</p>
+</span></span></code></pre></div><p>Now, imagine doing the unit test of our service, you would need to make mocks of your repository, but it depends on the connection with Prisma, so you would need to create a mock of that connection too, this makes the test more time consuming and tiring. But it can be resolved with contracts.</p>
+<p>Let&rsquo;s go, below we create a contract using abstract class:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">abstract</span> <span style="color:#ff79c6">class</span> UserContractRepository {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">abstract</span> findById(id: <span style="color:#8be9fd">string</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">User</span> | <span style="color:#50fa7b">null</span>&gt;;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Agora, basta implementar essa classe, dessa forma todos que utilizarem esse contrato precisam implementar o método <code>findById</code>, vamos alterar o service para utilizar o contrato:</p>
+</span></span></code></pre></div><p>Now, just implement this class, so everyone who uses this contract needs to implement the <code>findById</code> method, let&rsquo;s change the service to use the contract:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">@Injectable</span>()
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">class</span> UserService {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">constructor</span>(<span style="color:#ff79c6">private</span> repository: <span style="color:#8be9fd">UserContractRepository</span>) {}
@@ -272,8 +272,8 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>findUser) <span style="color:#ff79c6">throw</span> <span style="color:#ff79c6">new</span> NotFoundException(<span style="color:#f1fa8c">&#39;user not found&#39;</span>);
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>No service quase nada é alterado, ao invés de chamar diretamente o repository, vamos chamar o contrato.</p>
-<p>Vamos alterar o repository:</p>
+</span></span></code></pre></div><p>In the service almost nothing is changed, instead of calling the repository directly, let&rsquo;s call the contract.</p>
+<p>Let&rsquo;s change the repository:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">@Injectable</span>()
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">class</span> UserRepository <span style="color:#ff79c6">implements</span> UserContractRepository {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">constructor</span>(<span style="color:#ff79c6">private</span> prisma: <span style="color:#8be9fd">PrismaService</span>) {}
@@ -288,12 +288,12 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> findUser;
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>No repository, agora usamos o implements, com isso o editor de código já acusa erro, caso você não tenha a implementação completa do <code>UserContractRepository</code>, no exemplo, temos apenas o <code>findById</code> que recebe uma string por parâmetro e devolve um <code>User</code> ou <code>null</code>, portanto implementamos o <code>UserContractRepository</code>, se adicionar mais métodos no <code>UserContractRepository</code>, vai precisar adicionar no <code>UserRepository</code>.</p>
+</span></span></code></pre></div><p>In the repository, we now use implements, so the code editor already reports an error, if you don&rsquo;t have the complete implementation of <code>UserContractRepository</code>, in the example, we only have <code>findById</code> which receives a string per parameter and returns a <code>User</code> or <code>null</code>, so we implemented <code>UserContractRepository</code>, if you add more methods to <code>UserContractRepository</code>, you will need to add them to <code>UserRepository</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">abstract</span> <span style="color:#ff79c6">class</span> UserContractRepository {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">abstract</span> findById(id: <span style="color:#8be9fd">string</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">User</span> | <span style="color:#50fa7b">null</span>&gt;;
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">abstract</span> createUser(user: <span style="color:#8be9fd">User</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">void</span>&gt;;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Agora, temos o <code>createUser</code>, o <code>UserRepository</code> já deve acusar erro, por não implementa por completo o <code>UserContractRepository</code>. Vamos implementar:</p>
+</span></span></code></pre></div><p>Now, we have <code>createUser</code>, <code>UserRepository</code> should already report an error, as it does not fully implement <code>UserContractRepository</code>. Let&rsquo;s implement:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">@Injectable</span>()
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">class</span> UserRepository <span style="color:#ff79c6">implements</span> UserContractRepository {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">constructor</span>(<span style="color:#ff79c6">private</span> prisma: <span style="color:#8be9fd">PrismaService</span>) {}
@@ -314,7 +314,7 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Para funcionar corretamente em NestJs, só precisamos alterar nosso module, para que ao chamar o <code>UserContractRepository</code> seja utilizado a classe <code>UserRepository</code>, é bem simples:</p>
+</span></span></code></pre></div><p>To work correctly in NestJs, we just need to change our module, so that when calling <code>UserContractRepository</code> the <code>UserRepository</code> class is used, it&rsquo;s very simple:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">@Module</span>({
 </span></span><span style="display:flex;"><span>  providers<span style="color:#ff79c6">:</span> [
 </span></span><span style="display:flex;"><span>    {
@@ -323,9 +323,9 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  ]
 </span></span><span style="display:flex;"><span>})
-</span></span></code></pre></div><p>Afinal, qual a vantagem disso?</p>
-<p>Agora como temos uma camada entre o service e repository, para os testes unitários não precisamos mais chamar o repository diretamente, basta criar uma implementação fake que implementa o <code>UserContractRepository</code> e utilizar nos testes, e ainda, se precisarmos trocar o prisma por outro ORM, como TypeORM por exemplo, não precisamos alterar nosso service, basta criar um novo repository e implementar o <code>UserContractRepository</code>.</p>
-<p>Vamos fazer um repository fake, normalmente chamamos de in memory:</p>
+</span></span></code></pre></div><p>Well, what&rsquo;s the advantage of that?</p>
+<p>Now as we have a layer between the service and repository, for unit tests we no longer need to call the repository directly, just create a fake implementation that implements the <code>UserContractRepository</code> and use it in the tests, and even, if we need to exchange the prism for another ORM , like TypeORM for example, we don&rsquo;t need to change our service, just create a new repository and implement <code>UserContractRepository</code>.</p>
+<p>Let&rsquo;s make a fake repository, normally we call it in memory:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">class</span> UserRepositoryInMemory <span style="color:#ff79c6">implements</span> UserContractRepository {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">async</span> findById(id: <span style="color:#8be9fd">string</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">User</span> | <span style="color:#50fa7b">null</span>&gt; {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
@@ -334,8 +334,8 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">async</span> createUser(user: <span style="color:#8be9fd">User</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">void</span>&gt; {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="retornando-um-mock">Retornando um mock</h2>
-<p>No exemplo acima, não retornamos nada, mas você poderia retornar um mock do User, desta forma:</p>
+</span></span></code></pre></div><h2 id="returning-a-mock">Returning a mock</h2>
+<p>In the example above, we didn&rsquo;t return anything, but you could return a mock of the User, like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> userMock: <span style="color:#8be9fd">User</span> <span style="color:#ff79c6">=</span> {
 </span></span><span style="display:flex;"><span>  id<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;id_mock&#34;</span>,
 </span></span><span style="display:flex;"><span>  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
@@ -350,7 +350,7 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">async</span> createUser(user: <span style="color:#8be9fd">User</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">void</span>&gt; {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Podemos simular ainda mais o comportamento do repository, verificando se o ID do user é o mesmo do <code>userMock</code>:</p>
+</span></span></code></pre></div><p>We can further simulate the repository&rsquo;s behavior by checking if the user ID is the same as the <code>userMock</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> userMock: <span style="color:#8be9fd">User</span> <span style="color:#ff79c6">=</span> {
 </span></span><span style="display:flex;"><span>  id<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;id_mock&#34;</span>,
 </span></span><span style="display:flex;"><span>  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
@@ -367,7 +367,7 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">async</span> createUser(user: <span style="color:#8be9fd">User</span>)<span style="color:#ff79c6">:</span> Promise&lt;<span style="color:#ff79c6">void</span>&gt; {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Vamos ver como fazer o teste unitário usando Jest</p>
+</span></span></code></pre></div><p>Let&rsquo;s see how to do unit testing using Jest</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">let</span> sut: <span style="color:#8be9fd">UserService</span>;
 </span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">let</span> repository: <span style="color:#8be9fd">UserContractRepository</span>;
 </span></span><span style="display:flex;"><span>
@@ -385,8 +385,8 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>  sut <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">module</span>.get <span style="color:#ff79c6">&lt;</span> UserService <span style="color:#ff79c6">&gt;</span> UserService;
 </span></span><span style="display:flex;"><span>  repository <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">module</span>.get <span style="color:#ff79c6">&lt;</span> UserContractRepository <span style="color:#ff79c6">&gt;</span> UserContractRepository;
 </span></span><span style="display:flex;"><span>});
-</span></span></code></pre></div><p>Usamos a mesma lógica utilizada no module, mas agora chamando o repository in memory, desta forma não precisamos lidar com com a implementação do prisma ORM por exemplo.</p>
-<p>O teste ficaria assim:</p>
+</span></span></code></pre></div><p>We use the same logic used in the module, but now calling the repository in memory, this way we don&rsquo;t need to deal with the prism ORM implementation for example.</p>
+<p>The test would look like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span>describe(<span style="color:#f1fa8c">&#39;findUserById&#39;</span>, () <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>  it(<span style="color:#f1fa8c">&#39;should be able to return user by id&#39;</span>, <span style="color:#ff79c6">async</span> () <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> result <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> sut.findUserById(<span style="color:#f1fa8c">&#34;id_mock&#34;</span>);
@@ -396,7 +396,7 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>    expect(result).toHaveProperty(<span style="color:#f1fa8c">&#39;name&#39;</span>);
 </span></span><span style="display:flex;"><span>    expect(result).toHaveProperty(<span style="color:#f1fa8c">&#39;email&#39;</span>);
 </span></span><span style="display:flex;"><span>  });
-</span></span></code></pre></div><p>Veja como fica simples fazer um teste com contratos, você pode simular erro também, usando o <code>spyOn</code> do jest, por exemplo:</p>
+</span></span></code></pre></div><p>See how simple it is to test with contracts, you can also simulate an error, using jest&rsquo;s <code>spyOn</code>, for example:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span>describe(<span style="color:#f1fa8c">&#39;findUserById&#39;</span>, () <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>  it(<span style="color:#f1fa8c">&#39;should not be able to return user by id&#39;</span>, <span style="color:#ff79c6">async</span> () <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>  jest.spyOn(repository, <span style="color:#f1fa8c">&#39;findById&#39;</span>).mockResolvedValueOnce(<span style="color:#ff79c6">null</span>);
@@ -405,7 +405,7 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> sut.findUserById(<span style="color:#f1fa8c">&#34;id_mock&#34;</span>);
 </span></span><span style="display:flex;"><span>    }).rejects.toThrow(NotFoundException);
 </span></span><span style="display:flex;"><span>  });
-</span></span></code></pre></div><p>Mas como temos nosso in memory, com o tratamento para retorna null caso o ID do usuário seja diferente, bastaria passar um ID errado:</p>
+</span></span></code></pre></div><p>But since we have our in memory, with the treatment to return null if the user ID is different, it would be enough to pass a wrong ID:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span>describe(<span style="color:#f1fa8c">&#39;findUserById&#39;</span>, () <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>  it(<span style="color:#f1fa8c">&#39;should not be able to return user by id&#39;</span>, <span style="color:#ff79c6">async</span> () <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>
@@ -413,14 +413,14 @@ No exemplo abaixo temos um service simples, que busca o usuário pelo id, chaman
 </span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> sut.findUserById(<span style="color:#f1fa8c">&#34;id_mock_wrong&#34;</span>);
 </span></span><span style="display:flex;"><span>    }).rejects.toThrow(NotFoundException);
 </span></span><span style="display:flex;"><span>  });
-</span></span></code></pre></div><h2 id="conclusão">Conclusão</h2>
-<p>Em conclusão, o uso de contratos no NestJS pode ser uma abordagem muito eficaz para facilitar os testes unitários e melhorar a manutenção do código. Ao separar a interface do repositório em um contrato, você cria uma camada intermediária entre o serviço e o repositório, permitindo que você crie implementações alternativas para fins de teste, como o <code>UserRepositoryInMemory</code>. Isso tem várias vantagens:</p>
-<p><strong>1. Facilita os testes unitários:</strong> Com o contrato em vigor, você pode criar implementações de repositório fictícias que se comportam conforme necessário para cada teste, sem a necessidade de interagir com o banco de dados real ou a camada de persistência.</p>
-<p><strong>2. Isolamento de testes:</strong> Isolar o serviço a ser testado de suas dependências externas, como o ORM ou outros serviços, é fundamental para testes unitários eficazes. Contratos ajudam a alcançar essa isolamento.</p>
-<p><strong>3. Flexibilidade:</strong> Se você decidir mudar de um ORM para outro, como de Prisma para TypeORM, os serviços não precisam ser alterados. Basta criar um novo repositório que implemente o contrato existente e fazer a troca no módulo.</p>
-<p><strong>4. Melhor aderência ao DDD:</strong> A abordagem de contratos se alinha bem com os princípios do Domain-Driven Design (DDD), onde a ênfase é colocada na clareza das interfaces entre as diferentes camadas da aplicação.</p>
-<p><strong>5. Testes de erro mais simples:</strong> Você pode facilmente simular diferentes cenários de erro, como retornar “null” ou lançar exceções, para garantir que seu serviço lida adequadamente com essas situações.</p>
-<p>No geral, o uso de contratos no NestJS é uma prática recomendada que pode tornar seu código mais testável, mais flexível e mais robusto. Isso ajuda a manter seu código limpo e facilita a evolução e manutenção do sistema ao longo do tempo.</p>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Using contracts in NestJS can be a very effective approach to facilitate unit testing and improve code maintainability. By separating the repository interface into a contract, you create an intermediate layer between the service and the repository, allowing you to create alternative implementations for testing purposes, such as <code>UserRepositoryInMemory</code>. This has several advantages:</p>
+<p><strong>1. Makes unit testing easier:</strong> With the contract in place, you can create dummy repository implementations that behave as needed for each test, without needing to interact with the real database or persistence layer.</p>
+<p><strong>2. Test isolation:</strong> Isolating the service to be tested from its external dependencies, such as the ORM or other services, is fundamental to effective unit testing. Contracts help achieve this isolation.</p>
+<p><strong>3. Flexibility:</strong> If you decide to switch from one ORM to another, such as from Prisma to TypeORM, the services do not need to change. Just create a new repository that implements the existing contract and make the change in the module.</p>
+<p><strong>4. Better adherence to DDD:</strong> The contract approach aligns well with the principles of Domain-Driven Design (DDD), where emphasis is placed on the clarity of interfaces between different layers of the application.</p>
+<p><strong>5. Simpler error tests:</strong> You can easily simulate different error scenarios, such as returning “null” or throwing exceptions, to ensure that your service properly handles these situations.</p>
+<p>Using contracts in NestJS is a best practice that can make your code more testable, more flexible, and more robust. This helps keep your code clean and makes it easier to evolve and maintain the system over time.</p>
 </section>
 
   

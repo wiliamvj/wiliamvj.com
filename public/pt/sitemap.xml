@@ -20,6 +20,16 @@
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
     <lastmod>2023-11-11T15:39:40-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="http://localhost:1313/en/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="http://localhost:1313/posts/"
+                />
   </url><url>
     <loc>http://localhost:1313/posts/dark-mode-swagger-nestjs/</loc>
     <lastmod>2023-11-05T15:14:48-03:00</lastmod>
@@ -29,6 +39,16 @@
   </url><url>
     <loc>http://localhost:1313/posts/nestjs-contratos/</loc>
     <lastmod>2023-10-11T14:56:59-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="http://localhost:1313/en/posts/nestjs-contratos/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="http://localhost:1313/posts/nestjs-contratos/"
+                />
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
     <xhtml:link

@@ -132,7 +132,7 @@ export class UserRepository implements UserContractRepository {
 }
 ```
 
-Para funcionar corretamente em NestJs, só precisamos alterar nosso module, para que ao chamar o UserContractRepository seja utilizado a classe UserRepository, é bem simples:
+Para funcionar corretamente em NestJs, só precisamos alterar nosso module, para que ao chamar o `UserContractRepository` seja utilizado a classe `UserRepository`, é bem simples:
 
 ```typescript
 @Module({
