@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 16 Dec 2023 17:49:40 -0300</lastBuildDate>
+    <lastBuildDate>Thu, 21 Dec 2023 17:54:40 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API completa em Golang - Parte 4</title>
+      <link>http://localhost:1313/posts/api-golang-parte-4/</link>
+      <pubDate>Thu, 21 Dec 2023 17:54:40 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-4/</guid>
+      <description>O que vamos fazer? Na parte 4 do nosso crud, vamos fazer a lógica do nosso service de usuário.</description>
+    </item>
     <item>
       <title>API completa em Golang - Parte 3</title>
       <link>http://localhost:1313/posts/api-golang-parte-3/</link>
