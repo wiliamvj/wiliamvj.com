@@ -4,20 +4,24 @@
   <!-- Previous page. -->
   <div>
     {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}" class="pagination-button">
-        <span class="h-4 w-4 stroke-2"> {{ partial "utils/icon" "arrow-left" }} </span>
-        Newer Posts
-      </a>
+    <a href="{{ $paginator.Prev.URL }}" class="pagination-button">
+      <span class="h-4 w-4 stroke-2">
+        {{ partial "utils/icon" "arrow-left" }}
+      </span>
+      {{- i18n "newer_posts" }}
+    </a>
     {{ end }}
   </div>
 
   <!-- Next page. -->
   <div class="flex justify-end">
     {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}" class="pagination-button">
-        Older Posts
-        <span class="h-4 w-4 stroke-2"> {{ partial "utils/icon" "arrow-right" }} </span>
-      </a>
+    <a href="{{ $paginator.Next.URL }}" class="pagination-button">
+      {{- i18n "older_posts" }}
+      <span class="h-4 w-4 stroke-2">
+        {{ partial "utils/icon" "arrow-right" }}
+      </span>
+    </a>
     {{ end }}
   </div>
 </div>

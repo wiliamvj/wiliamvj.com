@@ -15,3 +15,9 @@
 
 [404_text]
     other = 'Parece que você seguiu um link quebrado ou inseriu um URL que não existe neste site.'
+
+[newer_posts]
+    other = "Anteriores"
+
+[older_posts]
+    other = "Próximos"
