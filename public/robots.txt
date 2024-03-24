@@ -2,11 +2,11 @@ User-agent: *
 
 Disallow: /
 
-Disallow: /posts/swagger-dark-golang/
+Disallow: /posts/dark-mode-swaggo/
 
 Disallow: /posts/
 
-Disallow: /posts/swagger-dark-nestjs/
+Disallow: /posts/dark-mode-swagger-nestjs/
 
 Disallow: /posts/fmt-go/
 

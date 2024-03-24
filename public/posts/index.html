@@ -84,8 +84,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
 
-    if (!theme || theme === 'light') {
-      setTheme('light');
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
     } else {
       setTheme(theme);
     }
@@ -152,8 +152,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
 
-    if (!theme || theme === 'light') {
-      setTheme('light');
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
     } else {
       setTheme(theme);
     }
@@ -216,7 +216,7 @@
   
     <article class="flex flex-col gap-1">
   <h1>
-    <a href="http://localhost:1313/posts/swagger-dark-golang/">Como deixar o Swagger com tema dark mode usando Swaggo e Golang</a>
+    <a href="http://localhost:1313/posts/dark-mode-swaggo/">Como deixar o Swagger com tema dark mode usando Swaggo e Golang</a>
   </h1>
   
   <span class="date">
@@ -232,7 +232,7 @@
   </div>
 
   <div class="mt-2">
-    <a class="read-more" href="http://localhost:1313/posts/swagger-dark-golang/">
+    <a class="read-more" href="http://localhost:1313/posts/dark-mode-swaggo/">
       Ler mais
       <span class="w-4 h-4 stroke-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -247,7 +247,7 @@
   
     <article class="flex flex-col gap-1">
   <h1>
-    <a href="http://localhost:1313/posts/swagger-dark-nestjs/">Como deixar o Swagger com tema dark mode usando NestJS</a>
+    <a href="http://localhost:1313/posts/dark-mode-swagger-nestjs/">Como deixar o Swagger com tema dark mode usando NestJS</a>
   </h1>
   
   <span class="date">
@@ -263,7 +263,7 @@
   </div>
 
   <div class="mt-2">
-    <a class="read-more" href="http://localhost:1313/posts/swagger-dark-nestjs/">
+    <a class="read-more" href="http://localhost:1313/posts/dark-mode-swagger-nestjs/">
       Ler mais
       <span class="w-4 h-4 stroke-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

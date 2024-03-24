@@ -84,8 +84,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
 
-    if (!theme || theme === 'light') {
-      setTheme('light');
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
     } else {
       setTheme(theme);
     }
@@ -152,8 +152,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
 
-    if (!theme || theme === 'light') {
-      setTheme('light');
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
     } else {
       setTheme(theme);
     }
