@@ -7,8 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 11 Nov 2023 15:39:40 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 25 Nov 2023 17:11:00 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang-Sqlc</title>
+      <link>http://localhost:1313/posts/golang-sqlc/</link>
+      <pubDate>Sat, 25 Nov 2023 17:11:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/golang-sqlc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Usando migrations com Golang</title>
+      <link>http://localhost:1313/posts/migrations-golang/</link>
+      <pubDate>Sat, 18 Nov 2023 17:00:30 -0300</pubDate>
+      <guid>http://localhost:1313/posts/migrations-golang/</guid>
+      <description>O que são migrations? As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado.</description>
+    </item>
+    <item>
+      <title>O poder do CLI com Golang e Cobra CLI</title>
+      <link>http://localhost:1313/posts/cobra-cli-golang/</link>
+      <pubDate>Wed, 15 Nov 2023 16:40:41 -0300</pubDate>
+      <guid>http://localhost:1313/posts/cobra-cli-golang/</guid>
+      <description>Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface.</description>
+    </item>
     <item>
       <title>Como deixar o Swagger com tema dark mode usando Swaggo e Golang</title>
       <link>http://localhost:1313/posts/dark-mode-swaggo/</link>

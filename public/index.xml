@@ -7,8 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Wed, 15 Nov 2023 16:40:41 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 25 Nov 2023 17:11:00 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tenha controle sobre seu SQL com Golang e SQLC</title>
+      <link>http://localhost:1313/posts/golang-sqlc/</link>
+      <pubDate>Sat, 25 Nov 2023 17:11:00 -0300</pubDate>
+      <guid>http://localhost:1313/posts/golang-sqlc/</guid>
+      <description>Introdução Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas.</description>
+    </item>
+    <item>
+      <title>Usando migrations com Golang</title>
+      <link>http://localhost:1313/posts/migrations-golang/</link>
+      <pubDate>Sat, 18 Nov 2023 17:00:30 -0300</pubDate>
+      <guid>http://localhost:1313/posts/migrations-golang/</guid>
+      <description>O que são migrations? As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado.</description>
+    </item>
     <item>
       <title>O poder do CLI com Golang e Cobra CLI</title>
       <link>http://localhost:1313/posts/cobra-cli-golang/</link>

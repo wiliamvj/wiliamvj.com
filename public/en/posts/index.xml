@@ -14,7 +14,7 @@
       <link>http://localhost:1313/en/posts/nestjs-contratos/</link>
       <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>
       <guid>http://localhost:1313/en/posts/nestjs-contratos/</guid>
-      <description>O que são contratos? Contracts are a way of separating responsibilities between the parties that use this implementation, contracts are widely used in the context of software development following the DDD (Domain-Driven Design) standard.</description>
+      <description>What are contracts? Contracts are a way of separating responsibilities between the parties that use this implementation, contracts are widely used in the context of software development following the DDD (Domain-Driven Design) standard.</description>
     </item>
   </channel>
 </rss>

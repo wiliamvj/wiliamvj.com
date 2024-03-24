@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
+    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,11 +15,11 @@
                 href="http://localhost:1313/"
                 />
   </url><url>
-    <loc>http://localhost:1313/posts/dark-mode-swaggo/</loc>
-    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
+    <loc>http://localhost:1313/posts/golang-sqlc/</loc>
+    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
+    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -30,6 +30,15 @@
                 hreflang="pt"
                 href="http://localhost:1313/posts/"
                 />
+  </url><url>
+    <loc>http://localhost:1313/posts/migrations-golang/</loc>
+    <lastmod>2023-11-18T17:00:30-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/cobra-cli-golang/</loc>
+    <lastmod>2023-11-15T16:40:41-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/dark-mode-swaggo/</loc>
+    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/dark-mode-swagger-nestjs/</loc>
     <lastmod>2023-11-05T15:14:48-03:00</lastmod>

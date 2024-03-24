@@ -2,9 +2,15 @@ User-agent: *
 
 Disallow: /
 
-Disallow: /posts/dark-mode-swaggo/
+Disallow: /posts/golang-sqlc/
 
 Disallow: /posts/
+
+Disallow: /posts/migrations-golang/
+
+Disallow: /posts/cobra-cli-golang/
+
+Disallow: /posts/dark-mode-swaggo/
 
 Disallow: /posts/dark-mode-swagger-nestjs/
 
