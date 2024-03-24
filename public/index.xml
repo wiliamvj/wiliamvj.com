@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Tue, 05 Dec 2023 17:38:31 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 16 Dec 2023 17:49:40 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API completa em Golang - Parte 3</title>
+      <link>http://localhost:1313/posts/api-golang-parte-3/</link>
+      <pubDate>Sat, 16 Dec 2023 17:49:40 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-3/</guid>
+      <description>O que vamos fazer? Na parte 3 do nosso crud, vamos configurar nosso dto para realizar as validações dos dados de entrada da nossa api e vamos criar o handler do usuário.</description>
+    </item>
     <item>
       <title>API completa em Golang - Parte 2</title>
       <link>http://localhost:1313/posts/api-golang-parte-2/</link>

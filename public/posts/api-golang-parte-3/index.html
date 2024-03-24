@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API completa em Golang - Parte 3</title>
+<meta name="description" content="O que vamos fazer? Na parte 3 do nosso crud, vamos configurar nosso dto para realizar as validações dos dados de entrada da nossa api e vamos criar o handler do usuário.">
+<link rel="canonical" href="http://localhost:1313/posts/api-golang-parte-3/">
+<link rel="robots" href="/robots.txt" />
+
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="http://localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="http://localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hucbf2afd9e62dc6021c155b0731b41164_625734_80x80_fill_q90_box_smart1.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1080"
+      height="1080"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="http://localhost:1313/">
+  <h1 id="site-title">Wiliam V. Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+      >
+        Artigos
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+      >
+        Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US 🇺🇸
+      </a>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">API completa em Golang - Parte 3</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2023-12-16 17:49:40 -0300 -03"
+        title='Sat, Dec 16, 2023, 5:49 PM -03'
+      >
+        16/12/2023 - Tempo estimado de leitura: 18 minutos
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+  <section><p><img alt="thumbnail" src="/posts/api-golang-parte-3/fgGfsdfsd674GJG.png"></p>
+<h2 id="o-que-vamos-fazer">O que vamos fazer?</h2>
+<p>Na parte 3 do nosso crud, vamos configurar nosso dto para realizar as validações dos dados de entrada da nossa api e vamos criar o handler do usuário.</p>
+<p>Se ainda não viu a <a href="/posts/api-golang-parte-1/">parte 1</a> e a <a href="/posts/api-golang-parte-2/">parte 2</a> leia esse post primeiro.</p>
+<h2 id="padronizando-erros-http">Padronizando erros http</h2>
+<p>Antes de iniciar com o dto, precisamos padronizar nossos erros http, é uma boa prática criar uma padronização dos nossos erros http que retornamos para nosso cliente, por isso vamos retornar sempre nesse padrão:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;message error&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;bad_request&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;code&#34;</span>: <span style="color:#bd93f9">400</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;fields&#34;</span>: []
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Vamos retornar sempre nesse formato, o campo <code>fields</code> vai ser preenchido pelo go playground com os dados dos campos que estão errados, ficando nesse formato:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;message error&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;bad_request&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;code&#34;</span>: <span style="color:#bd93f9">400</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;fields&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">&#34;field&#34;</span>: <span style="color:#f1fa8c">&#34;email&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">&#34;value&#34;</span>: <span style="color:#f1fa8c">&#34;email.com&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;invalid email&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Dessa forma ajuda o consumidor da nossa api a identificar os campos errados.</p>
+<p>Vamos criar dentro da pasta <strong>handler</strong> uma pasta chamada <strong>httperr</strong> e um arquivo dentro chamado <code>httperr</code>, ficando assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> httperr
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> <span style="color:#f1fa8c">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> RestErr <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Message <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;message&#34;`</span>
+</span></span><span style="display:flex;"><span>    Err     <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;error,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>    Code    <span style="color:#8be9fd">int</span>      <span style="color:#f1fa8c">`json:&#34;code&#34;`</span>
+</span></span><span style="display:flex;"><span>    Fields  []Fields <span style="color:#f1fa8c">`json:&#34;fields,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Fields <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Field   <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`json:&#34;field&#34;`</span>
+</span></span><span style="display:flex;"><span>    Value   <span style="color:#8be9fd;font-style:italic">interface</span>{} <span style="color:#f1fa8c">`json:&#34;value,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>    Message <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`json:&#34;message&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>RestErr) <span style="color:#50fa7b">Error</span>() <span style="color:#8be9fd">string</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r.Message
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewRestErr</span>(m, e <span style="color:#8be9fd">string</span>, c <span style="color:#8be9fd">int</span>, f []Fields) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: m,
+</span></span><span style="display:flex;"><span>      Err:     e,
+</span></span><span style="display:flex;"><span>      Code:    c,
+</span></span><span style="display:flex;"><span>      Fields:  f,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewBadRequestError</span>(message <span style="color:#8be9fd">string</span>) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: message,
+</span></span><span style="display:flex;"><span>      Err:     <span style="color:#f1fa8c">&#34;bad_request&#34;</span>,
+</span></span><span style="display:flex;"><span>      Code:    http.StatusBadRequest,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewUnauthorizedRequestError</span>(message <span style="color:#8be9fd">string</span>) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: message,
+</span></span><span style="display:flex;"><span>      Err:     <span style="color:#f1fa8c">&#34;unauthorized&#34;</span>,
+</span></span><span style="display:flex;"><span>      Code:    http.StatusUnauthorized,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewBadRequestValidationError</span>(m <span style="color:#8be9fd">string</span>, c []Fields) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: m,
+</span></span><span style="display:flex;"><span>      Err:     <span style="color:#f1fa8c">&#34;bad_request&#34;</span>,
+</span></span><span style="display:flex;"><span>      Code:    http.StatusBadRequest,
+</span></span><span style="display:flex;"><span>      Fields:  c,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewInternalServerError</span>(message <span style="color:#8be9fd">string</span>) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: message,
+</span></span><span style="display:flex;"><span>      Err:     <span style="color:#f1fa8c">&#34;internal_server_error&#34;</span>,
+</span></span><span style="display:flex;"><span>      Code:    http.StatusInternalServerError,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewNotFoundError</span>(message <span style="color:#8be9fd">string</span>) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: message,
+</span></span><span style="display:flex;"><span>      Err:     <span style="color:#f1fa8c">&#34;not_found&#34;</span>,
+</span></span><span style="display:flex;"><span>      Code:    http.StatusNotFound,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewForbiddenError</span>(message <span style="color:#8be9fd">string</span>) <span style="color:#ff79c6">*</span>RestErr {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>RestErr{
+</span></span><span style="display:flex;"><span>      Message: message,
+</span></span><span style="display:flex;"><span>      Err:     <span style="color:#f1fa8c">&#34;forbidden&#34;</span>,
+</span></span><span style="display:flex;"><span>      Code:    http.StatusForbidden,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Uma função simples, que vai apenas formatar e retornar uma mensagem padrão, para cada tipo de erro http, não criei todos os erros, apenas os mais comuns, você pode ver todos os erros http <a href="https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status">aqui</a> e implementar.</p>
+<h2 id="configurando-o-go-playground-validator">Configurando o Go Playground Validator</h2>
+<p>Vamos utilizar o <a href="https://github.com/go-playground/validator">Go playground validator</a> para nos ajudar a realizar as validações, para isso vamos separar em uma pasta dentro da nossa pasta <strong>handler</strong> chamada <strong>validation</strong> o arquivo vai se chamar <code>http_validation.go</code>.</p>
+<p>Nossa função vai receber uma interface vazia e vai retornar um ponteiro do nosso <code>http_err</code>, veja como vai ficar nossa função:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">ValidateHttpData</span>(d <span style="color:#8be9fd;font-style:italic">interface</span>{}) <span style="color:#ff79c6">*</span>httperr.RestErr {
+</span></span><span style="display:flex;"><span>    val <span style="color:#ff79c6">:=</span> validator.<span style="color:#50fa7b">New</span>(validator.<span style="color:#50fa7b">WithRequiredStructEnabled</span>())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// extract json tag name
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    val.<span style="color:#50fa7b">RegisterTagNameFunc</span>(<span style="color:#8be9fd;font-style:italic">func</span>(fld reflect.StructField) <span style="color:#8be9fd">string</span> {
+</span></span><span style="display:flex;"><span>      name <span style="color:#ff79c6">:=</span> strings.<span style="color:#50fa7b">SplitN</span>(fld.Tag.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;json&#34;</span>), <span style="color:#f1fa8c">&#34;,&#34;</span>, <span style="color:#bd93f9">2</span>)[<span style="color:#bd93f9">0</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> name <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;-&#34;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> name
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> val.<span style="color:#50fa7b">Struct</span>(d); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">var</span> errorsCauses []httperr.Fields
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, e <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> err.(validator.ValidationErrors) {
+</span></span><span style="display:flex;"><span>        cause <span style="color:#ff79c6">:=</span> httperr.Fields{}
+</span></span><span style="display:flex;"><span>        fieldName <span style="color:#ff79c6">:=</span> e.<span style="color:#50fa7b">Field</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">switch</span> e.<span style="color:#50fa7b">Tag</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;required&#34;</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s is required&#34;</span>, fieldName)
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;uuid4&#34;</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s is not a valid uuid&#34;</span>, fieldName)
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;boolean&#34;</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s is not a valid boolean&#34;</span>, fieldName)
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;min&#34;</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s must be greater than %s&#34;</span>, fieldName, e.<span style="color:#50fa7b">Param</span>())
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;max&#34;</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s must be less than %s&#34;</span>, fieldName, e.<span style="color:#50fa7b">Param</span>())
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;email&#34;</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s is not a valid email&#34;</span>, fieldName)
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">default</span>:
+</span></span><span style="display:flex;"><span>          cause.Message = <span style="color:#f1fa8c">&#34;invalid field&#34;</span>
+</span></span><span style="display:flex;"><span>          cause.Field = fieldName
+</span></span><span style="display:flex;"><span>          cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        errorsCauses = <span style="color:#8be9fd;font-style:italic">append</span>(errorsCauses, cause)
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> httperr.<span style="color:#50fa7b">NewBadRequestValidationError</span>(<span style="color:#f1fa8c">&#34;some fields are invalid&#34;</span>, errorsCauses)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Primeiro iniciamos o validador com <code>validator.New()</code>, depois extraímos o nome da tag do json, isso vai servir para informar o campo que ocasionou o erro, depois nosso <code>val.Struct(d)</code> realiza a validação e se houver um erro cai no if, onde verificamos cada tipo de erro, como por exemplo se for <code>required</code>, adicionamos esse erro no <code>errorsCauses</code> e assim por diante. Por fim retornamos o <code>http_err.NewBadRequestValidationError</code> com nosso erro personalizado.</p>
+<p>Note que é um pouco manual para configurar, mas não precisa colocar todos os <code>case</code> com todas as opções, conforme for utilizando você vai incrementando essas validações. Perceba que com isso você pode colocar a mensagem de erro que desejar no <code>cause.Message</code>, logo você vai entender onde vamos determinar as regras dos nossos campos como <code>max</code>, <code>min</code>, <code>required</code>, <code>uuidv4</code>. Você pode ver como configurar com mais detalhes o <a href="https://pkg.go.dev/github.com/go-playground/validator/v10">Go playground validator</a> na documentação oficial, essa foi a melhor forma que encontrei para utilizar em meus projetos, você pode encontrar outras implementações ou criar a sua.</p>
+<h2 id="iniciando-os-dtos">Iniciando os dtos</h2>
+<p>Calma, estamos quase chegando no nosso handler, mas antes precisamos criar nossos dtos (Data Transfer Object) que tem como responsabilidade validar os dados que transitam entre as camadas da nossa aplicação, no nosso caso vamos usar para trafegar entre handler e service.</p>
+<p>Vamos criar na pasta <strong>dto</strong> um arquivo chamado <code>user_dto.go</code> responsável por salvar nossas structs e será nesse arquivo onde vamos definir as regras de validações, aquelas regras que definimos no go playground na função <code>ValidateHttpData</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CreateUserDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Name     <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;name&#34; validate:&#34;required,min=3,max=30&#34;`</span>
+</span></span><span style="display:flex;"><span>    Email    <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34; validate:&#34;required,email&#34;`</span>
+</span></span><span style="display:flex;"><span>    Password <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;password&#34; validate:&#34;required,min=8,max=30,containsany=!@#$%*&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Usamos as tags do Go para informar ao go playground as validações que desejamos para este campo, não vamos criar muitos campos para ser mais rápido, apenas isso já será suficiente para criar um usuário.</p>
+<p>Como validamos o <code>containsany</code>, forçando o usuário a informar uma senha que tenha qualquer desses caracteres, precisamos atualizar nosso <code>RegisterTagNameFunc</code>, vamos adicionar:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;containsany&#34;</span>:
+</span></span><span style="display:flex;"><span>    cause.Message = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s must contain at least one of the following characters: !@#$%%*&#34;</span>, fieldName)
+</span></span><span style="display:flex;"><span>    cause.Field = fieldName
+</span></span><span style="display:flex;"><span>    cause.Value = e.<span style="color:#50fa7b">Value</span>()
+</span></span></code></pre></div><h2 id="finalizando-o-handler">Finalizando o handler</h2>
+<p>Finalmente vamos partir para o nosso handler, vamos criar os seguintes endpoints:</p>
+<ul>
+<li>Criação de usuário</li>
+<li>Atualização de usuário</li>
+<li>Listar usuário pelo id</li>
+<li>Listar todos os usuários</li>
+<li>Deletar usuário</li>
+<li>Atualizar a senha do usuário</li>
+</ul>
+<h3 id="criando-o-usuário">Criando o usuário</h3>
+<p>Agora dentro do nosso <code>user_handler.go</code> vamos iniciar a validação da request recebida:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> req dto.CreateUserDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> r.Body <span style="color:#ff79c6">==</span> http.NoBody {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;body is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;body is required&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Primeiro criamos uma var do nosso dto <code>CreateUserDto</code>, depois verificamos se o body da requisição não é vazio, se for já retornamos um erro, perceba que já estamos usando nossos logs.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Agora estamos transformando o body que é um <code>io</code> em uma struct Go, especificamente na struct <code>CreateUserDto</code> e se der um erro também retornamos retornamos o erro e finalizamos a requisição.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Acima chamamos o <code>ValidateHttpData</code> que vai colocar o go playground em ação e validar se os dados do nosso <code>CreateUserDto</code> estão de acordo com o que determinamos, caso não esteja retorna um erro.</p>
+<p>Já podemos ver isso na prática, se estiver acompanhando seu projeto deve rodar sem problemas, rode com o comando <code>go run cmd/webserver/main.go</code>, vamos fazer uma chamada POST para <code>http://localhost:8080/user</code>, vou deixar no projeto o arquivo da extensão para vscode do <a href="https://marketplace.visualstudio.com/items?itemName=humao.rest-client">rest client</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">POST</span> http://localhost:8080/user <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
+</span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;john.doe@email.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;12345678&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Vamos ter o retorno:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span> <span style="color:#bd93f9">400</span> Bad Request
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff79c6">:</span> Thu, 14 Dec 2023 23:33:21 GMT
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff79c6">:</span> 205
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff79c6">:</span> text/plain; charset=utf-8
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff79c6">:</span> close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  &#34;message&#34;: &#34;some fields are invalid&#34;,
+</span></span><span style="display:flex;"><span>  &#34;error&#34;: &#34;bad_request&#34;,
+</span></span><span style="display:flex;"><span>  &#34;code&#34;: 400,
+</span></span><span style="display:flex;"><span>  &#34;fields&#34;: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      &#34;field&#34;: &#34;password&#34;,
+</span></span><span style="display:flex;"><span>      &#34;value&#34;: &#34;12345678&#34;,
+</span></span><span style="display:flex;"><span>      &#34;message&#34;: &#34;password must contain at least one of the following characters: !@<span style="color:#6272a4">#$%*&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Perceba que nossas validações funcionaram, e fomos informados que nosso password está inválido, precisamos colocar qualquer caracter que solicitamos como obrigatório</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">POST</span> http://localhost:8080/user <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
+</span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;john.doe@email.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;12345678@&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Resposta:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span> <span style="color:#bd93f9">200</span> OK
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff79c6">:</span> Thu, 14 Dec 2023 23:35:52 GMT
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff79c6">:</span> 0
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff79c6">:</span> close
+</span></span></code></pre></div><p>Agora sim, tudo funcionando com validações e padronização, basta chamar o service, mas precisamos ajustar nosso service do usuário, para receber os parâmetros necessários.</p>
+<p><code>user_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, u dto.CreateUserDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Agora nossa interface receber um <a href="https://aprendagolang.com.br/2022/11/02/onde-e-qual-context-utilizar/">context</a> e o nosso dto, precisamos ajustar a implementação também:</p>
+<p><code>user_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, u dto.CreateUserDto) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Voltando ao nosso handler, vamos chamar nosso service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  err = h.service.<span style="color:#50fa7b">CreateUser</span>(r.<span style="color:#50fa7b">Context</span>(), req)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to create user: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to create user&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Pegamos o context da requisição e nosso req que é um <code>CreateUserDto</code> e passamos para o nosso <code>UserService</code>. E essa é toda a responsabilidade que nosso handler vai ter, apenas validar os dados antes de passar para o service, nosso service que vai conter a regra de negócio.</p>
+<h3 id="atualizando-o-usuário">Atualizando o usuário</h3>
+<p>Para o nosso handler de atualização do usuário vamos precisar criar um novo dto:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UpdateUserDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Name  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;name&#34; validate:&#34;omitempty,min=3,max=30&#34;`</span>
+</span></span><span style="display:flex;"><span>    Email <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34; validate:&#34;omitempty,email&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Mas desta vez não vamos usar <code>required</code> e vamos usar o <code>omitempty</code> com isso o campo se torna opcional, repare que não permitimos atualizar o password, vamos criar um endpoint separado apenas para atualizar a senha do usuário.</p>
+<p>Vamos adicionar a nova rota, primeiro vamos criar na interface <code>UserHandler</code> o método <code>UpdateUser</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserHandler <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Vamos adicionar a rota em <code>user_route.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span> router.<span style="color:#50fa7b">Route</span>(<span style="color:#f1fa8c">&#34;/user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.CreateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Patch</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.UpdateUser)
+</span></span><span style="display:flex;"><span>  })
+</span></span></code></pre></div><p>vamos passar o <code>{id}</code> no param, e pegar na requisição, usaremos o patch pois nosso usuário pode ser alterado parcialmente.</p>
+<p>Agora vamos implementar nosso <code>UpdateUser</code> e fazer as validações:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> req dto.UpdateUserDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  id <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">URLParam</span>(r, <span style="color:#f1fa8c">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> id <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;id is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;id is required&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Primeiro criamos uma variável para o nosso <code>UpdateUserDto</code>, depois pegamos o id do usuário no param usando o <code>URLParam</code> do go chi, se estiver vazio retornamos um erro.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  _, err <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">Parse</span>(id)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to parse id: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to parse id&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Depois validamos se o id que extraímos do param é um uuid válido, para isso usamos o <code>uuid.Parse(id)</code> do pacote do <a href="https://pkg.go.dev/github.com/google/uuid@v1.1.2">google uuid</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> r.Body <span style="color:#ff79c6">==</span> http.NoBody {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;body is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;body is required&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  err = json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Agora fazemos o mesmo que na criação de usuário, validamos se o body não está vazio, transformamos o body na struct <code>UpdateUserDto</code>, e validamos o <code>UpdateUserDto</code> usando nosso validator <code>ValidateHttpData</code>.</p>
+<p>Por fim, vamos adicionar o método de <code>UpdateUser</code> no nosso service que vai receber um context, <code>UpdateUserDto</code> e o id do usuário para finalizar o handler de atualizar usuário:</p>
+<p><code>user_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, u dto.CreateUserDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(ctx context.Context, u dto.UpdateUserDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Implementando o <code>UpdateUser</code> service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">UpdateUser</span>(ctx context.Context, u dto.UpdateUserDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Agora vamos finalizar o handler de <code>UpdateUser</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  err = h.service.<span style="color:#50fa7b">UpdateUser</span>(r.<span style="color:#50fa7b">Context</span>(), req, id)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to update user: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>    msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to update user&#34;</span>)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Vamos testar:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">PATCH</span> http://localhost:8080/user/9d47a06e-9677-460c-84e3-1bb7ac20b931 <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
+</span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;john.doe@email.com&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Retorno:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span> <span style="color:#bd93f9">200</span> OK
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff79c6">:</span> Sat, 16 Dec 2023 19:06:12 GMT
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff79c6">:</span> 0
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff79c6">:</span> close
+</span></span></code></pre></div><h3 id="detalhes-do-usuário">Detalhes do usuário</h3>
+<p>Vamos buscar um usuário pelo id, para isso não vamos precisar de um dto, vamos apenas buscar pelo id que vamos pegar no param, já vamos criar as rotas e o método na interface do nosso service e handler. Mas antes vamos criar uma pasta chamada <strong>response</strong> e um arquivo chamado <code>user_response.go</code>, vamos armazenar nesse arquivo as structs do retorno para o nosso cliente.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID        <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    Name      <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>    Email     <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;email&#34;`</span>
+</span></span><span style="display:flex;"><span>    CreatedAt time.Time <span style="color:#f1fa8c">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>    UpdatedAt time.Time <span style="color:#f1fa8c">`json:&#34;updated_at&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Dessa forma mapeamos os dados a serem retornados, em nosso service ficaria assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, u dto.CreateUserDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(ctx context.Context, u dto.UpdateUserDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>response.UserResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Retornando um ponteiro do <code>*response.UserResponse</code>, o handler <code>GetUserByID</code> vai ficar assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">GetUserByID</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    id <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">URLParam</span>(r, <span style="color:#f1fa8c">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> id <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;id is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;id is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    _, err <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">Parse</span>(id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to parse id: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to parse id&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    res, err <span style="color:#ff79c6">:=</span> h.service.<span style="color:#50fa7b">GetUserByID</span>(r.<span style="color:#50fa7b">Context</span>(), id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to get user: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to get user&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">Header</span>().<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Content-Type&#34;</span>, <span style="color:#f1fa8c">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(res)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Mesma lógica dos demais, mas agora nosso <code>h.service.GetUserByID</code> retorna o <code>response.UserResponse</code> retornamos o dado em json para o client, usando o <code>json.NewEncoder(w).Encode(res)</code>.</p>
+<p>Vamos testar, mas como nosso service não está finalizado, vamos retornar dados fakes:</p>
+<p><code>user_service.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">GetUserByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>response.UserResponse, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    userFake <span style="color:#ff79c6">:=</span> response.UserResponse{
+</span></span><span style="display:flex;"><span>      ID:        <span style="color:#f1fa8c">&#34;123&#34;</span>,
+</span></span><span style="display:flex;"><span>      Name:      <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>      Email:     <span style="color:#f1fa8c">&#34;jonh.doe@email.com&#34;</span>,
+</span></span><span style="display:flex;"><span>      CreatedAt: time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>      UpdatedAt: time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>userFake, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Fazendo uma chamada:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">GET</span> http://localhost:8080/user/9d47a06e-9677-460c-84e3-1bb7ac20b931 <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
+</span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
+</span></span></code></pre></div><p>Retorno:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span> <span style="color:#bd93f9">200</span> OK
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff79c6">:</span> application/json
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff79c6">:</span> Sat, 16 Dec 2023 19:42:11 GMT
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff79c6">:</span> 156
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff79c6">:</span> close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;id&#34;</span>: <span style="color:#f1fa8c">&#34;123&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;jonh.doe@email.com&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;created_at&#34;</span>: <span style="color:#f1fa8c">&#34;2023-12-16T16:42:11.816803-03:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;updated_at&#34;</span>: <span style="color:#f1fa8c">&#34;2023-12-16T16:42:11.816803-03:00&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="deletando-o-usuário">Deletando o usuário</h3>
+<p>O endpoint de deletar vai ser muito semelhante ao endpoint de listar usuário, a diferença vai ser apenas o método do service a ser chamado e não vai ter retorno:</p>
+<p><code>user_interface_handler.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserHandler <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByID</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>user_route.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  router.<span style="color:#50fa7b">Route</span>(<span style="color:#f1fa8c">&#34;/user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.CreateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Patch</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.UpdateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.GetUserByID)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Delete</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.DeleteUser)
+</span></span><span style="display:flex;"><span>  })
+</span></span></code></pre></div><p><code>user_handler.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">DeleteUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    id <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">URLParam</span>(r, <span style="color:#f1fa8c">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> id <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;id is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;id is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    _, err <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">Parse</span>(id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to parse id: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to parse id&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = h.service.<span style="color:#50fa7b">DeleteUser</span>(r.<span style="color:#50fa7b">Context</span>(), id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to delete user: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to delete user&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusNoContent)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Chamada http:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">DELETE</span> http://localhost:8080/user/9d47a06e-9677-460c-84e3-1bb7ac20b931 <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
+</span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
+</span></span></code></pre></div><h3 id="listar-todos-os-usuários">Listar todos os usuários</h3>
+<p>Esse endpoint vai ter o handler mais simples, pois não vamos precisar validar dados de entrada, apenas vamos listar, podemos futuramente colocar paginação, filtros, mas por enquanto vamos apenas listar de forma simples, para isso vamos precisar criar um novo response no nosso arquivo <code>user_response.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ManyUsersResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Users []UserResponse <span style="color:#f1fa8c">`json:&#34;users&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Vai apenas retornar um slice da struct que já criamos anteriormente.</p>
+<p><code>user_route.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  router.<span style="color:#50fa7b">Route</span>(<span style="color:#f1fa8c">&#34;/user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.CreateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Patch</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.UpdateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.GetUserByID)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Delete</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.DeleteUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.FindManyUsers)
+</span></span><span style="display:flex;"><span>  })
+</span></span></code></pre></div><p><code>user_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, u dto.CreateUserDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(ctx context.Context, u dto.UpdateUserDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>response.UserResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteUser</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">FindManyUsers</span>(ctx context.Context) (response.ManyUsersResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Implementando o service, vamos fazer um loop retornando 5 usuários fakes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">FindManyUsers</span>(ctx context.Context) (response.ManyUsersResponse, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// create fake users
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    usersFake <span style="color:#ff79c6">:=</span> response.ManyUsersResponse{}
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">:=</span> <span style="color:#bd93f9">0</span>; i &lt; <span style="color:#bd93f9">5</span>; i<span style="color:#ff79c6">++</span> {
+</span></span><span style="display:flex;"><span>      userFake <span style="color:#ff79c6">:=</span> response.UserResponse{
+</span></span><span style="display:flex;"><span>        ID:        <span style="color:#f1fa8c">&#34;123&#34;</span>,
+</span></span><span style="display:flex;"><span>        Name:      <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span>        Email:     fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;jonh.doe-%v@email.com&#34;</span>, i),
+</span></span><span style="display:flex;"><span>        CreatedAt: time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>        UpdatedAt: time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      usersFake.Users = <span style="color:#8be9fd;font-style:italic">append</span>(usersFake.Users, userFake)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> usersFake, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nosso handler ficará assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">FindManyUsers</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    res, err <span style="color:#ff79c6">:=</span> h.service.<span style="color:#50fa7b">FindManyUsers</span>(r.<span style="color:#50fa7b">Context</span>())
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to find many users: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to find many users&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">Header</span>().<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Content-Type&#34;</span>, <span style="color:#f1fa8c">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(res)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Simplesmente vamos chamar o service e retornamos os dados.</p>
+<h3 id="alterando-a-senha">Alterando a senha</h3>
+<p>Nosso último endpoint para o usuário vai permitir que ele altere a senha, é uma boa prática separar em outro enpoint, dessa forma podemos aplicar políticas de validação mais rigorosas, para nosso exemplo vamos apenas solicitar a senha antiga e a nova senha.</p>
+<p>Vamos criar um dto para isso:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UpdateUserPasswordDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Password    <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;password&#34; validate:&#34;required,min=8,max=30,containsany=!@#$%*&#34;`</span>
+</span></span><span style="display:flex;"><span>    OldPassword <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;old_password&#34; validate:&#34;required,min=8,max=30,containsany=!@#$%*&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>user_route.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  router.<span style="color:#50fa7b">Route</span>(<span style="color:#f1fa8c">&#34;/user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.CreateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Patch</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.UpdateUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.GetUserByID)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Delete</span>(<span style="color:#f1fa8c">&#34;/{id}&#34;</span>, h.DeleteUser)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, h.FindManyUsers)
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Patch</span>(<span style="color:#f1fa8c">&#34;/password/{id}&#34;</span>, h.UpdateUserPassword)
+</span></span><span style="display:flex;"><span>  })
+</span></span></code></pre></div><p><code>user_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, u dto.CreateUserDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(ctx context.Context, u dto.UpdateUserDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>response.UserResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteUser</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">FindManyUsers</span>(ctx context.Context) (response.ManyUsersResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUserPassword</span>(ctx context.Context, u <span style="color:#ff79c6">*</span>dto.UpdateUserPasswordDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Implementando o service, vamos apenas usar o fmt para ver o dado recebido, depois vamos adicionar a regra aqui.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">UpdateUserPassword</span>(ctx context.Context, u <span style="color:#ff79c6">*</span>dto.UpdateUserPasswordDto, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;new password: &#34;</span>, u.Password)
+</span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;old password: &#34;</span>, u.OldPassword)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nosso handler ficará assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">UpdateUserPassword</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> req dto.UpdateUserPasswordDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    id <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">URLParam</span>(r, <span style="color:#f1fa8c">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> id <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;id is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;id is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    _, err <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">Parse</span>(id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to parse id: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to parse id&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> r.Body <span style="color:#ff79c6">==</span> http.NoBody {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;body is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;userhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;body is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = h.service.<span style="color:#50fa7b">UpdateUserPassword</span>(r.<span style="color:#50fa7b">Context</span>(), <span style="color:#ff79c6">&amp;</span>req, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to update user password: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;handler_user&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to update user password&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Fazemos as validações iniciais, transformamos na nossa struct <code>UpdateUserPasswordDto</code>, enviamos para validar usando nosso <code>ValidateHttpData</code> e por fim chamamos o service, seguindo sempre a mesma lógicas dos demais endpoints.</p>
+<p>Com isso finalizamos os handlers do nosso user, lembrando que não estamos muito preocupados com os dados que o usuário pode ter, se desejar pode adicionar mais dados, como idade do usuário, documento e mais para frente vamos voltar e editar, para cadastrar o endereço do usuário ao cadastrá-lo.</p>
+<h2 id="documentando">Documentando</h2>
+<p>Com os endpoints praticamente prontos, podemos fazer nossa documentação usando o <a href="https://github.com/swaggo/http-swagger">swaggo</a> para criar nossa documentação no padrão OpenAPI. Já escrevi um post sobre <a href="https://wiliamvj.com/posts/dark-mode-swaggo/">Como deixar o Swagger com tema dark mode usando Swaggo e Golang</a>, mas para instalar o swaggo é bem simples, veja como neste <a href="https://github.com/swaggo/swag#getting-started">link</a>, já vamos deixar o swagger em dark mode é claro.</p>
+<p>Vamos criar um endpoint que vai servir para acessar nossa documentação, vamos criar na pasta <strong>routes</strong> um arquivo chamado <code>docs_route.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> (
+</span></span><span style="display:flex;"><span>    docsURL = <span style="color:#f1fa8c">&#34;http://localhost:8080/docs/doc.json&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@title		Swagger Dark Mode
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@version	1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@securityDefinitions.apikey	ApiKeyAuth
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@in							header
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@name						Authorization
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">InitDocsRoutes</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>    r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/docs/*&#34;</span>, httpSwagger.<span style="color:#50fa7b">Handler</span>(httpSwagger.<span style="color:#50fa7b">URL</span>(docsURL),
+</span></span><span style="display:flex;"><span>      httpSwagger.<span style="color:#50fa7b">AfterScript</span>(custom.CustomJS),
+</span></span><span style="display:flex;"><span>      httpSwagger.<span style="color:#50fa7b">DocExpansion</span>(<span style="color:#f1fa8c">&#34;none&#34;</span>),
+</span></span><span style="display:flex;"><span>      httpSwagger.<span style="color:#50fa7b">UIConfig</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#34;defaultModelsExpandDepth&#34;</span>: <span style="color:#f1fa8c">`&#34;-1&#34;`</span>,
+</span></span><span style="display:flex;"><span>      }),
+</span></span><span style="display:flex;"><span>    ))
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>não se esqueça de fazer o download do swaggo com <code>go mod tidy</code></p>
+<p>Todas a explicação dessas configs estão no post <a href="/posts/dark-mode-swaggo/">Como deixar o Swagger com tema dark mode usando Swaggo e Golang</a>.</p>
+<p>Vamos precisar iniciar o <code>InitDocsRoutes</code> no nosso <code>main.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span> <span style="color:#6272a4">// init routes
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  router <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">NewRouter</span>()
+</span></span><span style="display:flex;"><span>  routes.<span style="color:#50fa7b">InitUserRoutes</span>(router, newUserHandler)
+</span></span><span style="display:flex;"><span>  routes.<span style="color:#50fa7b">InitDocsRoutes</span>(router)
+</span></span></code></pre></div><p>Agora podemos documentar, vamos iniciar pela criação de usuário, basta colocar as anotações acima da função <code>CreateUser</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// Create user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		Create new user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	Endpoint for create user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			body	body		dto.CreateUserDto	true	&#34;Create user dto&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/user [get]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request){}
+</span></span></code></pre></div><p>Vamos fazer isso para todos os funções:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// Update user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		Update user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	Endpoint for update user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Security		ApiKeyAuth
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			body	body	dto.UpdateUserDto	false	&#34;Update user dto&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		404	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/user [patch]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">UpdateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request){}
+</span></span></code></pre></div><p>Algumas rotas são autenticadas, por isso vamos usar o <code>@Security		ApiKeyAuth</code>, vamos proteger essas rotas em breve.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// User details
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		User details
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	Get user by id
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Security		ApiKeyAuth
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			id	path	string	true	&#34;user id&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200 {object} response.UserResponse
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		404	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/user/{id} [get]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">GetUserByID</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request){}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// Delete user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		Delete user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	delete user by id
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Security		ApiKeyAuth
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			id	path	string	true	&#34;user id&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		404	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/user/{id} [delete]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">DeleteUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request){}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// Get many user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		Get many users
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	Get many users
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Security		ApiKeyAuth
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200	{object}	response.ManyUsersResponse
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		404	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/user [get]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">FindManyUsers</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request){}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// Update user password
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		Update user password
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	Endpoint for Update user password
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Security		ApiKeyAuth
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			id		path	string						true	&#34;user id&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			body	body	dto.UpdateUserPasswordDto	true	&#34;Update user password dto&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/user/password/{id} [get]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">UpdateUserPassword</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request){}
+</span></span></code></pre></div><p>Agora podemos formatar a anotações com <code>swag fmt</code> e depois criar a pasta docs com o comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  swag init -g internal/handler/routes/docs_route.go
+</span></span></code></pre></div><p>Agora ao acessar a rota <code>http://localhost:8080/docs/index.html</code> vamos ter nossa documentação rodando:</p>
+<p><img alt="docs swagger" src="/posts/api-golang-parte-3/odfdfg56HJdf564fdfg.png"></p>
+<p>Com isso finalizamos nossa documentação.</p>
+<h2 id="considerações-finais">Considerações finais</h2>
+<p>Nesse post fizemos muita coisa na nossa api, mas conseguimos deixar o handler do usuário praticamente pronto para receber nossas requisições, também deixamos a função responsável por validar nossos dados pronta, agora basta ir incrementando as validações. Também conseguimos configurar e deixar nossa api documentada com o uso do swaggo, agora ficou mais fácil documentar.</p>
+<h2 id="próximos-passos">Próximos passos</h2>
+<p>Na parte 4 vamos partir para o service, deixar os métodos <code>CreateUser</code>, <code>UpdateUser</code>, <code>GetUserByID</code>, <code>DeleteUser</code>, <code>FindManyUsers</code>, <code>UpdateUserPassword</code> com a regra de negócio pronta.</p>
+<p>Veja a <a href="/posts/api-golang-parte-1/">parte 1</a> e <a href="/posts/api-golang-parte-2/">parte 2</a></p>
+<h2 id="link-do-repositório">Link do repositório</h2>
+<p><a href="https://github.com/wiliamvj/api-users-golang">repositório</a> do projeto</p>
+<p><a href="https://github.com/egonelbre/gophers">Gopher credits</a></p>
+</section>
+
+  
+    
+  
+    <div class="giscus-comment">
+    <script
+      src="https://giscus.app/client.js"
+      data-repo="wiliamvj/wiliamvj.com"
+      data-repo-id="R_kgDOKqMPTA"
+      data-category="General"
+      data-category-id="DIC_kwDOKqMPTM4CbzWf"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="dark"
+      data-lang="en"
+      
+        data-loading="lazy"
+      
+      crossorigin="anonymous"
+      async
+    >
+    </script>
+</div>
+  
+
+    
+  
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2024 —
+  <a href="http://localhost:1313/">Wiliam V. Joaquim</a> 
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+</body>
+</html>
