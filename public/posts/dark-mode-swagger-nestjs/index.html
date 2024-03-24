@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" class="scroll-smooth dark">
+<html lang="pt" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
 
 <meta charset="UTF-8">
@@ -49,7 +49,7 @@
         href="/"
         class=""
       >
-        Posts
+        Artigos
       </a>
     </li>
     
@@ -59,6 +59,15 @@
         class=""
       >
         Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US 🇺🇸
       </a>
     </li>
     
@@ -219,8 +228,8 @@
 <h2 id="o-que-é-o-swagger">O que é o Swagger?</h2>
 <p>Vou explicar de forma bem resumida, o Swagger é uma aplicação open source que facilita a documentação da sua API, fornece ao usuário que vai consumir sua API uma forma simples de usar sua rotas, ver os erros retornados, dados retornados entre outros. O Swagger utiliza o padrão da <a href="https://www.openapis.org/">OpenAPI</a>.</p>
 <p>Por padrão o tema do SwaggerUi é branco:</p>
-<p><img src="41rribcg6sg0yz0305qn.png" alt="Swagger claro"></p>
-<p><img src="https://media4.giphy.com/media/84BjZMVEX3aRG/giphy.gif?cid=7941fdc6zrsyrot6atdj7as4jvaiplgkjqkf9188qmmz57u0&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g" alt="Swagger claro"></p>
+<p><img alt="Swagger claro" src="/posts/dark-mode-swagger-nestjs/41rribcg6sg0yz0305qn.png"></p>
+<p><img alt="Swagger claro" src="https://media4.giphy.com/media/84BjZMVEX3aRG/giphy.gif?cid=7941fdc6zrsyrot6atdj7as4jvaiplgkjqkf9188qmmz57u0&ep=v1_gifs_search&rid=giphy.gif&ct=g"></p>
 <p>Mas, como podemos deixar esse tema dark? Bom, existem duas formas de fazer isso usando NestJS, ainda não temos suporte nativamente do Swagger para isso (existe um PR aberto, para implementar essa opção, veja <a href="https://github.com/swagger-api/swagger-ui/issues/5327">aqui</a>), mas até a data da publicação este post ainda não foi implementado.</p>
 <p>Vamos criar um projeto com NestJS:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>npm i <span style="color:#ff79c6">-</span>g <span style="color:#8be9fd;font-style:italic">@nestjs</span><span style="color:#ff79c6">/</span>cli
@@ -247,7 +256,7 @@
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>bootstrap();
 </span></span></code></pre></div><p>Rodando o projeto com <code>npm run start:dev</code> e acessando a api (http://localhost:3000/api), temos essa tela:</p>
-<p><img src="ohgf8rucem5jv6873o31.png" alt="Swagger docs nestjs"></p>
+<p><img alt="Swagger docs nestjs" src="/posts/dark-mode-swagger-nestjs/ohgf8rucem5jv6873o31.png"></p>
 <p>Agora, vamos deixar em modo dark, como dito anteriormente, não existe o suporte nativo do swagger para dark mode, mas vamos injetar nosso CSS, para isso vamos ajustar as configs do swagger no nosso <code>main.ts</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { NestFactory } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;@nestjs/core&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { AppModule } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;./app.module&#39;</span>;
@@ -287,7 +296,7 @@
 <code>customCss</code>: Aqui é onde vamos colocar nosso css personalizado.
 <code>docExpansion</code>: Podemos determinar se cada rota abre expandido ou recolhido:</p>
 <p>Conforme exemplo abaixo, isso facilita quando sua documentação possui muitas rotas.</p>
-<p><img src="mjuoojao6v4ddhwmfwcj.png" alt="swagger usando docExpansion"></p>
+<p><img alt="swagger usando docExpansion" src="/posts/dark-mode-swagger-nestjs/mjuoojao6v4ddhwmfwcj.png"></p>
 <p><code>apisSorter</code>: Usando a opção <code>alpha</code>, vai ordenar as tags por ordem alfabética.</p>
 <p>Existem muitas outras opções, você pode conferir acessando a tipagem do <code>SwaggerCustomOptions</code>.</p>
 <h2 id="custom-css">Custom CSS</h2>
@@ -328,7 +337,7 @@
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>bootstrap();
 </span></span></code></pre></div><p>Apenas importamos o nosso css e colocamos em <code>customCss</code> e pronto, dark mode funcionando:</p>
-<p><img src="558tvggnb4qruyn17nxm.png" alt="swagger dark mode"></p>
+<p><img alt="swagger dark mode" src="/posts/dark-mode-swagger-nestjs/558tvggnb4qruyn17nxm.png"></p>
 <p>Com o css, podemos alterar qualquer coisa do layout padrão.</p>
 <h2 id="swagger-themes">Swagger Themes</h2>
 <p>Existe outra forma de utilizar o dark mode no swagger com NestJS, usando o pacote <a href="https://www.npmjs.com/package/swagger-themes#use-with-nestjs">swagger-themes</a>.</p>
@@ -371,7 +380,7 @@
 </span></span><span style="display:flex;"><span>bootstrap();
 </span></span></code></pre></div><p>Fica bem mais simples, basta instanciar o <code>SwaggerTheme</code> com <code>const theme = new SwaggerTheme('v3');</code> e depois no <code>customCss</code>, informar o tema desejado <code>theme.getBuffer('dark')</code>.</p>
 <p>Temos algumas opções de temas como, <em>dark</em>, <em>monokai</em>, <em>material</em> entre outros, veja as opções na documentação do <a href="https://www.npmjs.com/package/swagger-themes">swagger-themes</a>, veja como ficaria o <em>monokai</em>:</p>
-<p><img src="7hh6woxyw0mn20c8eokc.png" alt="swagger monokai tema"></p>
+<p><img alt="swagger monokai tema" src="/posts/dark-mode-swagger-nestjs/7hh6woxyw0mn20c8eokc.png"></p>
 <p>Mas se podemos usar o <a href="https://www.npmjs.com/package/swagger-themes">swagger-theme</a>, por que deveríamos alterar o CSS manualmente?</p>
 <h2 id="conclusão">Conclusão</h2>
 <p>Bom, alterando o CSS manualmente, temos o poder e liberdade de alterar o tema da forma que desejarmos, podemos alterar cores, logo, textos, entre outros, mas se você deseja apenas colocar um tema dark, usar o <a href="https://www.npmjs.com/package/swagger-themes">swagger-theme</a> pode ser a forma mais fácil e rápida de fazer isso.</p>
@@ -428,25 +437,31 @@
 </div>
  <div class="order-1 sm:order-2">
   <ul class="flex sm:justify-end gap-5">
-    
-    
-    <li>    
-      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer">linkedin</a>
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
     </li>
     
-    <li>    
-      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer">x</a>
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
     </li>
     
-    <li>    
-      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer">github</a>
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
     </li>
     
-    <li>    
-      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer">dev.to</a>
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
     </li>
-    
-    
+     
   </ul>
 </div>
 

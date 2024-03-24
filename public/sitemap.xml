@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/dark-mode-swaggo/</loc>
-    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2023-11-11T15:39:40-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/dark-mode-swagger-nestjs/</loc>
-    <lastmod>2023-11-05T15:14:48-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/fmt-go/</loc>
-    <lastmod>2023-11-01T15:06:59-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/nestjs-contratos/</loc>
-    <lastmod>2023-10-11T14:56:59-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-  </url><url>
-    <loc>http://localhost:1313/categories/css/</loc>
-  </url><url>
-    <loc>http://localhost:1313/categories/javascript/</loc>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-  </url><url>
-    <loc>http://localhost:1313/categories/uncategories/</loc>
-  </url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <sitemap>
+    <loc>http://localhost:1313/pt/sitemap.xml</loc>
+    
+      <lastmod>2023-11-11T15:39:40-03:00</lastmod>
+    
+  </sitemap>
+  
+  <sitemap>
+    <loc>http://localhost:1313/en/sitemap.xml</loc>
+    
+  </sitemap>
+  
+</sitemapindex>

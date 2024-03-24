@@ -248,7 +248,7 @@
   }
 
   footer {
-    @apply flex flex-col sm:flex-col-reverse md:flex-col-reverse items-center justify-between text-xs;
+    @apply flex flex-col sm:flex-col-reverse md:flex-col-reverse justify-between text-xs;
   }
 }
 

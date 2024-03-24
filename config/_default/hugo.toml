@@ -9,6 +9,84 @@ summaryLength = 15
 paginate = 8
 googleAnalytics = "G-TG8KZ9PQBT"
 
+[languages]
+[languages.en]
+[languages.en.params]
+  languageName = 'English'
+  weight = 2
+[languages.en.menu]
+[[languages.en.menu.main]]
+  name = "Posts"
+  url = "/en"
+  weight = 1
+[[languages.en.menu.main]]
+  name = "Newsletter"
+  url = "https://wiliamvj.substack.com/"
+  weight = 2
+[[languages.en.menu.main]]
+  "name" = "pt-BR 🇧🇷"
+  "url" = "/"
+  "weight" = 15
+[[languages.en.menu.social]]
+  identifier = "linkedin"
+  name = "linkedin"
+  url = "https://www.linkedin.com/in/wiliamvj/"
+  weight = 1
+[[languages.en.menu.social]]
+  identifier = "x"
+  name = "x"
+  url = "https://twitter.com/wiliamjoaquim"
+  weight = 2
+[[languages.en.menu.social]]
+  identifier = "github"
+  name = "github"
+  url = "https://github.com/wiliamvj"
+  weight = 3
+[[languages.en.menu.social]]
+  identifier = "devto"
+  name = "dev.to"
+  url = "https://dev.to/wiliamvj"
+  weight = 4
+
+[languages.pt]
+[languages.pt.params]
+  languageName = 'Português'
+  weight = 1
+[languages.pt.menu]
+[[languages.pt.menu.main]]
+  name = "Artigos"
+  url = "/"
+  weight = 1
+[[languages.pt.menu.main]]
+  name = "Newsletter"
+  url = "https://wiliamvj.substack.com/"
+  weight = 2
+[[languages.pt.menu.main]]
+  "name" = "en-US 🇺🇸"
+  "url" = "/en/"
+  "weight" = 25
+[[languages.pt.menu.social]]
+  identifier = "linkedin"
+  name = "linkedin"
+  url = "https://www.linkedin.com/in/wiliamvj/"
+  weight = 1
+[[languages.pt.menu.social]]
+  identifier = "x"
+  name = "x"
+  url = "https://twitter.com/wiliamjoaquim"
+  weight = 2
+[[languages.pt.menu.social]]
+  identifier = "github"
+  name = "github"
+  url = "https://github.com/wiliamvj"
+  weight = 3
+[[languages.pt.menu.social]]
+  identifier = "devto"
+  name = "dev.to"
+  url = "https://dev.to/wiliamvj"
+  weight = 4
+
+
 [markup]
   [markup.highlight]
     anchorLineNos = false
@@ -24,3 +102,4 @@ googleAnalytics = "G-TG8KZ9PQBT"
     noHl = false
     style = 'dracula'
     tabWidth = 4
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US" class="scroll-smooth dark">
+<html lang="pt" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
 
 <meta charset="UTF-8">
@@ -49,7 +49,7 @@
         href="/"
         class=""
       >
-        Posts
+        Artigos
       </a>
     </li>
     
@@ -59,6 +59,15 @@
         class=""
       >
         Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US 🇺🇸
       </a>
     </li>
     
@@ -225,7 +234,7 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">go</span> mod init swagger<span style="color:#ff79c6">-</span>dark<span style="color:#ff79c6">-</span>mode
 </span></span></code></pre></div><p>Isso vai criar nosso arquivo <code>go.mod</code>, que vai servir para gerenciar nossos pacotes.</p>
 <h2 id="organizando-o-projeto">Organizando o projeto</h2>
-<p><img src="fhvc908cxavb09bn0.png" alt="Project structure"></p>
+<p><img alt="Project structure" src="/posts/dark-mode-swaggo/fhvc908cxavb09bn0.png"></p>
 <p>Vamos organizar seguindo um padrão muito utilizado pela comunidade do Go, você pode ver nesse <a href="https://github.com/golang-standards/project-layout">repositório</a></p>
 <ul>
 <li><strong>cmd</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/cmd">Aqui</a> é onde vamos deixar nosso arquivos que iniciam a nossa aplicação.
@@ -293,7 +302,7 @@ GET para nossa docs <code>/docs/*</code> o <code>/*</code> após o path <code>do
 <p>o import <code>&quot;_ swagger-dark-mode/docs&quot;</code> vem da pasta gerada após iniciar o swag, usando o comando:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  swag init -g internal/handler/routes/routes.go
 </span></span></code></pre></div><p>É necessário rodar esse comando sempre que houver alterações na sua documentação, o swag vai criar um pasta chamada docs, você não precisa alterar nada nessa pasta, veja como fica agora a estrutura do projeto:</p>
-<p><img src="9sd8fF45GHjgfgQ.png" alt="Project structure"></p>
+<p><img alt="Project structure" src="/posts/dark-mode-swaggo/9sd8fF45GHjgfgQ.png"></p>
 <p>Dentro do <code>swagger.json</code> fica o arquivo no padrão da OpenAPI.</p>
 <p>o caminho <code>internal/handler/routes/routes.go</code> deve ser onde está as anotações gerais do swag, no nosso caso setamos apenas o <code>@title</code> e o <code>@version</code>, veja todas as anotações possíveis <a href="https://github.com/swaggo/swag#general-api-info">aqui</a>.</p>
 <p><code>user.go</code>:</p>
@@ -353,8 +362,8 @@ GET para nossa docs <code>/docs/*</code> o <code>/*</code> após o path <code>do
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;jonh.doe@email.com&#34;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Acessando nossa outra rota <code>http://localhost:8080/docs/index.html</code>, teremos nossa documentação com swagger:</p>
-<p><img src="sopfdf832nmf393n339RfgdfYH.png" alt="Swaggo light"></p>
-<p><img src="https://media4.giphy.com/media/84BjZMVEX3aRG/giphy.gif?cid=7941fdc6zrsyrot6atdj7as4jvaiplgkjqkf9188qmmz57u0&amp;ep=v1_gifs_search&amp;rid=giphy.gif&amp;ct=g" alt="Meme my eyes"></p>
+<p><img alt="Swaggo light" src="/posts/dark-mode-swaggo/sopfdf832nmf393n339RfgdfYH.png"></p>
+<p><img alt="Meme my eyes" src="https://media4.giphy.com/media/84BjZMVEX3aRG/giphy.gif?cid=7941fdc6zrsyrot6atdj7as4jvaiplgkjqkf9188qmmz57u0&ep=v1_gifs_search&rid=giphy.gif&ct=g"></p>
 <h2 id="criando-nosso-css-e-js">Criando nosso CSS e JS</h2>
 <p>Bom, finalmente vamos ao intuito do post, deixar o tema do swagger em dark mode, infelizmente não existe nada nativo ou que seja simples quanto deixar o swagger em dark mode utilizando o <a href="https://nestjs.com/">NestJS</a>. <em>(Pelo menos até a data de pulbicação desse post)</em>.</p>
 <p>Vamos precisar injetar nosso css customizado no swaggo, para isso você pode utilizar o css desse <a href="https://gist.github.com/wiliamvj/674cbdf6de5377780013e6ff2e5667c3">gist</a>, por´m também não conseguimos injetar o css diretamente, mas conseguimos injetar um JavaScript, com isso também se torna possível manipular a <a href="https://www.w3schools.com/js/js_htmldom.asp">DOM</a> e consequentemente injetar css.</p>
@@ -397,8 +406,8 @@ GET para nossa docs <code>/docs/*</code> o <code>/*</code> após o path <code>do
 <code>&quot;defaultModelsExpandDepth&quot;: &quot;-1&quot;</code>: Isso faz com que os models sejam ocultos, caso precise deixar visível basta remover.</p>
 <p>Existe mais opções possíveis nas <a href="https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/">docs</a> do swagger.</p>
 <p>Agora rodando novamente nosso projeto, já teremos o swagger em dark mode:
-<img src="0s9g7ansY45Joi.png" alt="Swaggo dark mode"></p>
-<p><img src="https://media.giphy.com/media/m2Q7FEc0bEr4I/giphy.gif" alt="Meme liked"></p>
+<img alt="Swaggo dark mode" src="/posts/dark-mode-swaggo/0s9g7ansY45Joi.png"></p>
+<p><img alt="Meme liked" src="https://media.giphy.com/media/m2Q7FEc0bEr4I/giphy.gif"></p>
 <h2 id="personalizando-ainda-mais">Personalizando ainda mais</h2>
 <p>Agora com o poder da manipulação da DOM e com paciência, podemos modificar o layout da forma que desejarmos, vamos por exemplo altera a logo e favicon e o title.</p>
 <p>Vamos modificar nosso <code>custom_layout.go</code></p>
@@ -430,7 +439,7 @@ GET para nossa docs <code>/docs/*</code> o <code>/*</code> após o path <code>do
 </span></span><span style="display:flex;"><span>    CustomLogo = <span style="color:#f1fa8c">`base64 aqui`</span>
 </span></span><span style="display:flex;"><span>  )
 </span></span></code></pre></div><p>Apenas como exemplo, o favicon e a logo foram utilizados a mesma imagem em base64, mas você poderia separar, veja como ficou:
-<img src="fg89Peer124gfh567ghjJK78.png" alt="Swaggo dar mode"></p>
+<img alt="Swaggo dar mode" src="/posts/dark-mode-swaggo/fg89Peer124gfh567ghjJK78.png"></p>
 <h2 id="considerações-finais">Considerações finais</h2>
 <p>Como podemos ver, não é tão complicado personalizar, apesar da personalização ser um pouco trabalhosa e parecer não ser a mais adequeada, ainda conseguimos deixar o tema do swagger com uma aparência mais agradável para quem for consumir nossa api.</p>
 <h2 id="link-do-repositório">Link do repositório</h2>
@@ -488,25 +497,31 @@ GET para nossa docs <code>/docs/*</code> o <code>/*</code> após o path <code>do
 </div>
  <div class="order-1 sm:order-2">
   <ul class="flex sm:justify-end gap-5">
-    
-    
-    <li>    
-      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer">linkedin</a>
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
     </li>
     
-    <li>    
-      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer">x</a>
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
     </li>
     
-    <li>    
-      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer">github</a>
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
     </li>
     
-    <li>    
-      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer">dev.to</a>
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
     </li>
-    
-    
+     
   </ul>
 </div>
 
