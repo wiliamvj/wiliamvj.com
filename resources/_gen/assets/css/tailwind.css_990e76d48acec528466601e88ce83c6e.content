@@ -1061,20 +1061,20 @@ nav a.active {
 #content a {
   font-weight: 700;
   --tw-text-opacity: 1;
-  color: rgb(4 120 87 / var(--tw-text-opacity));
+  color: rgb(194 65 12 / var(--tw-text-opacity));
   text-decoration-line: underline;
 }
 #content a:hover {
   --tw-text-opacity: 1;
-  color: rgb(5 150 105 / var(--tw-text-opacity));
+  color: rgb(234 88 12 / var(--tw-text-opacity));
 }
 :is(.dark #content a) {
   --tw-text-opacity: 1;
-  color: rgb(110 231 183 / var(--tw-text-opacity));
+  color: rgb(253 186 116 / var(--tw-text-opacity));
 }
 :is(.dark #content a:hover) {
   --tw-text-opacity: 1;
-  color: rgb(167 243 208 / var(--tw-text-opacity));
+  color: rgb(254 215 170 / var(--tw-text-opacity));
 }
 #content .date {
   padding-top: 0.5rem;
@@ -1141,20 +1141,20 @@ nav a.active {
   line-height: 1.25rem;
   font-weight: 600;
   --tw-text-opacity: 1;
-  color: rgb(4 120 87 / var(--tw-text-opacity));
+  color: rgb(194 65 12 / var(--tw-text-opacity));
   text-decoration-line: none;
 }
 #content .read-more:hover {
   --tw-text-opacity: 1;
-  color: rgb(5 150 105 / var(--tw-text-opacity));
+  color: rgb(234 88 12 / var(--tw-text-opacity));
 }
 :is(.dark #content .read-more) {
   --tw-text-opacity: 1;
-  color: rgb(110 231 183 / var(--tw-text-opacity));
+  color: rgb(253 186 116 / var(--tw-text-opacity));
 }
 :is(.dark #content .read-more:hover) {
   --tw-text-opacity: 1;
-  color: rgb(167 243 208 / var(--tw-text-opacity));
+  color: rgb(254 215 170 / var(--tw-text-opacity));
 }
 #content .alert-box {
   margin-bottom: 1.25rem;
@@ -1254,7 +1254,7 @@ nav a.active {
 }
 #content .table-of-contents #TableOfContents ul li a:hover {
   --tw-text-opacity: 1;
-  color: rgb(5 150 105 / var(--tw-text-opacity));
+  color: rgb(234 88 12 / var(--tw-text-opacity));
   text-decoration-line: underline;
 }
 :is(.dark #content .table-of-contents #TableOfContents ul li a) {
@@ -1263,7 +1263,7 @@ nav a.active {
 }
 :is(.dark #content .table-of-contents #TableOfContents ul li a:hover) {
   --tw-text-opacity: 1;
-  color: rgb(167 243 208 / var(--tw-text-opacity));
+  color: rgb(254 215 170 / var(--tw-text-opacity));
 }
 #content .pagination-button {
   display: inline-flex;
