@@ -7,14 +7,49 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 25 Nov 2023 17:11:00 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 06 Jan 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Golang-Sqlc</title>
+      <title>API completa em Golang - Parte 5</title>
+      <link>http://localhost:1313/posts/api-golang-parte-5/</link>
+      <pubDate>Sat, 06 Jan 2024 19:03:34 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-5/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>API completa em Golang - Parte 4</title>
+      <link>http://localhost:1313/posts/api-golang-parte-4/</link>
+      <pubDate>Thu, 21 Dec 2023 17:54:40 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-4/</guid>
+      <description>O que vamos fazer? Na parte 4 do nosso crud, vamos fazer a lógica do nosso service de usuário.</description>
+    </item>
+    <item>
+      <title>API completa em Golang - Parte 3</title>
+      <link>http://localhost:1313/posts/api-golang-parte-3/</link>
+      <pubDate>Sat, 16 Dec 2023 17:49:40 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-3/</guid>
+      <description>O que vamos fazer? Na parte 3 do nosso crud, vamos configurar nosso dto para realizar as validações dos dados de entrada da nossa api e vamos criar o handler do usuário.</description>
+    </item>
+    <item>
+      <title>API completa em Golang - Parte 2</title>
+      <link>http://localhost:1313/posts/api-golang-parte-2/</link>
+      <pubDate>Tue, 05 Dec 2023 17:38:31 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-2/</guid>
+      <description>O que vamos fazer? Na parte 2 do nosso crud, vamos configurar nosso banco de dados com docker, sqlc, migrations, go chi, vamos criar nossas primeiras tabelas no banco e também vamos configurar as assinaturas das nossas interfaces.</description>
+    </item>
+    <item>
+      <title>API completa em Golang - Parte 1</title>
+      <link>http://localhost:1313/posts/api-golang-parte-1/</link>
+      <pubDate>Fri, 01 Dec 2023 17:31:01 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-1/</guid>
+      <description>Apresentação Estou iniciando uma série de posts onde vamos criar uma API em Go de forma completa.</description>
+    </item>
+    <item>
+      <title>Tenha controle sobre seu SQL com Golang e SQLC</title>
       <link>http://localhost:1313/posts/golang-sqlc/</link>
       <pubDate>Sat, 25 Nov 2023 17:11:00 -0300</pubDate>
       <guid>http://localhost:1313/posts/golang-sqlc/</guid>
-      <description></description>
+      <description>Introdução Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas.</description>
     </item>
     <item>
       <title>Usando migrations com Golang</title>

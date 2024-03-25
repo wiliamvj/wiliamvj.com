@@ -2,9 +2,19 @@ User-agent: *
 
 Disallow: /
 
-Disallow: /posts/golang-sqlc/
+Disallow: /posts/api-golang-parte-5/
 
 Disallow: /posts/
+
+Disallow: /posts/api-golang-parte-4/
+
+Disallow: /posts/api-golang-parte-3/
+
+Disallow: /posts/api-golang-parte-2/
+
+Disallow: /posts/api-golang-parte-1/
+
+Disallow: /posts/golang-sqlc/
 
 Disallow: /posts/migrations-golang/
 

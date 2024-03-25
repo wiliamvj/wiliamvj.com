@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Thu, 21 Dec 2023 17:54:40 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 06 Jan 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API completa em Golang - Parte 5</title>
+      <link>http://localhost:1313/posts/api-golang-parte-5/</link>
+      <pubDate>Sat, 06 Jan 2024 19:03:34 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-5/</guid>
+      <description>O que vamos fazer? Na parte 5 do nosso crud, vamos fazer a autenticação do usuário, criando um endpoint de login que retorna um JWT, vamos proteger as rotas, impedindo o uso sem token, vamos criar uma função que recebe o token e devolve uma estrutura com os dados salvos no token e ainda vamos adicionar um middleware de logs que adiciona dados do usuário que fez a chamada a nossa api.</description>
+    </item>
     <item>
       <title>API completa em Golang - Parte 4</title>
       <link>http://localhost:1313/posts/api-golang-parte-4/</link>

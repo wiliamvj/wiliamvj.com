@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
+    <lastmod>2024-01-06T19:03:34-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,11 +15,11 @@
                 href="http://localhost:1313/"
                 />
   </url><url>
-    <loc>http://localhost:1313/posts/golang-sqlc/</loc>
-    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
+    <loc>http://localhost:1313/posts/api-golang-parte-5/</loc>
+    <lastmod>2024-01-06T19:03:34-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
+    <lastmod>2024-01-06T19:03:34-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -30,6 +30,21 @@
                 hreflang="pt"
                 href="http://localhost:1313/posts/"
                 />
+  </url><url>
+    <loc>http://localhost:1313/posts/api-golang-parte-4/</loc>
+    <lastmod>2023-12-21T17:54:40-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/api-golang-parte-3/</loc>
+    <lastmod>2023-12-16T17:49:40-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/api-golang-parte-2/</loc>
+    <lastmod>2023-12-05T17:38:31-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/api-golang-parte-1/</loc>
+    <lastmod>2023-12-01T17:31:01-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/golang-sqlc/</loc>
+    <lastmod>2023-11-25T17:11:00-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/migrations-golang/</loc>
     <lastmod>2023-11-18T17:00:30-03:00</lastmod>
