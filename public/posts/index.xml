@@ -14,7 +14,14 @@
       <link>http://localhost:1313/posts/api-golang-parte-5/</link>
       <pubDate>Sat, 06 Jan 2024 19:03:34 -0300</pubDate>
       <guid>http://localhost:1313/posts/api-golang-parte-5/</guid>
-      <description></description>
+      <description>O que vamos fazer? Na parte 5 do nosso crud, vamos fazer a autenticação do usuário, criando um endpoint de login que retorna um JWT, vamos proteger as rotas, impedindo o uso sem token, vamos criar uma função que recebe o token e devolve uma estrutura com os dados salvos no token e ainda vamos adicionar um middleware de logs que adiciona dados do usuário que fez a chamada a nossa api.</description>
+    </item>
+    <item>
+      <title>Evitando SQL Injection com Golang</title>
+      <link>http://localhost:1313/posts/sql-injection-golang/</link>
+      <pubDate>Wed, 27 Dec 2023 19:03:34 -0300</pubDate>
+      <guid>http://localhost:1313/posts/sql-injection-golang/</guid>
+      <description>O que vamos abordar? SQL injection é uma das técnicas mais utilizadas para realizar ataques no seu sistema, onde podemos executar sql malicioso em endpoints vulneráveis sendo possível manipular seu banco de dados, apesar de já existir muitas formas de mitigar esse ataque, ainda é possível deixar essa brecha caso o desenvolvedor não fique atento.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 4</title>

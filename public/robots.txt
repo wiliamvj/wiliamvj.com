@@ -6,6 +6,8 @@ Disallow: /posts/api-golang-parte-5/
 
 Disallow: /posts/
 
+Disallow: /posts/sql-injection-golang/
+
 Disallow: /posts/api-golang-parte-4/
 
 Disallow: /posts/api-golang-parte-3/

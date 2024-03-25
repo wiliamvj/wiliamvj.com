@@ -10,8 +10,8 @@
         datetime="{{ .PublishDate }}"
         title='{{ .PublishDate.Format "Mon, Jan 2, 2006, 3:04 PM MST" }}'
       >
-        {{ .PublishDate.Format "02/01/2006" }} - {{ printf (i18n
-        "estimatedReadingTime") .ReadingTime }}
+        {{ i18n "published_in" }}: {{ .PublishDate.Format "02/01/2006" }} - {{
+        printf (i18n "estimatedReadingTime") .ReadingTime }}
       </time>
 
       {{/* Categories */}} {{ with (.GetTerms "categories") }} — {{ range . }}

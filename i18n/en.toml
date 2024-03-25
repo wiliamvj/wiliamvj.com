@@ -8,7 +8,7 @@
     other = 'Summary'
 
 [estimatedReadingTime]
-    other = 'Estimated reading time: %d minutes'
+    other = '%d minutes read'
 
 [404_title]
     other = 'Page not found'
@@ -21,3 +21,6 @@
 
 [older_posts]
     other = "Older Posts"
+
+[published_in]
+    other = "Published in"

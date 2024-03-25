@@ -24,7 +24,7 @@ googleAnalytics = "G-TG8KZ9PQBT"
   url = "https://wiliamvj.substack.com/"
   weight = 2
 [[languages.en.menu.main]]
-  "name" = "pt-BR 🇧🇷"
+  "name" = "pt-BR"
   "url" = "/"
   "weight" = 15
 [[languages.en.menu.social]]
@@ -62,7 +62,7 @@ googleAnalytics = "G-TG8KZ9PQBT"
   url = "https://wiliamvj.substack.com/"
   weight = 2
 [[languages.pt.menu.main]]
-  "name" = "en-US 🇺🇸"
+  "name" = "en-US"
   "url" = "/en/"
   "weight" = 25
 [[languages.pt.menu.social]]

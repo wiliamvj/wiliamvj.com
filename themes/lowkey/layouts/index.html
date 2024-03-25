@@ -1,10 +1,50 @@
-{{ define "main" }} {{ $pages := where site.RegularPages "Type" "in"
-site.Params.mainSections }} {{ $paginator := .Paginate $pages }}
+{{ define "main" }} 
+  {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }} 
+  {{ $paginator := .Paginate $pages }}
 
-<section class="pb-10 flex flex-col gap-10">
-  {{ range $index, $pages := $paginator.Pages }} {{ partial "list/default" . }}
+  <section class="pb-10 flex flex-col gap-5">
+    {{ range $index, $page := $paginator.Pages }}
+      {{ if eq $index 0 }}
+        <article class="flex flex-col gap-1">
+      {{ else }}
+        <hr />
+        <article class="flex flex-col gap-1">
+      {{ end }}
+
+      <h1>
+        <a href="{{ $page.Permalink }}">{{ $page.Title }}</a>
+      </h1>
+
+      <span class="date">
+        <time
+          datetime="{{ $page.PublishDate }}"
+          title='{{ $page.PublishDate.Format "Mon, Jan 2, 2006, 3:04 PM MST" }}'
+        >
+        {{ i18n "published_in" }}: {{ $page.PublishDate.Format "02/01/2006" }}
+        </time>
+      </span>
+
+      <div class="description">
+        {{ if $page.Params.description }}
+          {{ $page.Params.description }}
+        {{ else if $page.Summary }}
+          {{ $page.Summary }}
+        {{ end }}
+      </div>
+
+      <div class="mt-2">
+        <a class="read-more" href="{{ $page.Permalink }}">
+          {{ i18n "readMore" }}
+          <span class="w-4 h-4 stroke-2">
+            {{ partial "utils/icon" "arrow-right" }}
+          </span>
+        </a>
+      </div>
+    </article>
+    {{ end }}
+  </section>
+
+  {{ if gt $paginator.TotalPages 1 }}
+    {{ partial "list/pagination" . }}
   {{ end }}
-</section>
-
-{{ if gt $paginator.TotalPages 1 }} {{ partial "list/pagination" . }} {{ end }}
 {{ end }}

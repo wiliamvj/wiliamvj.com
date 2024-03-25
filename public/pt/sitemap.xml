@@ -31,6 +31,19 @@
                 href="http://localhost:1313/posts/"
                 />
   </url><url>
+    <loc>http://localhost:1313/posts/sql-injection-golang/</loc>
+    <lastmod>2023-12-27T19:03:34-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="http://localhost:1313/en/posts/sql-injection-golang/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="http://localhost:1313/posts/sql-injection-golang/"
+                />
+  </url><url>
     <loc>http://localhost:1313/posts/api-golang-parte-4/</loc>
     <lastmod>2023-12-21T17:54:40-03:00</lastmod>
   </url><url>

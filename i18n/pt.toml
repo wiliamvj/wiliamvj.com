@@ -8,7 +8,7 @@
     other = 'Sumário'
 
 [estimatedReadingTime]
-    other = 'Tempo estimado de leitura: %d minutos'
+    other = '%d minutos de leitura'
 
 [404_title]
     other = 'Página não encontrada'
@@ -21,3 +21,6 @@
 
 [older_posts]
     other = "Próximos"
+
+[published_in]
+    other = "Publicado em"
