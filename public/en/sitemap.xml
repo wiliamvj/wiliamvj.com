@@ -2,80 +2,80 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/en/posts/</loc>
+    <loc>//localhost:1313/en/posts/</loc>
     <lastmod>2023-12-27T19:03:34-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="http://localhost:1313/posts/"
+                href="//localhost:1313/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/en/posts/"
+                href="//localhost:1313/en/posts/"
                 />
   </url><url>
-    <loc>http://localhost:1313/en/posts/sql-injection-golang/</loc>
+    <loc>//localhost:1313/en/posts/sql-injection-golang/</loc>
     <lastmod>2023-12-27T19:03:34-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="http://localhost:1313/posts/sql-injection-golang/"
+                href="//localhost:1313/posts/sql-injection-golang/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/en/posts/sql-injection-golang/"
+                href="//localhost:1313/en/posts/sql-injection-golang/"
                 />
   </url><url>
-    <loc>http://localhost:1313/en/</loc>
+    <loc>//localhost:1313/en/</loc>
     <lastmod>2023-12-27T19:03:34-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="http://localhost:1313/"
+                href="//localhost:1313/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/en/"
+                href="//localhost:1313/en/"
                 />
   </url><url>
-    <loc>http://localhost:1313/en/posts/nestjs-contratos/</loc>
+    <loc>//localhost:1313/en/posts/nestjs-contratos/</loc>
     <lastmod>2023-10-11T14:56:59-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="http://localhost:1313/posts/nestjs-contratos/"
+                href="//localhost:1313/posts/nestjs-contratos/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/en/posts/nestjs-contratos/"
+                href="//localhost:1313/en/posts/nestjs-contratos/"
                 />
   </url><url>
-    <loc>http://localhost:1313/en/categories/</loc>
+    <loc>//localhost:1313/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="http://localhost:1313/categories/"
+                href="//localhost:1313/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/en/categories/"
+                href="//localhost:1313/en/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/en/tags/</loc>
+    <loc>//localhost:1313/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="http://localhost:1313/tags/"
+                href="//localhost:1313/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/en/tags/"
+                href="//localhost:1313/en/tags/"
                 />
   </url>
 </urlset>

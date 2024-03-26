@@ -5,7 +5,7 @@ draft: false
 tableOfContents: false
 ---
 
-![thumbnail](yhuH0pKlfk09.png)
+![thumbnail](thumb_en_fgfgdfg.png)
 
 ## What will we cover?
 

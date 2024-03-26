@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Wiliam V. Joaquim</title>
-    <link>http://localhost:1313/en/</link>
+    <link>//localhost:1313/en/</link>
     <description>Recent content on Wiliam V. Joaquim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>{year}</copyright>
     <lastBuildDate>Wed, 27 Dec 2023 19:03:34 -0300</lastBuildDate>
-    <atom:link href="http://localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="//localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Preventing SQL Injection with Golang</title>
-      <link>http://localhost:1313/en/posts/sql-injection-golang/</link>
+      <link>//localhost:1313/en/posts/sql-injection-golang/</link>
       <pubDate>Wed, 27 Dec 2023 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/en/posts/sql-injection-golang/</guid>
+      <guid>//localhost:1313/en/posts/sql-injection-golang/</guid>
       <description>What will we cover? SQL injection is one of the most used techniques to carry out attacks on your system, where we can execute malicious SQL on vulnerable endpoints, making it possible to manipulate your database, although there are already many ways to mitigate this attack, it is still possible to leave this gap if the developer don&amp;rsquo;t pay attention.</description>
     </item>
     <item>
       <title>Using contracts with NestJS, facilitating your unit tests</title>
-      <link>http://localhost:1313/en/posts/nestjs-contratos/</link>
+      <link>//localhost:1313/en/posts/nestjs-contratos/</link>
       <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>
-      <guid>http://localhost:1313/en/posts/nestjs-contratos/</guid>
+      <guid>//localhost:1313/en/posts/nestjs-contratos/</guid>
       <description>What are contracts? Contracts are a way of separating responsibilities between the parties that use this implementation, contracts are widely used in the context of software development following the DDD (Domain-Driven Design) standard.</description>
     </item>
   </channel>

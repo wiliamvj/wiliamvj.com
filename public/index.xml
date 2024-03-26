@@ -2,130 +2,130 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ahoy There! on Wiliam V. Joaquim</title>
-    <link>http://localhost:1313/</link>
+    <link>//localhost:1313/</link>
     <description>Recent content in Ahoy There! on Wiliam V. Joaquim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
     <lastBuildDate>Sat, 16 Mar 2024 19:03:34 -0300</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Utilizando Testcontainers para Testes de Integração com NestJS e Prisma ORM</title>
-      <link>http://localhost:1313/posts/teste-integracao-nestjs/</link>
+      <link>//localhost:1313/posts/teste-integracao-nestjs/</link>
       <pubDate>Sat, 16 Mar 2024 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/posts/teste-integracao-nestjs/</guid>
+      <guid>//localhost:1313/posts/teste-integracao-nestjs/</guid>
       <description>Introdução Neste guia, exploraremos como realizar testes de integração em nossa aplicação usando uma combinação poderosa de tecnologias: NestJs junto com o Prisma ORM, e aproveitando os recursos do Testecontainers.</description>
     </item>
     <item>
       <title>Autenticação com Golang e AWS Cognito</title>
-      <link>http://localhost:1313/posts/autenticacao-golang-cognito/</link>
+      <link>//localhost:1313/posts/autenticacao-golang-cognito/</link>
       <pubDate>Wed, 07 Feb 2024 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/posts/autenticacao-golang-cognito/</guid>
+      <guid>//localhost:1313/posts/autenticacao-golang-cognito/</guid>
       <description>O que é o cognito? A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 7</title>
-      <link>http://localhost:1313/posts/api-golang-parte-7/</link>
+      <link>//localhost:1313/posts/api-golang-parte-7/</link>
       <pubDate>Sat, 03 Feb 2024 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-7/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-7/</guid>
       <description>O que vamos fazer? Chegamos na última parte do nosso crud, na parte 7 vamos criar a funcionalidade de cadastro de produtos e categorias, vamos criar a funcionalidade de cadastrar produto e categoria, editar produto , listar todos os produtos e deletar produto.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 6</title>
-      <link>http://localhost:1313/posts/api-golang-parte-6/</link>
+      <link>//localhost:1313/posts/api-golang-parte-6/</link>
       <pubDate>Tue, 23 Jan 2024 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-6/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-6/</guid>
       <description>O que vamos fazer? Na parte 6 do nosso crud vamos finalizar nosso repository, salvando os dados do usuários no banco de dados utilizando o sqlc.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 5</title>
-      <link>http://localhost:1313/posts/api-golang-parte-5/</link>
+      <link>//localhost:1313/posts/api-golang-parte-5/</link>
       <pubDate>Sat, 06 Jan 2024 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-5/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-5/</guid>
       <description>O que vamos fazer? Na parte 5 do nosso crud, vamos fazer a autenticação do usuário, criando um endpoint de login que retorna um JWT, vamos proteger as rotas, impedindo o uso sem token, vamos criar uma função que recebe o token e devolve uma estrutura com os dados salvos no token e ainda vamos adicionar um middleware de logs que adiciona dados do usuário que fez a chamada a nossa api.</description>
     </item>
     <item>
       <title>Evitando SQL Injection com Golang</title>
-      <link>http://localhost:1313/posts/sql-injection-golang/</link>
+      <link>//localhost:1313/posts/sql-injection-golang/</link>
       <pubDate>Wed, 27 Dec 2023 19:03:34 -0300</pubDate>
-      <guid>http://localhost:1313/posts/sql-injection-golang/</guid>
+      <guid>//localhost:1313/posts/sql-injection-golang/</guid>
       <description>O que vamos abordar? SQL injection é uma das técnicas mais utilizadas para realizar ataques no seu sistema, onde podemos executar sql malicioso em endpoints vulneráveis sendo possível manipular seu banco de dados, apesar de já existir muitas formas de mitigar esse ataque, ainda é possível deixar essa brecha caso o desenvolvedor não fique atento.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 4</title>
-      <link>http://localhost:1313/posts/api-golang-parte-4/</link>
+      <link>//localhost:1313/posts/api-golang-parte-4/</link>
       <pubDate>Thu, 21 Dec 2023 17:54:40 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-4/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-4/</guid>
       <description>O que vamos fazer? Na parte 4 do nosso crud, vamos fazer a lógica do nosso service de usuário.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 3</title>
-      <link>http://localhost:1313/posts/api-golang-parte-3/</link>
+      <link>//localhost:1313/posts/api-golang-parte-3/</link>
       <pubDate>Sat, 16 Dec 2023 17:49:40 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-3/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-3/</guid>
       <description>O que vamos fazer? Na parte 3 do nosso crud, vamos configurar nosso dto para realizar as validações dos dados de entrada da nossa api e vamos criar o handler do usuário.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 2</title>
-      <link>http://localhost:1313/posts/api-golang-parte-2/</link>
+      <link>//localhost:1313/posts/api-golang-parte-2/</link>
       <pubDate>Tue, 05 Dec 2023 17:38:31 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-2/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-2/</guid>
       <description>O que vamos fazer? Na parte 2 do nosso crud, vamos configurar nosso banco de dados com docker, sqlc, migrations, go chi, vamos criar nossas primeiras tabelas no banco e também vamos configurar as assinaturas das nossas interfaces.</description>
     </item>
     <item>
       <title>API completa em Golang - Parte 1</title>
-      <link>http://localhost:1313/posts/api-golang-parte-1/</link>
+      <link>//localhost:1313/posts/api-golang-parte-1/</link>
       <pubDate>Fri, 01 Dec 2023 17:31:01 -0300</pubDate>
-      <guid>http://localhost:1313/posts/api-golang-parte-1/</guid>
+      <guid>//localhost:1313/posts/api-golang-parte-1/</guid>
       <description>Apresentação Estou iniciando uma série de posts onde vamos criar uma API em Go de forma completa.</description>
     </item>
     <item>
       <title>Tenha controle sobre seu SQL com Golang e SQLC</title>
-      <link>http://localhost:1313/posts/golang-sqlc/</link>
+      <link>//localhost:1313/posts/golang-sqlc/</link>
       <pubDate>Sat, 25 Nov 2023 17:11:00 -0300</pubDate>
-      <guid>http://localhost:1313/posts/golang-sqlc/</guid>
+      <guid>//localhost:1313/posts/golang-sqlc/</guid>
       <description>Introdução Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas.</description>
     </item>
     <item>
       <title>Usando migrations com Golang</title>
-      <link>http://localhost:1313/posts/migrations-golang/</link>
+      <link>//localhost:1313/posts/migrations-golang/</link>
       <pubDate>Sat, 18 Nov 2023 17:00:30 -0300</pubDate>
-      <guid>http://localhost:1313/posts/migrations-golang/</guid>
+      <guid>//localhost:1313/posts/migrations-golang/</guid>
       <description>O que são migrations? As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado.</description>
     </item>
     <item>
       <title>O poder do CLI com Golang e Cobra CLI</title>
-      <link>http://localhost:1313/posts/cobra-cli-golang/</link>
+      <link>//localhost:1313/posts/cobra-cli-golang/</link>
       <pubDate>Wed, 15 Nov 2023 16:40:41 -0300</pubDate>
-      <guid>http://localhost:1313/posts/cobra-cli-golang/</guid>
+      <guid>//localhost:1313/posts/cobra-cli-golang/</guid>
       <description>Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface.</description>
     </item>
     <item>
       <title>Como deixar o Swagger com tema dark mode usando Swaggo e Golang</title>
-      <link>http://localhost:1313/posts/dark-mode-swaggo/</link>
+      <link>//localhost:1313/posts/dark-mode-swaggo/</link>
       <pubDate>Sat, 11 Nov 2023 15:39:40 -0300</pubDate>
-      <guid>http://localhost:1313/posts/dark-mode-swaggo/</guid>
+      <guid>//localhost:1313/posts/dark-mode-swaggo/</guid>
       <description>Recentemente criei um port mostrando como deixar o Swagger com tema dark mode utilizando NestJS, agora vou mostrar como deixar o Swagger em dark mode utilizando o Swaggo com Go.</description>
     </item>
     <item>
       <title>Como deixar o Swagger com tema dark mode usando NestJS</title>
-      <link>http://localhost:1313/posts/dark-mode-swagger-nestjs/</link>
+      <link>//localhost:1313/posts/dark-mode-swagger-nestjs/</link>
       <pubDate>Sun, 05 Nov 2023 15:14:48 -0300</pubDate>
-      <guid>http://localhost:1313/posts/dark-mode-swagger-nestjs/</guid>
+      <guid>//localhost:1313/posts/dark-mode-swagger-nestjs/</guid>
       <description>O tema padrão claro do Swagger já incomodou você? Isso já me incomodou muito e hoje vou mostrar como deixar em Dark mode para quem utiliza o NestJS.</description>
     </item>
     <item>
       <title>Desvendando o package fmt do Go</title>
-      <link>http://localhost:1313/posts/fmt-go/</link>
+      <link>//localhost:1313/posts/fmt-go/</link>
       <pubDate>Wed, 01 Nov 2023 15:06:59 -0300</pubDate>
-      <guid>http://localhost:1313/posts/fmt-go/</guid>
+      <guid>//localhost:1313/posts/fmt-go/</guid>
       <description>O pacote fmt é um pacote padrão do Go e muito utilizado, porém para quem esta iniciando em Go pode parecer um pouco confuso.</description>
     </item>
     <item>
       <title>Usando contratos com NestJS, facilitando seus testes unitários</title>
-      <link>http://localhost:1313/posts/nestjs-contratos/</link>
+      <link>//localhost:1313/posts/nestjs-contratos/</link>
       <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>
-      <guid>http://localhost:1313/posts/nestjs-contratos/</guid>
+      <guid>//localhost:1313/posts/nestjs-contratos/</guid>
       <description>O que são contratos? Contratos são uma forma de separar as responsabilidades entre as partes que utilizam essa implementação, contratos são muito utilizados no contexto de desenvolvimento de software seguindo o padrão DDD (Domain-Driven Design).</description>
     </item>
   </channel>
