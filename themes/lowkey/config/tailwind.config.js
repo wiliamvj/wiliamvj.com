@@ -19,6 +19,10 @@ module.exports = {
       fontFamily: {
         'sans': ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'avenir next', 'avenir', 'segoe ui', 'helvetica neue', 'helvetica', 'Cantarell', 'Ubuntu', 'roboto', 'noto', 'arial', 'sans-serif'],
       },
+      colors: {
+        wpurple: '#6a6ed6',
+        wpurplehover: '#9ea1f3'
+      },
     },
   },
   plugins: [],

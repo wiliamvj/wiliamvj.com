@@ -267,7 +267,7 @@
   }
 
   #content a {
-    @apply underline font-bold text-orange-700 hover:text-orange-600 dark:text-orange-300 dark:hover:text-orange-200;
+    @apply underline font-bold text-wpurple hover:text-wpurplehover dark:text-wpurple dark:hover:text-wpurplehover;
   }
 
   #content .date {
@@ -291,7 +291,7 @@
   }
 
   #content .read-more {
-    @apply no-underline inline-flex gap-2 text-sm font-semibold items-center text-orange-700 hover:text-orange-600 dark:text-orange-300 dark:hover:text-orange-200;
+    @apply no-underline inline-flex gap-2 text-sm font-semibold items-center text-wpurple hover:text-wpurplehover dark:text-wpurple dark:hover:text-wpurplehover;
   }
 
   #content .footnotes {
