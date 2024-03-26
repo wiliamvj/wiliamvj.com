@@ -2,9 +2,15 @@ User-agent: *
 
 Disallow: /
 
-Disallow: /posts/api-golang-parte-6/
-
 Disallow: /posts/
+
+Disallow: /posts/teste-integracao-nestjs/
+
+Disallow: /posts/autenticacao-golang-cognito/
+
+Disallow: /posts/api-golang-parte-7/
+
+Disallow: /posts/api-golang-parte-6/
 
 Disallow: /posts/api-golang-parte-5/
 
