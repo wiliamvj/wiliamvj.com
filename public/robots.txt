@@ -2,9 +2,11 @@ User-agent: *
 
 Disallow: /
 
-Disallow: /posts/api-golang-parte-5/
+Disallow: /posts/api-golang-parte-6/
 
 Disallow: /posts/
+
+Disallow: /posts/api-golang-parte-5/
 
 Disallow: /posts/sql-injection-golang/
 

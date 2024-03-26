@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 06 Jan 2024 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jan 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API completa em Golang - Parte 6</title>
+      <link>http://localhost:1313/posts/api-golang-parte-6/</link>
+      <pubDate>Tue, 23 Jan 2024 19:03:34 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-6/</guid>
+      <description>O que vamos fazer? Na parte 6 do nosso crud vamos finalizar nosso repository, salvando os dados do usuários no banco de dados utilizando o sqlc.</description>
+    </item>
     <item>
       <title>API completa em Golang - Parte 5</title>
       <link>http://localhost:1313/posts/api-golang-parte-5/</link>
