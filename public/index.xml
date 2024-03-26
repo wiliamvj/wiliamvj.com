@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 03 Feb 2024 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 07 Feb 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Autenticação com Golang e AWS Cognito</title>
+      <link>http://localhost:1313/posts/autenticacao-golang-cognito/</link>
+      <pubDate>Wed, 07 Feb 2024 19:03:34 -0300</pubDate>
+      <guid>http://localhost:1313/posts/autenticacao-golang-cognito/</guid>
+      <description>O que é o cognito? A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.</description>
+    </item>
     <item>
       <title>API completa em Golang - Parte 7</title>
       <link>http://localhost:1313/posts/api-golang-parte-7/</link>
