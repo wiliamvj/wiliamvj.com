@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Tue, 23 Jan 2024 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 03 Feb 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>API completa em Golang - Parte 7</title>
+      <link>http://localhost:1313/posts/api-golang-parte-7/</link>
+      <pubDate>Sat, 03 Feb 2024 19:03:34 -0300</pubDate>
+      <guid>http://localhost:1313/posts/api-golang-parte-7/</guid>
+      <description>O que vamos fazer? Chegamos na última parte do nosso crud, na parte 7 vamos criar a funcionalidade de cadastro de produtos e categorias, vamos criar a funcionalidade de cadastrar produto e categoria, editar produto , listar todos os produtos e deletar produto.</description>
+    </item>
     <item>
       <title>API completa em Golang - Parte 6</title>
       <link>http://localhost:1313/posts/api-golang-parte-6/</link>

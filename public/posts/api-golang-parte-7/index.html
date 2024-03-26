@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script> 
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API completa em Golang - Parte 7</title>
+<meta name="description" content="O que vamos fazer? Chegamos na última parte do nosso crud, na parte 7 vamos criar a funcionalidade de cadastro de produtos e categorias, vamos criar a funcionalidade de cadastrar produto e categoria, editar produto , listar todos os produtos e deletar produto.">
+<link rel="canonical" href="http://localhost:1313/posts/api-golang-parte-7/">
+<link rel="robots" href="/robots.txt" />
+
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="http://localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="http://localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hucbf2afd9e62dc6021c155b0731b41164_625734_80x80_fill_q90_box_smart1.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1080"
+      height="1080"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="http://localhost:1313/">
+  <h1 id="site-title">Wiliam V<span class="text-wpurple">.</span> Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+      >
+        Artigos
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+      >
+        Newsletter
+      </a>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+      >
+        en-US
+      </a>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+
+    if (!theme || theme !== 'light') {
+      setTheme('dark');
+    } else {
+      setTheme(theme);
+    }
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      if (html.classList.contains('dark')) {
+        document.querySelector('html').classList.remove('dark');
+      }
+
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      if (!html.classList.contains('dark')) {
+        document.querySelector('html').classList.add('dark');
+      }
+
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+</script>
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">API completa em Golang - Parte 7</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2024-02-03 19:03:34 -0300 -03"
+        title='Sat, Feb 3, 2024, 7:03 PM -03'
+      >
+        Publicado em: 03/02/2024 - 24 minutos de leitura
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+  <section><p><img alt="thumbnail" src="/posts/api-golang-parte-7/thumb_8erterfdfg34fghfgh.jpg"></p>
+<h2 id="o-que-vamos-fazer">O que vamos fazer?</h2>
+<p>Chegamos na última parte do nosso crud, na parte 7 vamos criar a funcionalidade de cadastro de produtos e categorias, vamos criar a funcionalidade de cadastrar produto e categoria, editar produto , listar todos os produtos e deletar produto.</p>
+<p>Vamos trabalhar com relacionamentos many to many, uma categoria pode ter muitos produtos e um produto pode ter muitas categorias. Vamos fazer tudo neste último post, por isso deve ser um dos maiores da nossa série.</p>
+<p>Se ainda não viu os posts anteriores leia eles primeiro.</p>
+<p><a href="/posts/api-golang-parte-1/">parte 1</a> |
+<a href="/posts/api-golang-parte-2/">parte 2</a> |
+<a href="/posts/api-golang-parte-3/">parte 3</a> |
+<a href="/posts/api-golang-parte-4/">parte 4</a> |
+<a href="/posts/api-golang-parte-5/">parte 5</a> |
+<a href="/posts/api-golang-parte-6/">parte 6</a> |</p>
+<h2 id="refatorando-nosso-handler">refatorando nosso handler</h2>
+<p>Primeiramente vamos fazer um ajuste no handler, estávamos separando o handler unicamente para o user, depois iriamos separar para product e category, porém dessa maneira gera uma complexidade maior ao passar a referência do servidor criado com go-chi, por isso resolvi refatorar e fazer um único handler.</p>
+<p>Vamos mover o <code>user_handler.go</code>, <code>auth_handler.go</code> e <code>user_interface_handler.go</code> para a raiz da pasta <strong>handler</strong>, vamos também renomear o arquivo <code>user_interface_handler.go</code> para <code>interface_handler.go</code>, vamos ter apenas uma interface. Depois de mover você pode deletar a pasta <strong>userhandler</strong>, ficando assim:</p>
+<p><img alt="handler" src="/posts/api-golang-parte-7/sdGhj8GH345dfg34RT.png"></p>
+<p>Vamos renomear as funções e interface do handler alterado <code>interface_handler.go</code>:</p>
+<p><code>NewUserHandler</code> para <code>NewHandler</code></p>
+<p><code>UserHandler</code> para <code>Handler</code></p>
+<p>Precisamos alterar também o nome dos pacotes dos arquivos movidos de <code>package userhandler</code> para <code>package handler</code>.</p>
+<p>Vamos ajustar nosso <code>main.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  newHandler <span style="color:#ff79c6">:=</span> handler.<span style="color:#50fa7b">NewHandler</span>(newUserService)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// init routes
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  router <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">NewRouter</span>()
+</span></span><span style="display:flex;"><span>  routes.<span style="color:#50fa7b">InitRoutes</span>(router, newHandler)
+</span></span><span style="display:flex;"><span>  routes.<span style="color:#50fa7b">InitDocsRoutes</span>(router)
+</span></span></code></pre></div><h2 id="criando-as-entities">Criando as entities</h2>
+<p>Precisamos criar a entidade product e category, nosso produto e categoria terá relacionamento many-to-many, para criar o product é obrigatório passar pelo menos uma categoria.</p>
+<p>Vamos criar um arquivo <code>category_entity.go</code> na pasta <strong>entity</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CategoryEntity <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID        <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    Title     <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;title&#34;`</span>
+</span></span><span style="display:flex;"><span>    CreatedAt time.Time <span style="color:#f1fa8c">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>    UpdatedAt time.Time <span style="color:#f1fa8c">`json:&#34;updated_at&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Vamos criar um outro arquivo <code>product_entity.go</code> na pasta <strong>entity</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ProductEntity <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;title&#34;`</span>
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>     <span style="color:#f1fa8c">`json:&#34;price&#34;`</span>
+</span></span><span style="display:flex;"><span>    Categories  []<span style="color:#8be9fd">string</span>  <span style="color:#f1fa8c">`json:&#34;categories&#34;`</span>
+</span></span><span style="display:flex;"><span>    Description <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;description&#34;`</span>
+</span></span><span style="display:flex;"><span>    CreatedAt   time.Time <span style="color:#f1fa8c">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>    UpdatedAt   time.Time <span style="color:#f1fa8c">`json:&#34;updated_at&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ProductCategoryEntity <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID         <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    ProductID  <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;product_id&#34;`</span>
+</span></span><span style="display:flex;"><span>    CategoryID <span style="color:#8be9fd">string</span>    <span style="color:#f1fa8c">`json:&#34;category_id&#34;`</span>
+</span></span><span style="display:flex;"><span>    CreatedAt  time.Time <span style="color:#f1fa8c">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>    UpdatedAt  time.Time <span style="color:#f1fa8c">`json:&#34;updated_at&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ProductWithCategoryEntity <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>           <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>           <span style="color:#f1fa8c">`json:&#34;title&#34;`</span>
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>            <span style="color:#f1fa8c">`json:&#34;price&#34;`</span>
+</span></span><span style="display:flex;"><span>    Description <span style="color:#8be9fd">string</span>           <span style="color:#f1fa8c">`json:&#34;description&#34;`</span>
+</span></span><span style="display:flex;"><span>    Categories  []CategoryEntity <span style="color:#f1fa8c">`json:&#34;categories&#34;`</span>
+</span></span><span style="display:flex;"><span>    CreatedAt   time.Time        <span style="color:#f1fa8c">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Teremos 3 entidades:</p>
+<ul>
+<li>
+<p><code>ProductEntity</code>: vamos usar para criar o produto.</p>
+</li>
+<li>
+<p><code>ProductCategoryEntity</code>: vamos usar para criar o relacionamento entre produto e categoria.</p>
+</li>
+<li>
+<p><code>ProductWithCategoryEntity</code>: vamos usar para montar um retorno onde trazemos o produto e suas categorias.</p>
+</li>
+</ul>
+<p>Qual o motivo da entidade <code>ProductCategoryEntity</code>? Como nosso produto terá relacionamento many-to-many precisamos criar uma terceira tabela, ela será responsável por ligar uma categoria a um produto, vai ser nessa tabela conhecida como tabela intermediária/junção/ligação pode ter várias nomenclaturas. Para ficar mais claro, veja a imagem abaixo:</p>
+<p><img alt="many-to-many" src="/posts/api-golang-parte-7/dfdhjHJdf34dfgFGHfghasdfbio.png"></p>
+<h2 id="criando-os-handlers-category-e-product">Criando os handlers category e product</h2>
+<p>Vamos iniciar criando os métodos necessário no na interface handler que acabamos de alterar:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewHandler</span>(userService userservice.UserService,
+</span></span><span style="display:flex;"><span>    categoryService categoryservice.CategoryService,
+</span></span><span style="display:flex;"><span>    productservice productservice.ProductService) Handler {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>handler{
+</span></span><span style="display:flex;"><span>      userService:     userService,
+</span></span><span style="display:flex;"><span>      categoryService: categoryService,
+</span></span><span style="display:flex;"><span>      productservice:  productservice,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> handler <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    userService     userservice.UserService
+</span></span><span style="display:flex;"><span>    categoryService categoryservice.CategoryService
+</span></span><span style="display:flex;"><span>    productservice  productservice.ProductService
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Primeiro definimos que agora ao gerar uma nova instância do <code>Handler</code> vamos receber 3 services, user, product e category.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Handler <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByID</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteUser</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">FindManyUsers</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateUserPassword</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">Login</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateCategory</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">FindManyProducts</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nossa interface ficou assim, com os métodos de usuário que já existiam porém agora adicionamos novos métodos. Para a categoria vamos fazer apenas de criação, vou deixar para vocês implementarem os demais, para produto vamos fazer o de criação, atualização, deletar e buscar vários, também vou deixar o método de buscar um único produto pelo id para vocês implementarem.</p>
+<h3 id="category-handler">category handler</h3>
+<p>Crie um arquivo chamado <code>category_handler</code>, nas pasta <strong>handler</strong> esse enpdoint vai ser bastante simples, vamos adicionar poucos dados a nossa categoria, vamos criar também nosso dto, crie um arquivo chamado <code>category_dto.go</code> na pasta <strong>dto</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> dto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CreateCategoryDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Title <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;title&#34; validate:&#34;required,min=3,max=30&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nossa categoria vai receber apenas um título, nada mais. Adicione outros dados se desejar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreateCategory</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> req dto.CreateCategoryDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> r.Body <span style="color:#ff79c6">==</span> http.NoBody {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;body is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;body is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = h.categoryService.<span style="color:#50fa7b">CreateCategory</span>(r.<span style="color:#50fa7b">Context</span>(), req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to create category: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusCreated)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>O handler vai ser basicamente igual ao que já fizemos aos usuários, a sua ide vai acusar o erro no <code>categoryService.CreateCategory</code> pois ainda não criamos o service, para o handler do category é apenas isso.</p>
+<h3 id="product-handler">product handler</h3>
+<p>Crie um arquivo chamado <code>product_handler</code>, nas pasta <strong>handler</strong>, vamos criar também nosso dto, crie um arquivo chamado <code>product_dto.go</code> na pasta <strong>dto</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> dto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CreateProductDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;title&#34; validate:&#34;required,min=3,max=40&#34;`</span>
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>    <span style="color:#f1fa8c">`json:&#34;price&#34; validate:&#34;required,min=1&#34;`</span>
+</span></span><span style="display:flex;"><span>    Categories  []<span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;categories&#34; validate:&#34;required,min=1,dive,uuid4&#34;`</span>
+</span></span><span style="display:flex;"><span>    Description <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;description&#34; validate:&#34;required,min=3,max=500&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UpdateProductDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;title&#34; validate:&#34;omitempty,min=3,max=40&#34;`</span>
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>    <span style="color:#f1fa8c">`json:&#34;price&#34; validate:&#34;omitempty,min=1&#34;`</span>
+</span></span><span style="display:flex;"><span>    Categories  []<span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;categories&#34; validate:&#34;omitempty,min=1,dive,uuid4&#34;`</span>
+</span></span><span style="display:flex;"><span>    Description <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;description&#34; validate:&#34;omitempty,min=3,max=500&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> FindProductDto <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Search     <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;search&#34; validate:&#34;omitempty,min=2,max=40&#34;`</span>
+</span></span><span style="display:flex;"><span>    Categories []<span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;categories&#34; validate:&#34;omitempty,min=1,dive,uuid4&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Vamos ter 3 dtos para o product <code>CreateProductDto</code>, <code>UpdateProductDto</code> e para filtrar <code>FindProductDto</code>.</p>
+<p>Validamos as categories com uso do <code>dive</code> para validar cada elemento do array, isso com o <a href="https://github.com/go-playground/validator">go playground validator</a> ajuda muito a validação, as demais validações já utilizamos.</p>
+<p><code>CreateProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreateProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> req dto.CreateProductDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> r.Body <span style="color:#ff79c6">==</span> http.NoBody {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;body is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;body is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    err = h.productservice.<span style="color:#50fa7b">CreateProduct</span>(r.<span style="color:#50fa7b">Context</span>(), req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err.<span style="color:#50fa7b">Error</span>() <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;category not found&#34;</span> {
+</span></span><span style="display:flex;"><span>        w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusNotFound)
+</span></span><span style="display:flex;"><span>        msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewNotFoundError</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>)
+</span></span><span style="display:flex;"><span>        json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to create category: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusCreated)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>UpdateProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">UpdateProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> req dto.UpdateProductDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    productID <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">URLParam</span>(r, <span style="color:#f1fa8c">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> productID <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;product id is required&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;product id is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    _, err <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">Parse</span>(productID)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to parse product id: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;invalid product id&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> r.Body <span style="color:#ff79c6">==</span> http.NoBody {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;body is empty&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;body is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = h.productservice.<span style="color:#50fa7b">UpdateProduct</span>(r.<span style="color:#50fa7b">Context</span>(), productID, req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err.<span style="color:#50fa7b">Error</span>() <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;product not found&#34;</span> {
+</span></span><span style="display:flex;"><span>        w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusNotFound)
+</span></span><span style="display:flex;"><span>        msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewNotFoundError</span>(<span style="color:#f1fa8c">&#34;product not found&#34;</span>)
+</span></span><span style="display:flex;"><span>        json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err.<span style="color:#50fa7b">Error</span>() <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;category not found&#34;</span> {
+</span></span><span style="display:flex;"><span>        w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusNotFound)
+</span></span><span style="display:flex;"><span>        msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewNotFoundError</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>)
+</span></span><span style="display:flex;"><span>        json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to update category: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>DeleteProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">DeleteProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    productID <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">URLParam</span>(r, <span style="color:#f1fa8c">&#34;id&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> productID <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;product id is required&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;product id is required&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    _, err <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">Parse</span>(productID)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to parse product id: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;invalid product id&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = h.productservice.<span style="color:#50fa7b">DeleteProduct</span>(r.<span style="color:#50fa7b">Context</span>(), productID)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err.<span style="color:#50fa7b">Error</span>() <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;product not found&#34;</span> {
+</span></span><span style="display:flex;"><span>        w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusNotFound)
+</span></span><span style="display:flex;"><span>        msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewNotFoundError</span>(<span style="color:#f1fa8c">&#34;product not found&#34;</span>)
+</span></span><span style="display:flex;"><span>        json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to delete category: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;categoryhandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>FindManyProducts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">FindManyProducts</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> req dto.FindProductDto
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>      msg <span style="color:#ff79c6">:=</span> httperr.<span style="color:#50fa7b">NewBadRequestError</span>(<span style="color:#f1fa8c">&#34;error to decode body&#34;</span>)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(msg)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    httpErr <span style="color:#ff79c6">:=</span> validation.<span style="color:#50fa7b">ValidateHttpData</span>(req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> httpErr <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to validate data: %v&#34;</span>, httpErr), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(httpErr.Code)
+</span></span><span style="display:flex;"><span>      json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(httpErr)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    products, err <span style="color:#ff79c6">:=</span> h.productservice.<span style="color:#50fa7b">FindManyProducts</span>(r.<span style="color:#50fa7b">Context</span>(), req)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;error to find many products: %v&#34;</span>, err), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;producthandler&#34;</span>))
+</span></span><span style="display:flex;"><span>      w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
+</span></span><span style="display:flex;"><span>    json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(products)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Esses serão nossos métodos, tudo que já vimos nos posts anteriores, sem segredo.</p>
+<h2 id="criando-os-services-category-e-product">Criando os services category e product</h2>
+<h3 id="category-service">category service</h3>
+<p>Vamos criar um pasta dentro do <strong>service</strong> chamado <strong>categoryservice</strong> e um arquivo <code>category_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewCategoryService</span>(repo categoryrepository.CategoryRepository) CategoryService {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>service{
+</span></span><span style="display:flex;"><span>      repo,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> service <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    repo categoryrepository.CategoryRepository
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CategoryService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateCategory</span>(ctx context.Context, u dto.CreateCategoryDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Assim igual ao handler o service será simples, agora vamos implementar, crie outro arquivo chamado <code>category_service.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">CreateCategory</span>(ctx context.Context, u dto.CreateCategoryDto) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    categoryEntity <span style="color:#ff79c6">:=</span> entity.CategoryEntity{
+</span></span><span style="display:flex;"><span>      ID:        uuid.<span style="color:#50fa7b">New</span>().<span style="color:#50fa7b">String</span>(),
+</span></span><span style="display:flex;"><span>      Title:     u.Title,
+</span></span><span style="display:flex;"><span>      CreatedAt: time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>      UpdatedAt: time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">CreateCategory</span>(ctx, <span style="color:#ff79c6">&amp;</span>categoryEntity)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;error to create category&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Somente isso é suficiente para criar a nossa category.</p>
+<h3 id="product-service">product service</h3>
+<p>Vamos criar um pasta dentro do <strong>service</strong> chamado <strong>productservice</strong> e um arquivo <code>product_interface_service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewProductService</span>(repo productrepository.ProductRepository) ProductService {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>service{
+</span></span><span style="display:flex;"><span>      repo,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> service <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    repo productrepository.ProductRepository
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ProductService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateProduct</span>(ctx context.Context, u dto.CreateProductDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateProduct</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>, u dto.UpdateProductDto) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteProduct</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">FindManyProducts</span>(ctx context.Context, d dto.FindProductDto) ([]response.ProductResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Repare que temos um <code>response.ProductResponse</code>, precisamos criar também, crie na pasta <strong>response</strong> um arquivo chamado <code>product_response.go</code> e outro chamado <code>category_response.go</code>:</p>
+<p><code>category_response.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CategoryResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID    <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    Title <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;title&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Isso é o que vamos retornar da categoria na busca de produtos.</p>
+<p><code>product_response.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ProductResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>             <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>             <span style="color:#f1fa8c">`json:&#34;title&#34;`</span>
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>              <span style="color:#f1fa8c">`json:&#34;price&#34;`</span>
+</span></span><span style="display:flex;"><span>    Description <span style="color:#8be9fd">string</span>             <span style="color:#f1fa8c">`json:&#34;description,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>    Categories  []CategoryResponse <span style="color:#f1fa8c">`json:&#34;categories&#34;`</span>
+</span></span><span style="display:flex;"><span>    CreatedAt   time.Time          <span style="color:#f1fa8c">`json:&#34;created_at&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Como um produto pode ter muitas categorias, vamos retornar um slice de <code>CategoryResponse</code>.</p>
+<p>Vamos implementar nosso service, começando pelo <code>CreateProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">CreateProduct</span>(ctx context.Context, u dto.CreateProductDto) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    productId <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">New</span>().<span style="color:#50fa7b">String</span>()
+</span></span><span style="display:flex;"><span>    productEntity <span style="color:#ff79c6">:=</span> entity.ProductEntity{
+</span></span><span style="display:flex;"><span>      ID:          productId,
+</span></span><span style="display:flex;"><span>      Title:       u.Title,
+</span></span><span style="display:flex;"><span>      Price:       u.Price,
+</span></span><span style="display:flex;"><span>      Categories:  u.Categories,
+</span></span><span style="display:flex;"><span>      Description: u.Description,
+</span></span><span style="display:flex;"><span>      CreatedAt:   time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>      UpdatedAt:   time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> categories []entity.ProductCategoryEntity
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> _, categoryID <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> u.Categories {
+</span></span><span style="display:flex;"><span>      exists, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetCategoryByID</span>(ctx, categoryID)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> !exists {
+</span></span><span style="display:flex;"><span>        slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;category_id&#34;</span>, categoryID), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;productservice&#34;</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>)
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      categories = <span style="color:#8be9fd;font-style:italic">append</span>(categories, entity.ProductCategoryEntity{
+</span></span><span style="display:flex;"><span>        ID:         uuid.<span style="color:#50fa7b">New</span>().<span style="color:#50fa7b">String</span>(),
+</span></span><span style="display:flex;"><span>        ProductID:  productId,
+</span></span><span style="display:flex;"><span>        CategoryID: categoryID,
+</span></span><span style="display:flex;"><span>        CreatedAt:  time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>        UpdatedAt:  time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">CreateProduct</span>(ctx, <span style="color:#ff79c6">&amp;</span>productEntity, categories)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>No service vamos apenas criar o <code>ProductEntity</code> para repassar ao nosso repositório, depois fazemos um for para criar a entidade da categoria, como o produto pode ter várias categorias, é necessário.</p>
+<p>Nessa parte você pode ver a vantagem de deixar a responsabilidade da criação do id do banco pelo service e não pelo banco, dessa forma não precisamos salvar o produto no banco para saber o id, dessa forma conseguimos salvar o produto e categoria todos de uma única vez, ainda vai dar erro no repositório <code>CreateProduct</code> e <code>GetCategoryByID</code>, ainda vamos implementar.</p>
+<p>Nesse mesmo <code>for</code> já verificamos se a categoria existe.</p>
+<p><code>UpdateProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">UpdateProduct</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>, u dto.UpdateProductDto) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    exists, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetProductByID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> !exists {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;product not found&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;product_id&#34;</span>, id), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;productservice&#34;</span>))
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;product not found&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// validate categories if they exist
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">var</span> categories []entity.ProductCategoryEntity
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(u.Categories) &gt; <span style="color:#bd93f9">0</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, categoryID <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> u.Categories {
+</span></span><span style="display:flex;"><span>        exists, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetCategoryByID</span>(ctx, categoryID)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> !exists {
+</span></span><span style="display:flex;"><span>          slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;category_id&#34;</span>, categoryID), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;productservice&#34;</span>))
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// search for all categories of the product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>      productCategories, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetCategoriesByProductID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;error getting categories by product id&#34;</span>)
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// remove all categories that are not in u.Categories
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>      <span style="color:#ff79c6">for</span> _, productCategory <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> productCategories {
+</span></span><span style="display:flex;"><span>        found <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">false</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> _, categoryID <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> u.Categories {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> productCategory <span style="color:#ff79c6">==</span> categoryID {
+</span></span><span style="display:flex;"><span>            found = <span style="color:#ff79c6">true</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// if not found, then we can delete it
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span> !found {
+</span></span><span style="display:flex;"><span>          err = s.repo.<span style="color:#50fa7b">DeleteProductCategory</span>(ctx, id, productCategory)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;error deleting product category&#34;</span>)
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, categoryID <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> u.Categories {
+</span></span><span style="display:flex;"><span>        found <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">false</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> _, productCategory <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> productCategories {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> productCategory <span style="color:#ff79c6">==</span> categoryID {
+</span></span><span style="display:flex;"><span>            found = <span style="color:#ff79c6">true</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> !found {
+</span></span><span style="display:flex;"><span>          categories = <span style="color:#8be9fd;font-style:italic">append</span>(categories, entity.ProductCategoryEntity{
+</span></span><span style="display:flex;"><span>            ID:         uuid.<span style="color:#50fa7b">New</span>().<span style="color:#50fa7b">String</span>(),
+</span></span><span style="display:flex;"><span>            ProductID:  id,
+</span></span><span style="display:flex;"><span>            CategoryID: categoryID,
+</span></span><span style="display:flex;"><span>            CreatedAt:  time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>            UpdatedAt:  time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>          })
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    productEntity <span style="color:#ff79c6">:=</span> entity.ProductEntity{
+</span></span><span style="display:flex;"><span>      ID:          id,
+</span></span><span style="display:flex;"><span>      Title:       u.Title,
+</span></span><span style="display:flex;"><span>      Price:       u.Price,
+</span></span><span style="display:flex;"><span>      Description: u.Description,
+</span></span><span style="display:flex;"><span>      Categories:  u.Categories,
+</span></span><span style="display:flex;"><span>      UpdatedAt:   time.<span style="color:#50fa7b">Now</span>(),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = s.repo.<span style="color:#50fa7b">UpdateProduct</span>(ctx, <span style="color:#ff79c6">&amp;</span>productEntity, categories)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Esse deve é o método mais complexo, nessa função além de atualizar o produto, atualizamos também as categorias desse produto, mas existem algumas regras, ao atualizar o produto e o campo <code>categories</code> for informado no dto vamos verificar se todos os ids de categorias informadas já estão associadas ao produto, se não estiver, vamos criar se estiver não fazemos nada e caso tenha uma categoria associada a esse produto que não esteja no slice <code>categories</code> informada no dto, vamos deletar, existem diversas formas de implementar, poderíamos criar outros endpoits para remover uma categoria de um produto, associar uma categoria, mas em um único endpoint deixas um pouco mais simples de trabalhar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">for</span> _, categoryID <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> u.Categories {
+</span></span><span style="display:flex;"><span>    exists, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetCategoryByID</span>(ctx, categoryID)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> !exists {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;category_id&#34;</span>, categoryID), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;productservice&#34;</span>))
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;category not found&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Primeiro verificamos se as categorias informadas no <code>categories</code> existem.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  productCategories, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetCategoriesByProductID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;error getting categories by product id&#34;</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Agora buscamos todas as categorias associadas a esse produto, vamos utilizar principalmente para remover as categorias associadas e não informadas no <code>u.Categories</code></p>
+<p>Por último colocamos os dados no slice <code>productEntity</code> para enviar ao repositório <code>UpdateProduct</code>.</p>
+<p><code>DeleteProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">DeleteProduct</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    exists, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">GetProductByID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> !exists {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;product not found&#34;</span>, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;product_id&#34;</span>, id), slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;productservice&#34;</span>))
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;product not found&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    err = s.repo.<span style="color:#50fa7b">DeleteProduct</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Esse é mais simples, apenas deletamos o produto e como vamos usar <code>DELETE CASCADE</code> os registros da tabela de ligação serão deletados junto.</p>
+<p><code>FindManyProducts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">FindManyProducts</span>(ctx context.Context, d dto.FindProductDto) ([]response.ProductResponse, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    products, err <span style="color:#ff79c6">:=</span> s.repo.<span style="color:#50fa7b">FindManyProducts</span>(ctx, d)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> productsResponse []response.ProductResponse
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> _, p <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> products {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">var</span> categories []response.CategoryResponse
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, c <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> p.Categories {
+</span></span><span style="display:flex;"><span>        categories = <span style="color:#8be9fd;font-style:italic">append</span>(categories, response.CategoryResponse{
+</span></span><span style="display:flex;"><span>          ID:    c.ID,
+</span></span><span style="display:flex;"><span>          Title: c.Title,
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      productsResponse = <span style="color:#8be9fd;font-style:italic">append</span>(productsResponse, response.ProductResponse{
+</span></span><span style="display:flex;"><span>        ID:          p.ID,
+</span></span><span style="display:flex;"><span>        Title:       p.Title,
+</span></span><span style="display:flex;"><span>        Description: p.Description,
+</span></span><span style="display:flex;"><span>        Price:       p.Price,
+</span></span><span style="display:flex;"><span>        Categories:  categories,
+</span></span><span style="display:flex;"><span>        CreatedAt:   p.CreatedAt,
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(productsResponse) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> []response.ProductResponse{}, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> productsResponse, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Por último vamos ter o <code>FindManyProducts</code> para listar os produtos, mas sem segredo, apenas mapeamos o que recebemos do repository, o repository vai retornar um slice da entidade <code>ProductWithCategoryEntity</code> que criamos anteriormente.</p>
+<p>Com isso já temos o service e handler implementados.</p>
+<h2 id="criando-o-repository">Criando o repository</h2>
+<p>Primeiro vamos criar os arquivos, crie uma pasta dentro de <strong>repository</strong> chamado <strong>categoryrepository</strong> e <strong>productrepository</strong> e os arquivos
+<code>product_interface_repository.go</code>, <code>product_repository.go</code> e <code>category_interface_repository.go</code>, <code>category_repository.go</code>.</p>
+<p><code>category_interface_repository.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewCategoryRepository</span>(db <span style="color:#ff79c6">*</span>sql.DB, q <span style="color:#ff79c6">*</span>sqlc.Queries) CategoryRepository {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>repository{
+</span></span><span style="display:flex;"><span>      db,
+</span></span><span style="display:flex;"><span>      q,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> repository <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    db      <span style="color:#ff79c6">*</span>sql.DB
+</span></span><span style="display:flex;"><span>    queries <span style="color:#ff79c6">*</span>sqlc.Queries
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CategoryRepository <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateCategory</span>(ctx context.Context, c <span style="color:#ff79c6">*</span>entity.CategoryEntity) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><code>product_interface_repository.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewProductRepository</span>(db <span style="color:#ff79c6">*</span>sql.DB, q <span style="color:#ff79c6">*</span>sqlc.Queries) ProductRepository {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>repository{
+</span></span><span style="display:flex;"><span>      db,
+</span></span><span style="display:flex;"><span>      q,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> repository <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    db      <span style="color:#ff79c6">*</span>sql.DB
+</span></span><span style="display:flex;"><span>    queries <span style="color:#ff79c6">*</span>sqlc.Queries
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> ProductRepository <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">CreateProduct</span>(ctx context.Context, p <span style="color:#ff79c6">*</span>entity.ProductEntity, c []entity.ProductCategoryEntity) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetCategoryByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#8be9fd">bool</span>, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetProductByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#8be9fd">bool</span>, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdateProduct</span>(ctx context.Context, p <span style="color:#ff79c6">*</span>entity.ProductEntity, c []entity.ProductCategoryEntity) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetCategoriesByProductID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) ([]<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteProductCategory</span>(ctx context.Context, productID, categoryID <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">DeleteProduct</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">FindManyProducts</span>(ctx context.Context, d dto.FindProductDto) ([]entity.ProductWithCategoryEntity, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Com isso deixamos nossa interface pronta.</p>
+<h3 id="criando-o-sql">criando o sql</h3>
+<p>Vamos criar nosso sql, vamos começar pela migration, rode o comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  make create_migration
+</span></span></code></pre></div><p>Vamos ter uma nova migration vazia na pasta <strong>migrations</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">CREATE</span> <span style="color:#ff79c6">TABLE</span> category (
+</span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
+</span></span><span style="display:flex;"><span>    title <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    created_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">DEFAULT</span> <span style="color:#ff79c6">CURRENT_TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>    updated_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">CREATE</span> <span style="color:#ff79c6">TABLE</span> product (
+</span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
+</span></span><span style="display:flex;"><span>    title <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    price <span style="color:#8be9fd;font-style:italic">INTEGER</span> <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    description <span style="color:#8be9fd;font-style:italic">TEXT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    created_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">DEFAULT</span> <span style="color:#ff79c6">CURRENT_TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>    updated_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">CREATE</span> <span style="color:#ff79c6">TABLE</span> product_category (
+</span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
+</span></span><span style="display:flex;"><span>    product_id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    category_id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    created_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">DEFAULT</span> <span style="color:#ff79c6">CURRENT_TIMESTAMP</span>,
+</span></span><span style="display:flex;"><span>    updated_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">FOREIGN</span> <span style="color:#ff79c6">KEY</span> (product_id) <span style="color:#ff79c6">REFERENCES</span> product(id) <span style="color:#ff79c6">ON</span> <span style="color:#ff79c6">DELETE</span> <span style="color:#ff79c6">CASCADE</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">FOREIGN</span> <span style="color:#ff79c6">KEY</span> (category_id) <span style="color:#ff79c6">REFERENCES</span> category(id) <span style="color:#ff79c6">ON</span> <span style="color:#ff79c6">DELETE</span> <span style="color:#ff79c6">CASCADE</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">UNIQUE</span> (product_id, category_id)
+</span></span><span style="display:flex;"><span>  );
+</span></span></code></pre></div><p>Este vai ser nosso sql responsável por criar as tabelas que precisamos a tabela <code>product_category</code> é a tabela de ligação, onde podemos term inúmeros registros para um único produto.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">EXISTS</span> product_category;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">EXISTS</span> product;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">EXISTS</span> category;
+</span></span></code></pre></div><p>Esse sql acima é o que desfaz nossa migration.</p>
+<p>Rodando as migrations com o comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  make migration_up
+</span></span></code></pre></div><p>Agora ao acessar o banco, as tabelas já constam no banco, não se esqueça de iniciar o container com</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose up -d
+</span></span></code></pre></div><h3 id="criando-as-consultas">criando as consultas</h3>
+<p>Crie dois arquivos na pasta <strong>queries</strong> chamado <code>categories.sql</code> e <code>products.sql</code>:</p>
+<p><code>categories.sql</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: CreateCategory :exec
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">INSERT</span> <span style="color:#ff79c6">INTO</span> category (id, title, created_at, updated_at)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">VALUES</span> ($<span style="color:#bd93f9">1</span>, $<span style="color:#bd93f9">2</span>, $<span style="color:#bd93f9">3</span>, $<span style="color:#bd93f9">4</span>);
+</span></span></code></pre></div><p>Vamos ter apenas uma query de criação</p>
+<p><code>products.sql</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: CreateProduct :exec
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">INSERT</span> <span style="color:#ff79c6">INTO</span> product (id, title, description, price, created_at, updated_at)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">VALUES</span> ($<span style="color:#bd93f9">1</span>, $<span style="color:#bd93f9">2</span>, $<span style="color:#bd93f9">3</span>, $<span style="color:#bd93f9">4</span>, $<span style="color:#bd93f9">5</span>, $<span style="color:#bd93f9">6</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: CreateProductCategory :exec
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">INSERT</span> <span style="color:#ff79c6">INTO</span> product_category (id, product_id, category_id, created_at, updated_at)
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">VALUES</span> ($<span style="color:#bd93f9">1</span>, $<span style="color:#bd93f9">2</span>, $<span style="color:#bd93f9">3</span>, $<span style="color:#bd93f9">4</span>, $<span style="color:#bd93f9">5</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: GetCategoryByID :one
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span> <span style="color:#ff79c6">EXISTS</span> (<span style="color:#ff79c6">SELECT</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">FROM</span> category <span style="color:#ff79c6">WHERE</span> id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">AS</span> category_exists;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: GetProductByID :one
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span> <span style="color:#ff79c6">EXISTS</span> (<span style="color:#ff79c6">SELECT</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">FROM</span> product <span style="color:#ff79c6">WHERE</span> id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">AS</span> product_exists;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: UpdateProduct :exec
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">UPDATE</span> product
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">SET</span>
+</span></span><span style="display:flex;"><span>  title <span style="color:#ff79c6">=</span> COALESCE(sqlc.narg(<span style="color:#f1fa8c">&#39;title&#39;</span>), title),
+</span></span><span style="display:flex;"><span>  description <span style="color:#ff79c6">=</span> COALESCE(sqlc.narg(<span style="color:#f1fa8c">&#39;description&#39;</span>), description),
+</span></span><span style="display:flex;"><span>  price <span style="color:#ff79c6">=</span> COALESCE(sqlc.narg(<span style="color:#f1fa8c">&#39;price&#39;</span>), price),
+</span></span><span style="display:flex;"><span>  updated_at <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">WHERE</span> id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: GetCategoriesByProductID :many
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span> pc.category_id <span style="color:#ff79c6">FROM</span> product_category pc <span style="color:#ff79c6">WHERE</span> pc.product_id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: DeleteProductCategory :exec
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">DELETE</span> <span style="color:#ff79c6">FROM</span> product_category <span style="color:#ff79c6">WHERE</span> product_id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span> <span style="color:#ff79c6">AND</span> category_id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">2</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: DeleteProduct :exec
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">DELETE</span> <span style="color:#ff79c6">FROM</span> product <span style="color:#ff79c6">WHERE</span> id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: FindManyProducts :many
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span>
+</span></span><span style="display:flex;"><span>  p.id,
+</span></span><span style="display:flex;"><span>  p.title,
+</span></span><span style="display:flex;"><span>  p.description,
+</span></span><span style="display:flex;"><span>  p.price,
+</span></span><span style="display:flex;"><span>  p.created_at
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">FROM</span> product p
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">JOIN</span> product_category pc <span style="color:#ff79c6">ON</span> pc.product_id <span style="color:#ff79c6">=</span> p.id
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">WHERE</span>
+</span></span><span style="display:flex;"><span>    (pc.category_id  <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">ANY</span>(<span style="color:#ff79c6">@</span>categories::<span style="color:#8be9fd;font-style:italic">TEXT</span>[]) <span style="color:#ff79c6">OR</span> <span style="color:#ff79c6">@</span>categories::<span style="color:#8be9fd;font-style:italic">TEXT</span>[] <span style="color:#ff79c6">IS</span> <span style="color:#ff79c6">NULL</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">AND</span> (
+</span></span><span style="display:flex;"><span>      p.title <span style="color:#ff79c6">ILIKE</span> <span style="color:#f1fa8c">&#39;%&#39;</span> <span style="color:#ff79c6">||</span> COALESCE(<span style="color:#ff79c6">@</span><span style="color:#ff79c6">search</span>, sqlc.narg(<span style="color:#f1fa8c">&#39;search&#39;</span>), <span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#ff79c6">||</span> <span style="color:#f1fa8c">&#39;%&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">OR</span>
+</span></span><span style="display:flex;"><span>      p.description <span style="color:#ff79c6">ILIKE</span> <span style="color:#f1fa8c">&#39;%&#39;</span> <span style="color:#ff79c6">||</span> COALESCE(<span style="color:#ff79c6">@</span><span style="color:#ff79c6">search</span>, sqlc.narg(<span style="color:#f1fa8c">&#39;search&#39;</span>), <span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#ff79c6">||</span> <span style="color:#f1fa8c">&#39;%&#39;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">ORDER</span> <span style="color:#ff79c6">BY</span> p.created_at <span style="color:#ff79c6">DESC</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: GetProductCategories :many
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span> <span style="color:#ff79c6">c</span>.id, <span style="color:#ff79c6">c</span>.title <span style="color:#ff79c6">FROM</span> category <span style="color:#ff79c6">c</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">JOIN</span> product_category pc <span style="color:#ff79c6">ON</span> pc.category_id <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">c</span>.id
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">WHERE</span> pc.product_id <span style="color:#ff79c6">=</span> $<span style="color:#bd93f9">1</span>;
+</span></span></code></pre></div><p>para o product vamos ter mais queries, mas todas simples, a mais &ldquo;elaborada&rdquo; vai ser a de buscar produto <code>GetProductCategories</code>, mas tem um problema causado pelo sqlc nessa query.</p>
+<p>A query <code>GetProductCategories</code> devolve vários produtos, e deveria retornar todas as categorias associadas ao produto de uma única vez, lembrando que o produto pode ter inúmeras categorias, para isso bastaria adicionar um <code>JOIN</code> na tabela <code>category</code>, porém o sqlc não consegue gerar a struct aninhada com o slice <code>Category</code>, como assim?</p>
+<p>Se mudar a query para isso:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: FindManyProducts :many
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span>
+</span></span><span style="display:flex;"><span>  p.id,
+</span></span><span style="display:flex;"><span>  p.title,
+</span></span><span style="display:flex;"><span>  p.description,
+</span></span><span style="display:flex;"><span>  p.price,
+</span></span><span style="display:flex;"><span>  p.created_at
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">c</span>.<span style="color:#ff79c6">*</span> <span style="color:#ff79c6">//</span> retornando a category
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">FROM</span> product p
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">JOIN</span> product_category pc <span style="color:#ff79c6">ON</span> pc.product_id <span style="color:#ff79c6">=</span> p.id
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">JOIN</span> category <span style="color:#ff79c6">c</span> <span style="color:#ff79c6">ON</span> <span style="color:#ff79c6">c</span>.id <span style="color:#ff79c6">=</span> pc.category_id <span style="color:#ff79c6">//</span>adicionando o <span style="color:#ff79c6">join</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">WHERE</span>
+</span></span><span style="display:flex;"><span>    (pc.category_id  <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">ANY</span>(<span style="color:#ff79c6">@</span>categories::<span style="color:#8be9fd;font-style:italic">TEXT</span>[]) <span style="color:#ff79c6">OR</span> <span style="color:#ff79c6">@</span>categories::<span style="color:#8be9fd;font-style:italic">TEXT</span>[] <span style="color:#ff79c6">IS</span> <span style="color:#ff79c6">NULL</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">AND</span> (
+</span></span><span style="display:flex;"><span>      p.title <span style="color:#ff79c6">ILIKE</span> <span style="color:#f1fa8c">&#39;%&#39;</span> <span style="color:#ff79c6">||</span> COALESCE(<span style="color:#ff79c6">@</span><span style="color:#ff79c6">search</span>, sqlc.narg(<span style="color:#f1fa8c">&#39;search&#39;</span>), <span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#ff79c6">||</span> <span style="color:#f1fa8c">&#39;%&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">OR</span>
+</span></span><span style="display:flex;"><span>      p.description <span style="color:#ff79c6">ILIKE</span> <span style="color:#f1fa8c">&#39;%&#39;</span> <span style="color:#ff79c6">||</span> COALESCE(<span style="color:#ff79c6">@</span><span style="color:#ff79c6">search</span>, sqlc.narg(<span style="color:#f1fa8c">&#39;search&#39;</span>), <span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#ff79c6">||</span> <span style="color:#f1fa8c">&#39;%&#39;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">ORDER</span> <span style="color:#ff79c6">BY</span> p.created_at <span style="color:#ff79c6">DESC</span>;
+</span></span></code></pre></div><p>e rodar o comando <code>sqlc generate</code>, o sqlc vai gerar o código e fazer o scan, se acessar o arquivo gerado chamado <code>products.sql.go</code> na pasta <strong>sqlc</strong> vamos ter a struct de retorno da <code>FindManyProducts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> FindManyProductsRow <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Description sql.NullString
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>
+</span></span><span style="display:flex;"><span>    CreatedAt   time.Time
+</span></span><span style="display:flex;"><span>    ID_2        <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Title_2     <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    CreatedAt_2 time.Time
+</span></span><span style="display:flex;"><span>    UpdatedAt   time.Time
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Repare que o sqlc normaliza tudo na mesma struct, mas o que precisamos seria algo do tipo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> FindManyProductsRow <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Description sql.NullString
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>
+</span></span><span style="display:flex;"><span>    CreatedAt   time.Time
+</span></span><span style="display:flex;"><span>    Categories []Categories
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> FindManyProductsCategoriesRow <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Porém o sqlc não faz isso no momento, porém conseguimos aninhar isso usando o <code>sqlc.embed</code>, alterando a query ficaria assim:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: FindManyProducts :many
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">SELECT</span>
+</span></span><span style="display:flex;"><span>  p.id,
+</span></span><span style="display:flex;"><span>  p.title,
+</span></span><span style="display:flex;"><span>  p.description,
+</span></span><span style="display:flex;"><span>  p.price,
+</span></span><span style="display:flex;"><span>  p.created_at,
+</span></span><span style="display:flex;"><span>  sqlc.embed(<span style="color:#ff79c6">c</span>) <span style="color:#ff79c6">//</span> usando o sqlc embed
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">FROM</span> product p
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">JOIN</span> product_category pc <span style="color:#ff79c6">ON</span> pc.product_id <span style="color:#ff79c6">=</span> p.id
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">JOIN</span> category <span style="color:#ff79c6">c</span> <span style="color:#ff79c6">ON</span> <span style="color:#ff79c6">c</span>.id <span style="color:#ff79c6">=</span> pc.category_id
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">WHERE</span>
+</span></span><span style="display:flex;"><span>    (pc.category_id  <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">ANY</span>(<span style="color:#ff79c6">@</span>categories::<span style="color:#8be9fd;font-style:italic">TEXT</span>[]) <span style="color:#ff79c6">OR</span> <span style="color:#ff79c6">@</span>categories::<span style="color:#8be9fd;font-style:italic">TEXT</span>[] <span style="color:#ff79c6">IS</span> <span style="color:#ff79c6">NULL</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">AND</span> (
+</span></span><span style="display:flex;"><span>      p.title <span style="color:#ff79c6">ILIKE</span> <span style="color:#f1fa8c">&#39;%&#39;</span> <span style="color:#ff79c6">||</span> COALESCE(<span style="color:#ff79c6">@</span><span style="color:#ff79c6">search</span>, sqlc.narg(<span style="color:#f1fa8c">&#39;search&#39;</span>), <span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#ff79c6">||</span> <span style="color:#f1fa8c">&#39;%&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">OR</span>
+</span></span><span style="display:flex;"><span>      p.description <span style="color:#ff79c6">ILIKE</span> <span style="color:#f1fa8c">&#39;%&#39;</span> <span style="color:#ff79c6">||</span> COALESCE(<span style="color:#ff79c6">@</span><span style="color:#ff79c6">search</span>, sqlc.narg(<span style="color:#f1fa8c">&#39;search&#39;</span>), <span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#ff79c6">||</span> <span style="color:#f1fa8c">&#39;%&#39;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">ORDER</span> <span style="color:#ff79c6">BY</span> p.created_at <span style="color:#ff79c6">DESC</span>;
+</span></span></code></pre></div><p>Agora no arquivo gerado pelo sqlc teremos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> FindManyProductsRow <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    ID          <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Title       <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    Description sql.NullString
+</span></span><span style="display:flex;"><span>    Price       <span style="color:#8be9fd">int32</span>
+</span></span><span style="display:flex;"><span>    CreatedAt   time.Time
+</span></span><span style="display:flex;"><span>    Category    Category
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>o sqlc aninhou porém não é um slice, como precisamos, já existe diversas questões sobre isso no repositório do sqlc, caso queira ver uma das discussões <a href="https://github.com/sqlc-dev/sqlc/discussions/2643">acesse aqui</a>.</p>
+<p>A solução seria fazer a consulta sem usar o sqlc, porém ficaria extenso demais abordar isso, a solução mais simples para não se prolongar é buscar os produtos, depois fazer um <code>for</code> e buscar as categorias de cada produto, por isso usamos a query <code>GetProductCategories</code>.</p>
+<p>Ainda sobre a query <code>FindManyProducts</code>, fiz uma busca bem simples por categorias e texto, buscando por <code>title</code> ou <code>description</code>, é umas busca onde podemos passar um slice de categories, e vai retornar se o produto tiver alguma das categories.</p>
+<p>Já a busca usando o <code>search</code> fazemos a busca muito simples, porém se tivermos um produto com o título <code>Avião</code> e no search buscar por <code>aviao</code> não vai retornar resultados, por conta do caracter especial <code>~</code>. Existem várias soluções para isso, uma delas seria criar um novo campos chamado <code>search</code> por exemplo, esse campos seria salvo os palavras normalizadas, digamos que o títulos seja <code>Avião Voador</code>, no campos search ficaria <code>Avião Voador,aviao voador</code>, assim conseguimos buscar com e sem caracter especial.</p>
+<p>Este é apenas uma das soluções, porém gera um certo trabalho manter esse campo sempre atualizado. Podemos utilizar também uma extensão do Postgres chamado <a href="https://www.postgresql.org/docs/current/unaccent.html">unaccent</a>, com essa extensão não precisamos normalizar os dados, isso é feito em tempo de pesquisa. Mas não vamos abordar no momento, talvez em um outro post.</p>
+<h2 id="implementando-o-repository">implementando o repository</h2>
+<h3 id="category-repository">category repository</h3>
+<p><code>CreateCategory</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">CreateCategory</span>(ctx context.Context, c <span style="color:#ff79c6">*</span>entity.CategoryEntity) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">CreateCategory</span>(ctx, sqlc.CreateCategoryParams{
+</span></span><span style="display:flex;"><span>      ID:        c.ID,
+</span></span><span style="display:flex;"><span>      Title:     c.Title,
+</span></span><span style="display:flex;"><span>      CreatedAt: c.CreatedAt,
+</span></span><span style="display:flex;"><span>      UpdatedAt: c.UpdatedAt,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Apenas salvamos a nova categoria.</p>
+<h3 id="product-repository">product repository</h3>
+<p><code>CreateProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">CreateProduct</span>(ctx context.Context, p <span style="color:#ff79c6">*</span>entity.ProductEntity, c []entity.ProductCategoryEntity) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> transaction.<span style="color:#50fa7b">Run</span>(ctx, r.db, <span style="color:#8be9fd;font-style:italic">func</span>(q <span style="color:#ff79c6">*</span>sqlc.Queries) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">var</span> err <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>      err = q.<span style="color:#50fa7b">CreateProduct</span>(ctx, sqlc.CreateProductParams{
+</span></span><span style="display:flex;"><span>        ID:          p.ID,
+</span></span><span style="display:flex;"><span>        Title:       p.Title,
+</span></span><span style="display:flex;"><span>        Price:       p.Price,
+</span></span><span style="display:flex;"><span>        Description: sql.NullString{String: p.Description, Valid: p.Description <span style="color:#ff79c6">!=</span> <span style="color:#f1fa8c">&#34;&#34;</span>},
+</span></span><span style="display:flex;"><span>        CreatedAt:   p.CreatedAt,
+</span></span><span style="display:flex;"><span>        UpdatedAt:   p.UpdatedAt,
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, category <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> c {
+</span></span><span style="display:flex;"><span>        err = q.<span style="color:#50fa7b">CreateProductCategory</span>(ctx, sqlc.CreateProductCategoryParams{
+</span></span><span style="display:flex;"><span>          ID:         category.ID,
+</span></span><span style="display:flex;"><span>          ProductID:  p.ID,
+</span></span><span style="display:flex;"><span>          CategoryID: category.CategoryID,
+</span></span><span style="display:flex;"><span>          CreatedAt:  category.CreatedAt,
+</span></span><span style="display:flex;"><span>          UpdatedAt:  category.UpdatedAt,
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to create product, roll back applied&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Na criação de produtos usamos as transactions, primeiro salvamos o produto e depois fazemos um <code>for</code> para salvar cada <code>CreateProductCategory</code>.</p>
+<p><code>GetCategoryByID</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">GetCategoryByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#8be9fd">bool</span>, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    exists, err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">GetCategoryByID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> err <span style="color:#ff79c6">==</span> sql.ErrNoRows {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> exists, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Usamos para buscar uma categoria pelo id, apenas para validar se existe.</p>
+<p><code>GetProductByID</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">GetProductByID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) (<span style="color:#8be9fd">bool</span>, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    exists, err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">GetProductByID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> err <span style="color:#ff79c6">==</span> sql.ErrNoRows {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> exists, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Buscamos um produto pelo id, apenas para validar se existe.</p>
+<p><code>UpdateProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">UpdateProduct</span>(ctx context.Context, p <span style="color:#ff79c6">*</span>entity.ProductEntity, c []entity.ProductCategoryEntity) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> transaction.<span style="color:#50fa7b">Run</span>(ctx, r.db, <span style="color:#8be9fd;font-style:italic">func</span>(q <span style="color:#ff79c6">*</span>sqlc.Queries) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">var</span> err <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>      err = q.<span style="color:#50fa7b">UpdateProduct</span>(ctx, sqlc.UpdateProductParams{
+</span></span><span style="display:flex;"><span>        ID:          p.ID,
+</span></span><span style="display:flex;"><span>        Title:       sql.NullString{String: p.Title, Valid: p.Title <span style="color:#ff79c6">!=</span> <span style="color:#f1fa8c">&#34;&#34;</span>},
+</span></span><span style="display:flex;"><span>        Price:       sql.NullInt32{Int32: p.Price, Valid: p.Price <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>},
+</span></span><span style="display:flex;"><span>        Description: sql.NullString{String: p.Description, Valid: p.Description <span style="color:#ff79c6">!=</span> <span style="color:#f1fa8c">&#34;&#34;</span>},
+</span></span><span style="display:flex;"><span>        UpdatedAt:   p.UpdatedAt,
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, category <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> c {
+</span></span><span style="display:flex;"><span>        err = q.<span style="color:#50fa7b">CreateProductCategory</span>(ctx, sqlc.CreateProductCategoryParams{
+</span></span><span style="display:flex;"><span>          ID:         category.ID,
+</span></span><span style="display:flex;"><span>          ProductID:  p.ID,
+</span></span><span style="display:flex;"><span>          CategoryID: category.CategoryID,
+</span></span><span style="display:flex;"><span>          CreatedAt:  category.CreatedAt,
+</span></span><span style="display:flex;"><span>          UpdatedAt:  category.UpdatedAt,
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to update product, roll back applied&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Para atualizar o produto é semelhante a criação, utilizamos transaction e utilizamos o <code>sql.NullString</code> e <code>sql.NullInt32</code> para tratar valores possivelmente nulos.</p>
+<p><code>GetCategoriesByProductID</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">GetCategoriesByProductID</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) ([]<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    categories, err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">GetCategoriesByProductID</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> categories, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Retornamos os ids das categorias de um produto.</p>
+<p><code>DeleteProductCategory</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">DeleteProductCategory</span>(ctx context.Context, productID, categoryID <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">DeleteProductCategory</span>(ctx, sqlc.DeleteProductCategoryParams{
+</span></span><span style="display:flex;"><span>      ProductID:  productID,
+</span></span><span style="display:flex;"><span>      CategoryID: categoryID,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Usamos para deletar um registro da tabela de ligação.</p>
+<p><code>DeleteProduct</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">DeleteProduct</span>(ctx context.Context, id <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">DeleteProduct</span>(ctx, id)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Deleta o nosso produto pelo id.</p>
+<p><code>FindManyProducts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (r <span style="color:#ff79c6">*</span>repository) <span style="color:#50fa7b">FindManyProducts</span>(ctx context.Context, d dto.FindProductDto) ([]entity.ProductWithCategoryEntity, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    products, err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">FindManyProducts</span>(ctx, sqlc.FindManyProductsParams{
+</span></span><span style="display:flex;"><span>      Categories: d.Categories,
+</span></span><span style="display:flex;"><span>      Search:     sql.NullString{String: d.Search, Valid: d.Search <span style="color:#ff79c6">!=</span> <span style="color:#f1fa8c">&#34;&#34;</span>},
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> response []entity.ProductWithCategoryEntity
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> _, p <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> products {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">var</span> category []entity.CategoryEntity
+</span></span><span style="display:flex;"><span>      categories, err <span style="color:#ff79c6">:=</span> r.queries.<span style="color:#50fa7b">GetProductCategories</span>(ctx, p.ID)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> _, c <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> categories {
+</span></span><span style="display:flex;"><span>        category = <span style="color:#8be9fd;font-style:italic">append</span>(category, entity.CategoryEntity{
+</span></span><span style="display:flex;"><span>          ID:    c.ID,
+</span></span><span style="display:flex;"><span>          Title: c.Title,
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      response = <span style="color:#8be9fd;font-style:italic">append</span>(response, entity.ProductWithCategoryEntity{
+</span></span><span style="display:flex;"><span>        ID:          p.ID,
+</span></span><span style="display:flex;"><span>        Title:       p.Title,
+</span></span><span style="display:flex;"><span>        Description: p.Description.String,
+</span></span><span style="display:flex;"><span>        Price:       p.Price,
+</span></span><span style="display:flex;"><span>        Categories:  category,
+</span></span><span style="display:flex;"><span>        CreatedAt:   p.CreatedAt,
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> response, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Por último, buscamos o produto, aqui tem o que mencionei sobre a busca de categorias</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">for</span> _, c <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> categories {
+</span></span><span style="display:flex;"><span>      category = <span style="color:#8be9fd;font-style:italic">append</span>(category, entity.CategoryEntity{
+</span></span><span style="display:flex;"><span>      ID:    c.ID,
+</span></span><span style="display:flex;"><span>      Title: c.Title,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Nesse <code>for</code> buscamos as categorias de cada produto do índice do primeiro <code>for</code>.</p>
+<h2 id="ajustando-a-main">Ajustando a main</h2>
+<p>Tudo pronto! mas para rodar, precisamos instanciar nossos services no <code>main.go</code> e passar para o handler:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span> <span style="color:#6272a4">// user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  userRepo <span style="color:#ff79c6">:=</span> userrepository.<span style="color:#50fa7b">NewUserRepository</span>(dbConnection, queries)
+</span></span><span style="display:flex;"><span>  newUserService <span style="color:#ff79c6">:=</span> userservice.<span style="color:#50fa7b">NewUserService</span>(userRepo)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// category
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  categoryRepo <span style="color:#ff79c6">:=</span> categoryrepository.<span style="color:#50fa7b">NewCategoryRepository</span>(dbConnection, queries)
+</span></span><span style="display:flex;"><span>  newCategoryService <span style="color:#ff79c6">:=</span> categoryservice.<span style="color:#50fa7b">NewCategoryService</span>(categoryRepo)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  productRepo <span style="color:#ff79c6">:=</span> productrepository.<span style="color:#50fa7b">NewProductRepository</span>(dbConnection, queries)
+</span></span><span style="display:flex;"><span>  productsService <span style="color:#ff79c6">:=</span> productservice.<span style="color:#50fa7b">NewProductService</span>(productRepo)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  newHandler <span style="color:#ff79c6">:=</span> handler.<span style="color:#50fa7b">NewHandler</span>(newUserService, newCategoryService, productsService)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// init routes
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  router <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">NewRouter</span>()
+</span></span><span style="display:flex;"><span>  routes.<span style="color:#50fa7b">InitRoutes</span>(router, newHandler)
+</span></span><span style="display:flex;"><span>  routes.<span style="color:#50fa7b">InitDocsRoutes</span>(router)
+</span></span></code></pre></div><p>Agora podemos rodas nossa aplicação e testar com <code>go run cmd/webserver/main.go</code>:</p>
+<p>adicionando as chamadas no <code>gttp_client.http</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span>### Products
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>## CreateProduct
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">POST</span> http://localhost:8080/product <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
+</span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
+</span></span><span style="display:flex;"><span>Authorization<span style="color:#ff79c6">:</span> Bearer {{token}}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;Samsung&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Celular bacana&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;categories&#34;</span>: [<span style="color:#f1fa8c">&#34;category_id&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;price&#34;</span>: <span style="color:#bd93f9">39900</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>###
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>## UpdateProduct
+</span></span><span style="display:flex;"><span>PATCH http:<span style="color:#6272a4">//localhost:8080/product/37545729-e891-40b5-946c-8e7d55bd686b HTTP/1.1
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>content-type: application/json
+</span></span><span style="display:flex;"><span>Authorization: Bearer {{token}}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;categories&#34;</span>: [<span style="color:#f1fa8c">&#34;category_id]
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">}
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">###
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">## DeleteProduct
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">DELETE http://localhost:8080/product/f720e1ce-cb88-4f72-a765-0250c1a525e3 HTTP/1.1
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">content-type: application/json
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">Authorization: Bearer {{token}}
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">###
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">## FindManyProducts
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">GET http://localhost:8080/product HTTP/1.1
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">content-type: application/json
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">Authorization: Bearer {{token}}
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">{
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  &#34;</span>categories<span style="color:#f1fa8c">&#34;: [&#34;</span>ee<span style="color:#bd93f9">78</span>a<span style="color:#bd93f9">1</span>ab-c<span style="color:#bd93f9">441-4</span>c<span style="color:#bd93f9">67-8</span>b<span style="color:#bd93f9">62-74</span>fa<span style="color:#bd93f9">16797</span>ace&#34;]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Agora é só brincar fazer as chamadas e criar produtos e categorias.</p>
+<p><img alt="gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3MwcXhtYTZta3N4NmZwdGtqcnpzeGF5OHdlYmU1eTc1czBzN3JvMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SVH9y2LQUVVCRcqD7o/giphy.gif"></p>
+<h2 id="documentando">Documentando</h2>
+<p>Para finalizar, precisamos apenas documentar nossos novos endpoints.</p>
+<p><code>category_handler.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#6272a4">// Create category
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Summary		Create new category
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Description	Endpoint for create category
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Tags			category
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Param			body	body	dto.CreateCategoryDto	true	&#34;Create category dto&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#6272a4">//	@Router			/category [post]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreateCategory</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {}
+</span></span></code></pre></div><p><code>product_handler.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#6272a4">// Create product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Summary		Create new product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Description	Endpoint for create product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Tags			product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Param			body	body	dto.CreateProductDto	true	&#34;Create product dto&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Router			/product [post]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreateProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#6272a4">// Update product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Summary		Update product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Description	Endpoint for update product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Tags			product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Param			body	body	dto.UpdateProductDto	true	&#34;Update product dto&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Param			id		path	string					true	&#34;product id&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Router			/productt/{id} [patch]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">UpdateProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#6272a4">// Delete product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Summary		Delete product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Description	Endpoint for update product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Tags			product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Param			id	path	string	true	&#34;product id&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Success		200
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		400	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		500	{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Router			/product/{id} [delete]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">DeleteProduct</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#6272a4">//  Search products
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Summary		Search products
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Description	Endpoint for search product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Tags			product
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Accept			json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Produce		json
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Param			body	body		dto.FindProductDto	true	&#34;Search products&#34;	true
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Success		200		{object}	response.ProductResponse
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		400		{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Failure		500		{object}	httperr.RestErr
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4">//	@Router			/product [get]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">FindManyProducts</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {}
+</span></span></code></pre></div><p>Vamos rodar dois comandos do swag, o primeiro para formatar:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  swag fmt
+</span></span></code></pre></div><p>O segundo para gerar a documentação no padrão open api.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  swag init -g internal/handler/routes/docs_route.go
+</span></span></code></pre></div><p>Show! Agora rodando o projeto e acessando a url <code>http://localhost:8080/docs/index.html#/</code> vamos ter nossa documentação pronta:</p>
+<p><img alt="docs" src="/posts/api-golang-parte-7/dfHJiuo78SDvbcE.png"></p>
+<h2 id="considerações-finais">Considerações finais</h2>
+<p>Nesse posta vimos mais sobre como usar sqlc, transactions, e praticamos um pouco mais do que abordamos nos posts anteriores.</p>
+<p>É isso galera, este é o último post da nossa série. Mas você deve estar se perguntando e os testes? Bom, não pretendo abordar os teste nesse série, para não ficar algo imenso. Mas seguindo a <a href="https://medium.com/creditas-tech/a-pir%C3%A2mide-de-testes-a0faec465cc2">pirâmide de teste</a>, o teste unitário não agregaria muito valor a nossa api, uma vez que boa parte da nossa api é pegar dado e salvar no banco, com teste unitário teríamos que criar mocks do banco, não estaríamos testado nada de fato, mas claro que os teste unitários também são importantes, mas no nosso cenário não iria gerar muito valor ao nosso código.</p>
+<p>Por isso pretendo trazer outro post separado fazendo teste de integração da nossa api utilizando <a href="https://testcontainers.com/">test containers</a>, esse tipo de teste vai agregar valor a nossa api, fazendo testes onde não vamos utilizar mocks.</p>
+<p>Se inscreva na <a href="https://wiliamvj.substack.com/">newsletter</a> para ficar por dentro das atualizações.</p>
+<p>Espero que vocês tenham curtido a série.</p>
+<h2 id="link-do-repositório">Link do repositório</h2>
+<p><a href="https://github.com/wiliamvj/api-users-golang">repositório</a> do projeto</p>
+<p>Se inscreva e receba um aviso sobre novos posts, <a href="https://wiliamvj.substack.com/">participar</a></p>
+<p><a href="https://github.com/egonelbre/gophers">Gopher credits</a></p>
+</section>
+
+  
+    
+  
+    <div class="giscus-comment">
+    <script
+      src="https://giscus.app/client.js"
+      data-repo="wiliamvj/wiliamvj.com"
+      data-repo-id="R_kgDOKqMPTA"
+      data-category="General"
+      data-category-id="DIC_kwDOKqMPTM4CbzWf"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="dark"
+      data-lang="en"
+      
+        data-loading="lazy"
+      
+      crossorigin="anonymous"
+      async
+    >
+    </script>
+</div>
+  
+
+    
+  
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2024 —
+  <a href="http://localhost:1313/">Wiliam V. Joaquim</a> 
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+</body>
+</html>
