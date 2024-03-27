@@ -130,7 +130,7 @@
   }
 
   h1 {
-    @apply text-4xl leading-10;
+    @apply text-4xl leading-3;
   }
 
   h2 {
