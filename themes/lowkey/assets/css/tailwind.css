@@ -243,7 +243,7 @@
   }
 
   header nav > ul {
-    @apply flex flex-wrap justify-end uppercase text-xs font-semibold gap-7 items-end;
+    @apply flex flex-wrap uppercase text-xs font-semibold gap-7 items-end;
   }
 
   nav a,
