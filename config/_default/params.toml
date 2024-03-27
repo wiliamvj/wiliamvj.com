@@ -9,6 +9,7 @@ avatar = "img/profile-picture.jpg"
 
 #favicon
 favicon = "icons/favicon.ico"
+appleTouchIcon = "icons/apple-touch.png"
 
 # disqus is a comment system. see https://disqus.com
 disqusShortname = ""
