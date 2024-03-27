@@ -243,7 +243,7 @@
   }
 
   header nav > ul {
-    @apply flex flex-wrap justify-start uppercase text-xs font-semibold gap-7;
+    @apply flex flex-wrap justify-end uppercase text-xs font-semibold gap-7 items-end;
   }
 
   nav a,
@@ -359,7 +359,7 @@
   }
 
   #content .pagination-button {
-    @apply no-underline inline-flex items-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-700 text-sm rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100;
+    @apply no-underline inline-flex items-center gap-2 px-3 py-2 text-sm rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100;
   }
 
   #content .taxonomy-list {

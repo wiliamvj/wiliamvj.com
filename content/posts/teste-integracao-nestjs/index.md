@@ -9,7 +9,7 @@ tableOfContents: false
 
 ## Introdução
 
-Neste guia, exploraremos como realizar testes de integração em nossa aplicação usando uma combinação poderosa de tecnologias: [NestJs](https://nestjs.com/) junto com o [Prisma ORM](https://www.prisma.io/), e aproveitando os recursos do [Testecontainers](https://testcontainers.com/).
+Neste guia, exploraremos como realizar testes de integração em nossa aplicação usando uma combinação poderosa de tecnologias: [NestJs](https://nestjs.com/) junto com o [Prisma ORM](https://www.prisma.io/), e aproveitando os recursos do [Testcontainers](https://testcontainers.com/).
 
 O foco deste post é mostrar como integrar o Testcontainers em aplicações NestJS com Prisma, proporcionando testes robustos e eficientes. Embora não abordemos a criação e configuração inicial do projeto, irei explicar brevemente a estrutura básica que adotaremos.
 
@@ -23,7 +23,7 @@ Vamos utilizar constratos, já fiz um [post](/posts/nestjs-contratos/) sobre iss
 
 Antes de mergulharmos nos testes de integração, é importante compreender o papel do Testcontainers. Esses testes são cruciais para garantir o funcionamento fluido de uma aplicação, pois abrangem o teste de todo o fluxo de funcionalidades. Embora os testes unitários tenham seu lugar, os testes de integração oferecem uma cobertura mais abrangente.
 
-No entanto, os testes de integração podem ser complexos, pois exigem a execução de vários componentes essenciais antes de iniciar os testes. É aqui que entra o [Testecontainers](https://testcontainers.com/).
+No entanto, os testes de integração podem ser complexos, pois exigem a execução de vários componentes essenciais antes de iniciar os testes. É aqui que entra o [Testcontainers](https://testcontainers.com/).
 
 O Testcontainers facilita a execução dos componentes necessários para a aplicação, como um banco de dados. Por exemplo, se precisarmos de um banco de dados Postgres, o Testcontainers inicia uma instância temporária do Postgres para nós, executa os testes e, em seguida, limpa o ambiente, excluindo o container.
 
@@ -33,7 +33,7 @@ Vamos utilizar o jest para realizar os testes e o [supertest](https://www.npmjs.
 
 **No inicio de todos os teste:**
 
-- Iniciar o testecontainers juntamente com postgres
+- Iniciar o Testcontainers juntamente com postgres
 - Iniciar o prisma
 - Criar uma instância da nossa aplicação
 
@@ -48,7 +48,7 @@ Vamos utilizar o jest para realizar os testes e o [supertest](https://www.npmjs.
 - Finalizamos o postgres
 - Paramos o container
 
-Poderíamos fazer todas as etapas acima a cada caso de teste, se tivermos 10 casos de teste, vamos levantar 10 containers, porém ficaria mais lento a cada teste subir um novo container com postgres, dessa forma vamos levantar apenas 1 container, fica mais rápido apenas limpar o banco e rodar as migrations novamente, mas cada cenário pede uma abordagem, em nosso exemplo esse cenários serve muito bem, mas caso seja melhor para o seu caso, você pode fazer exatamente como as [docs](https://node.testcontainers.org/modules/postgresql/) do testecontainers fazem.
+Poderíamos fazer todas as etapas acima a cada caso de teste, se tivermos 10 casos de teste, vamos levantar 10 containers, porém ficaria mais lento a cada teste subir um novo container com postgres, dessa forma vamos levantar apenas 1 container, fica mais rápido apenas limpar o banco e rodar as migrations novamente, mas cada cenário pede uma abordagem, em nosso exemplo esse cenários serve muito bem, mas caso seja melhor para o seu caso, você pode fazer exatamente como as [docs](https://node.testcontainers.org/modules/postgresql/) do Testcontainers fazem.
 
 ## Configurando o Jest
 
@@ -86,7 +86,7 @@ O pacote do testcontainers
 npm install testcontainers --save-dev
 ```
 
-O pacote do postgres para o testecontainers:
+O pacote do postgres para o Testcontainers:
 
 ```bash
 npm install @testcontainers/postgresql --save-dev
@@ -389,10 +389,10 @@ Bem semelhante ao que fizemos, você pode criar `GenericContainer` de qualquer i
 
 ## Considerações finais
 
-Bom, este foi um pequeno post mostrando de forma simples como usar o poderoso [testecontainers](https://testcontainers.com/) com nestjs e prisma orm, essa foi uma maneira simples e rápida que encontrei de trabalhar com ele, existem diversas formas e abordagens, essa forma que encontrei deixaram meus testes um pouco mais rápidos e simples, os testes de integração tendem a ser mais demorados de executar e utilizando container isso pode aumentar ainda mais o tempo, apenas 5 casos de testes levaram cerca de 12 segundos, imagine centenas de testes.
+Bom, este foi um pequeno post mostrando de forma simples como usar o poderoso [Testcontainers](https://testcontainers.com/) com nestjs e prisma orm, essa foi uma maneira simples e rápida que encontrei de trabalhar com ele, existem diversas formas e abordagens, essa forma que encontrei deixaram meus testes um pouco mais rápidos e simples, os testes de integração tendem a ser mais demorados de executar e utilizando container isso pode aumentar ainda mais o tempo, apenas 5 casos de testes levaram cerca de 12 segundos, imagine centenas de testes.
 
 ## Link do repositório
 
-[repositório](https://github.com/wiliamvj/teste-integracao-testecontainers) do projeto
+[repositório](https://github.com/wiliamvj/teste-integracao-Testecontainers) do projeto
 
 Se inscreva e receba um aviso sobre novos posts, [participar](https://wiliamvj.substack.com/)

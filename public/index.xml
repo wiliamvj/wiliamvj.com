@@ -14,7 +14,7 @@
       <link>//localhost:1313/posts/teste-integracao-nestjs/</link>
       <pubDate>Sat, 16 Mar 2024 19:03:34 -0300</pubDate>
       <guid>//localhost:1313/posts/teste-integracao-nestjs/</guid>
-      <description>Introdução Neste guia, exploraremos como realizar testes de integração em nossa aplicação usando uma combinação poderosa de tecnologias: NestJs junto com o Prisma ORM, e aproveitando os recursos do Testecontainers.</description>
+      <description>Introdução Neste guia, exploraremos como realizar testes de integração em nossa aplicação usando uma combinação poderosa de tecnologias: NestJs junto com o Prisma ORM, e aproveitando os recursos do Testcontainers.</description>
     </item>
     <item>
       <title>Autenticação com Golang e AWS Cognito</title>
