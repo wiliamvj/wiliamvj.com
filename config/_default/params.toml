@@ -2,14 +2,18 @@
 isSinglePage = true
 
 # Meta Config
-description = "Wiliam V. Joaquim Developer -  Golang - NodeJS - NestJs"
+description = "Wiliam V. Joaquim - Software Developer"
 
 # Header Configuration
 avatar = "img/profile-picture.jpg"
 
 #favicon
 favicon = "icons/favicon.ico"
+favicon16x16 = "icons/favicon-16x16.png"
+favicon32x32 = "icons/favicon-32x32.png"
 appleTouchIcon = "icons/apple-touch.png"
+android192x192 = "icons/android-chrome-192x192.png"
+android512x512 = "icons/android-chrome-512x512.png"
 
 # disqus is a comment system. see https://disqus.com
 disqusShortname = ""

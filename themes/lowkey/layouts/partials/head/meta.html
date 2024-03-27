@@ -1,6 +1,8 @@
 {{ $favicon := resources.GetMatch .Site.Params.favicon }} {{ $appleTouchIcon :=
-resources.GetMatch .Site.Params.appleTouchIcon }}
-
+resources.GetMatch .Site.Params.appleTouchIcon }} {{ $favicon16 :=
+resources.GetMatch .Site.Params.favicon16x16 }} {{ $favicon32 :=
+resources.GetMatch .Site.Params.favicon32x32 }} {{ $favicon16 :=
+resources.GetMatch .Site.Params.favicon16x16 }}
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,6 +19,18 @@ resources.GetMatch .Site.Params.appleTouchIcon }}
   rel="apple-touch-icon"
   sizes="180x180"
   href="{{ $appleTouchIcon.RelPermalink }}"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="{{ $favicon32.RelPermalink }}"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="{{ $favicon16.RelPermalink }}"
 />
 <link rel="canonical" href="{{ .Permalink }}" />
 <link rel="robots" href="/robots.txt" />
