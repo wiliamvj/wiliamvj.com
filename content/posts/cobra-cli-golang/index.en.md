@@ -7,7 +7,7 @@ tableOfContents: false
 
 ![thumbnail](thumb_efefewfweGFH567.png)
 
-Today we are going to see all the power that a CLI (Command line interface) can bring to development, a CLI can help us perform tasks more effectively and lightly through commands via terminal, without needing an interface. For example, [git](https://git-scm.com/) and [Docker](https://www.docker.com/) , we practically use their CLI all the time, when we execute a ` git commit -m "commit message"` or `docker ps -a` we are using a CLI. I'm going to leave an [article](https://dev.to/bboyakers/what-is-a-cli-53a6) that details what a CLI is.
+Today we are going to see all the power that a CLI (Command line interface) can bring to development, a CLI can help us perform tasks more effectively and lightly through commands via terminal, without needing an interface. For example, [git](https://git-scm.com/) and [Docker](https://www.docker.com/) , we practically use their CLI all the time, when we execute a `git commit -m "commit message"` or `docker ps -a` we are using a CLI. I'm going to leave an [article](https://dev.to/bboyakers/what-is-a-cli-53a6) that details what a CLI is.
 
 In this post we will create a boilerplate for Go projects, where with just 1 command via CLI, the entire project structure will be created.
 
