@@ -11,7 +11,7 @@ Today we are going to see all the power that a CLI (Command line interface) can 
 
 In this post we will create a boilerplate for Go projects, where with just 1 command via CLI, the entire project structure will be created.
 
-## GO e CLI
+## Go e CLI
 
 Well, Go is extremely powerful for building CLI, it is one of the most used languages for this, no wonder it is widely used among DevOps, precisely because it is so powerful and simple.
 
