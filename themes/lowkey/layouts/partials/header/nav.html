@@ -6,7 +6,7 @@
     <li>
       <a
         href="{{ .URL }}"
-        class="{{ if eq $menu_item_url $page_url }} active {{ end }}"
+        class="{{ if eq $menu_item_url $page_url }} {{ end }}"
         {{ if eq .Name "Newsletter" }} target="_blank" {{ end }}
       >
         {{ .Name }}

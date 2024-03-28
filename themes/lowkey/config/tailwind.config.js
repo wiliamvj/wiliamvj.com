@@ -21,7 +21,9 @@ module.exports = {
       },
       colors: {
         wpurple: '#6a6ed6',
-        wpurplehover: '#9ea1f3'
+        wpurplehover: '#9ea1f3',
+        btnwhover: '#6a6ed63d',
+        btncolor: '#6a6ed6',
       },
     },
   },

@@ -248,6 +248,7 @@
 
   nav a,
   footer a {
+    transition: 0.3s;
     @apply text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 font-semibold;
   }
 
@@ -267,6 +268,7 @@
   }
 
   #content a {
+    transition: 0.3s;
     @apply underline font-bold text-wpurple hover:text-wpurplehover dark:text-wpurple dark:hover:text-wpurplehover;
   }
 
@@ -288,6 +290,14 @@
 
   #content .description {
     @apply text-gray-600 dark:text-gray-300 text-base;
+  }
+
+  .read-more {
+    transition: 0.3s;
+  }
+
+  .read-more:hover {
+    transform: scale(1.04);
   }
 
   #content .read-more {
@@ -358,8 +368,12 @@
     @apply font-normal no-underline text-gray-700 dark:text-gray-300 hover:underline hover:text-orange-600 dark:hover:text-orange-200;
   }
 
+  .pagination-button {
+    transition: 0.3s;
+  }
+
   #content .pagination-button {
-    @apply no-underline inline-flex items-center gap-2 px-3 py-2 text-sm rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100;
+    @apply no-underline inline-flex items-center gap-2 px-3 py-2 text-sm rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-wpurple dark:hover:bg-wpurple hover:text-white dark:hover:text-gray-100;
   }
 
   #content .taxonomy-list {
@@ -377,15 +391,18 @@
   #content span.task-list + ul {
     @apply list-none;
   }
-
-  .theme-icon.light:hover {
-    background-color: #303a5c;
+  .theme-icon {
     border-radius: 4px;
+    transition: 0.3s;
   }
 
-  .theme-icon.dark:hover {
-    background-color: #ededed;
-    border-radius: 4px;
+  .theme-icon:hover {
+    background-color: #6a6ed6;
+  }
+
+  .theme-icon svg:hover {
+    stroke: white;
+    fill: none;
   }
 
   .theme-icon svg {
