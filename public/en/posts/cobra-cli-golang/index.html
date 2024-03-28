@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>    
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>O poder do CLI com Golang e Cobra CLI</title>
+<title>The power of the CLI with Golang and Cobra CLI</title>
 <meta
   name="apple-mobile-web-app-title"
-  content="O poder do CLI com Golang e Cobra CLI"
+  content="The power of the CLI with Golang and Cobra CLI"
 />
 <meta
   name="description"
-  content="Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface."
+  content="Today we are going to see all the power that a CLI (Command line interface) can bring to development, a CLI can help us perform tasks more effectively and lightly through commands via terminal, without needing an interface."
 />
 <link
   rel="apple-touch-icon"
@@ -30,7 +30,7 @@
   sizes="16x16"
   href="/icons/favicon-16x16.png"
 />
-<link rel="canonical" href="//localhost:1313/posts/cobra-cli-golang/" />
+<link rel="canonical" href="//localhost:1313/en/posts/cobra-cli-golang/" />
 <link rel="robots" href="/robots.txt" />
 <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
 
@@ -85,11 +85,11 @@
      
     <li>
       <a
-        href="/"
+        href="/en"
         class=""
         
       >
-        Artigos
+        Posts
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -107,11 +107,11 @@
     
     <li>
       <a
-        href="/en/"
+        href="/"
         class=""
         
       >
-        en-US
+        pt-BR
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -252,7 +252,7 @@
 
 <article class="flex flex-col gap-10">
   <header class="flex flex-col gap-2">
-    <h2 class="title-small">O poder do CLI com Golang e Cobra CLI</h2>
+    <h2 class="title-small">The power of the CLI with Golang and Cobra CLI</h2>
 
     <div class="meta">
       
@@ -260,7 +260,7 @@
         datetime="2023-11-15 16:40:41 -0300 -03"
         title='Wed, Nov 15, 2023, 4:40 PM -03'
       >
-        Publicado em: 15/11/2023 - 13 minutos de leitura
+        Published in: 15/11/2023 - 13 minutes read
       </time>
 
        
@@ -270,14 +270,14 @@
   
 
   <section><p><img alt="thumbnail" src="/posts/cobra-cli-golang/thumb_efefewfweGFH567.png"></p>
-<p>Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface. Como por exemplo o <a href="https://git-scm.com/">git</a> e o <a href="https://www.docker.com/">Docker</a> , praticamente usamos a CLI deles o tempo inteiro, quando executamos um <code>git commit -m &quot;commit message&quot;</code> ou <code>docker ps -a</code> estamos utilizando uma CLI. Vou deixar um <a href="https://dev.to/bboyakers/what-is-a-cli-53a6">artigo</a> que detalha melhor o que é uma CLI.</p>
-<p>Nesse post vamos criar um boilerplate para projetos em GO, onde com apenas 1 comando via CLI, vai ser criado toda a estrutura do projeto.</p>
+<p>Today we are going to see all the power that a CLI (Command line interface) can bring to development, a CLI can help us perform tasks more effectively and lightly through commands via terminal, without needing an interface. For example, <a href="https://git-scm.com/">git</a> and <a href="https://www.docker.com/">Docker</a> , we practically use their CLI all the time, when we execute a <code> git commit -m &quot;commit message&quot;</code> or <code>docker ps -a</code> we are using a CLI. I&rsquo;m going to leave an <a href="https://dev.to/bboyakers/what-is-a-cli-53a6">article</a> that details what a CLI is.</p>
+<p>In this post we will create a boilerplate for Go projects, where with just 1 command via CLI, the entire project structure will be created.</p>
 <h2 id="go-e-cli">GO e CLI</h2>
-<p>Bom, o Go é extremamente poderoso para contrução de CLI, é umas das linguagens mais utilizadas para isso, não é atoa que é a amplamente utilizada entre os DevOps, justamente por ser tão poderosa e simples.</p>
-<p>Só para dar um exemplo do poder do Go para construções de CLI, você já deve ter utilizado ou pelo menos ouviu falar do <a href="https://www.docker.com/">Docker</a>, <a href="https://github.com/kubernetes/kubernetes">Kubernetes</a>, <a href="https://github.com/prometheus/prometheus">Prometheus</a>, <a href="https://github.com/hashicorp/terraform">Terraform</a>,mas o que todos eles tem em comum? todos eles tem grande parte da sua usabilidade via CLI e são desenvolvidos em Go 🐿.</p>
-<h2 id="iniciando-uma-cli-com-go">Iniciando uma CLI com GO</h2>
-<p>O Go tem um pacote para lidar com CLI de forma nativa. Mas vamos abordar de forma rápida, o intuito do post é utilizar o pacote <a href="https://github.com/spf13/cobra">Cobra CLI</a>, que vai facilitar a construção da nossa CLI.</p>
-<p>Vamos utilizar o pacote <a href="https://pkg.go.dev/flag">flag</a></p>
+<p>Well, Go is extremely powerful for building CLI, it is one of the most used languages for this, no wonder it is widely used among DevOps, precisely because it is so powerful and simple.</p>
+<p>Just to give an example of the power of Go for CLI builds, you may have already used or at least heard of <a href="https://www.docker.com/">Docker</a>, <a href="https://github.com/kubernetes/kubernetes">Kubernetes</a>, <a href="https://github.com/prometheus/prometheus">Prometheus</a>, <a href="https://github.com/hashicorp/terraform">Terraform</a>, but what do they all have in common? They all have a large part of their usability via CLI and are developed in Go 🐿.</p>
+<h2 id="starting-a-cli-with-go">Starting a CLI with Go</h2>
+<p>Go has a package to handle CLI natively. But let&rsquo;s cover it quickly, the purpose of the post is to use the <a href="https://github.com/spf13/cobra">Cobra CLI</a> package, which will facilitate the construction of our CLI.</p>
+<p>Let&rsquo;s use the <a href="https://pkg.go.dev/flag">flag</a> package</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -287,50 +287,50 @@
 </span></span><span style="display:flex;"><span>  )
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
-</span></span><span style="display:flex;"><span>    dateFlag <span style="color:#ff79c6">:=</span> flag.<span style="color:#50fa7b">Bool</span>(<span style="color:#f1fa8c">&#34;date&#34;</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;Exibir a data atual&#34;</span>)
+</span></span><span style="display:flex;"><span>    dateFlag <span style="color:#ff79c6">:=</span> flag.<span style="color:#50fa7b">Bool</span>(<span style="color:#f1fa8c">&#34;date&#34;</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;Display the current date&#34;</span>)
 </span></span><span style="display:flex;"><span>    flag.<span style="color:#50fa7b">Parse</span>()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">*</span>dateFlag {
 </span></span><span style="display:flex;"><span>      currentTime <span style="color:#ff79c6">:=</span> time.<span style="color:#50fa7b">Now</span>()
-</span></span><span style="display:flex;"><span>      fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Data atual:&#34;</span>, currentTime.<span style="color:#50fa7b">Format</span>(<span style="color:#f1fa8c">&#34;2006-01-02 15:04:05&#34;</span>))
+</span></span><span style="display:flex;"><span>      fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Current date&#34;</span>, currentTime.<span style="color:#50fa7b">Format</span>(<span style="color:#f1fa8c">&#34;2006-01-02 15:04:05&#34;</span>))
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Nesse exemplo acima, criamos uma flag <code>date</code>, ao passar essa flag é retornado a data atual, algo bem simples, rodando o projeto com <code>go run main.go --date</code>, vamos ter o valor <code>Data atual: 2023-11-15 12:26:14</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  dateFlag <span style="color:#ff79c6">:=</span> flag.<span style="color:#50fa7b">Bool</span>(<span style="color:#f1fa8c">&#34;date&#34;</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;Exibir a data atual&#34;</span>)
-</span></span></code></pre></div><p>No código acima, criamos uma flag, o primeiro argumento <code>date</code> é o nome de flag, o false como valor padrão significa que, se você rodar o programa sem especificar explicitamente a flag <code>--date</code>, o valor associado a <code>dateFlag</code> será <code>false</code>. Isso permite que o programa tenha um comportamento padrão específico caso essa flag não seja fornecida quando o programa é executado, já o terceiro argumento <code>Exibir a data atual</code> é o detalhe do que essa flag faz.</p>
-<p>Se rodarmos:</p>
+</span></span></code></pre></div><p>In this example above, we created a <code>date</code> flag, passing this flag returns the current date, something very simple, running the project with <code>go run main.go --date</code>, we will have the value <code>Current date 2023-11 -15 12:26:14</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  dateFlag <span style="color:#ff79c6">:=</span> flag.<span style="color:#50fa7b">Bool</span>(<span style="color:#f1fa8c">&#34;date&#34;</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;Display the current date&#34;</span>)
+</span></span></code></pre></div><p>In the code above, we create a flag, the first argument <code>date</code> is the flag name, false as the default value means that if you run the program without explicitly specifying the <code>--date</code> flag, the value associated with <code>dateFlag</code> will be <code>false</code>. This allows the program to have a specific default behavior if this flag is not provided when the program is executed, while the third argument <code>Display the current date</code> is the detail of what this flag does.</p>
+<p>If we run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go run main.go -h
-</span></span></code></pre></div><p>Recebemos:</p>
+</span></span></code></pre></div><p>We received:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  -date
-</span></span><span style="display:flex;"><span>    Exibir a data atual
-</span></span></code></pre></div><p>Podemos usar a flag com <code>--date</code> ou <code>-date</code>, o Go já faz a verificação automática.</p>
-<p>Podemos fazer todo o nosso boilerplate com essa abordage, porém vamos facilitar um pouco e usar o pacote <a href="https://github.com/spf13/cobra">Cobra CLI</a>.</p>
+</span></span><span style="display:flex;"><span>    Display the current date
+</span></span></code></pre></div><p>We can use the flag with <code>--date</code> or <code>-date</code>, Go already does the automatic check.
+We can make our entire boilerplate with this approach, but let&rsquo;s make it a little easier and use the <a href="https://github.com/spf13/cobra">Cobra CLI</a> package.</p>
 <h2 id="cobra-cli">Cobra CLI</h2>
-<p>Esse pacote é muito utilizado para contruções de CLI poderosas, é utilizado por exemplo para o <a href="https://kubernetes.io/">Kubernetes CLI</a> e <a href="https://github.com/cli/cli">GitHub CLI</a>, além de oferecer alguns recursos bacanas como preenchimento automático do <a href="https://pt.wikipedia.org/wiki/Shell_(computa%C3%A7%C3%A3o)">shell</a>, reconhecimento automático de sinalizadores (as tags), podendo utilizar <code>-h</code> ou <code>-help</code> por exemplo, entre outras facilidades.</p>
-<h2 id="criando-o-projeto">Criando o projeto</h2>
-<p>Nosso projeto vai ser bem simples, vamos ter apenas o <code>main.go</code> e o <code>go.mod</code> e consequentemente nosso <code>go.sum</code>, vamos iniciar o projeto com o comando:</p>
+<p>This package is widely used for powerful CLI builds, it is used for example for <a href="https://kubernetes.io/">Kubernetes CLI</a> and <a href="https://github.com/cli/cli">GitHub CLI</a>, in addition to offering some cool features such as automatic completion of <a href="https://pt.wikipedia.org/wiki/Shell_(computa%C3%A7%C3%A3o)">shell</a>, automatic recognition of flags (the tags) , and you can use <code>-h</code> or <code>-help</code> for example, among other facilities.</p>
+<h2 id="creating-the-project">Creating the project</h2>
+<p>Our project will be very simple, we will only have <code>main.go</code> and <code>go.mod</code> and consequently our <code>go.sum</code>, we will start the project with the command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go mod init github.com/wiliamvj/boilerplate-cli-go
-</span></span></code></pre></div><p><em>Você pode utilizar o nome que desejar</em>, por convenção geralmente criamos o nome do projeto sendo o link do nosso repositório.</p>
-<p>ficando assim:</p>
+</span></span></code></pre></div><p><em>You can use whatever name you want</em>, by convention we generally create the name of the project as the link to our repository.</p>
+<p>ending up like this:</p>
 <p><img alt="Project structure" src="/posts/cobra-cli-golang/iudfiRET56df.png"></p>
-<p>Agora vamos baixar o pacote Cobra com o comando:</p>
+<p>Now let&rsquo;s download the Cobra package with the command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go get -u github.com/spf13/cobra@latest
-</span></span></code></pre></div><p>Nosso boilerplate vai ter uma estrutura bem simples, a ideia é criar uma estrutura muito utilizada pela comunidade em Go, veja como vai ficar:</p>
+</span></span></code></pre></div><p>The boilerplate will have a very simple structure, the idea is to create a structure widely used by the Go community, see how it will look:</p>
 <p><img alt="Project structure" src="/posts/cobra-cli-golang/dfgI9dfRNj6456.png"></p>
 <ul>
-<li><strong>cmd</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/cmd">Aqui</a> é onde vamos deixar o <code>main.go</code> que inicia nosso app.</li>
-<li><strong>internal</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/internal">Nessa pasta</a> onde deve ficar todo o código da nossa aplicação.
+<li><strong>cmd</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/cmd">here</a> where we will leave the <code>main.go</code> that starts our app.</li>
+<li><strong>internal</strong>: <a href="https://github.com/golang-standards/project-layout/tree/master/internal">in this paste</a> where all the code for our application should be located.
 <ul>
-<li><strong>handler</strong>: Aqui vai ficar os arquivos responsáveis por receber nossas solicitações http, você pode conhecer também como controllers.
+<li><strong>handler</strong>: Here will be the files responsible for receiving our http requests, you may also know them as controllers.
 <ul>
-<li><strong>routes</strong>: Aqui vamos organizar nossas rotas.</li>
+<li><strong>routes</strong>: Here we will organize our routes.</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p>Não é a estrutura completa, estamos apenas criando o básico para o nosso exemplo.</p>
-<p>Todo o nosso código vai se concentrar em nosso <code>main.go</code>.</p>
+<p>It&rsquo;s not the complete framework, we&rsquo;re just creating the basics for our example.</p>
+<p>All of our code will focus on our <code>main.go</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -367,23 +367,23 @@
 </span></span><span style="display:flex;"><span>    rootCommand.<span style="color:#50fa7b">AddCommand</span>(cmd)
 </span></span><span style="display:flex;"><span>    rootCommand.<span style="color:#50fa7b">Execute</span>()
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>O código acima é apenas para iniciar o nosso CLI, vamos ter apenas duas váriaveis:</p>
+</span></span></code></pre></div><p>The code above is just to start our CLI, we will only have two variables:</p>
 <ul>
-<li><code>projectName</code>: será o nome do nosso projeto que vamos capturar no input da nossa CLI.</li>
-<li><code>projectPath</code>: será o caminho onde o boilerplate será criado, vamos capturar no input do CLI.</li>
-<li><code>&amp;cobra.Command{}</code>: inicia o pacote Cobra.</li>
-<li><code>Run:</code> Recebe uma funcão anônima, é nessa função que capturamos o input do usuário digitado no CLI e validamos, nossa validação é simples, apenas verificamos se o <code>projectName</code> e o <code>projectPath</code> não são nulos.</li>
-<li><code>cmd.Flags()</code>: Aqui criamos as flags com sinalizadores, dessa forma pode ser usado <code>-name</code> ou <code>-n</code>, ambos serão aceitos, também colocamos a descrição do que esse sinalizado faz.</li>
-<li><code>rootCommand.AddCommand(cmd)</code>: Adicionamos nosso <code>cmd</code> ao <code>rootCommand</code> criado no inicio do nosso <code>main.go</code>.</li>
-<li><code>rootCommand.Execute()</code>: Por fim, executamos nossa CLI.</li>
+<li><code>projectName</code>: it will be the name of our project that we will capture in the input of our CLI.</li>
+<li><code>projectPath</code>: will be the path where the boilerplate will be created, we will capture it in the CLI input.</li>
+<li><code>&amp;cobra.Command{}</code>: starts the Cobra cli.</li>
+<li><code>Run:</code> It receives an anonymous function, it is in this function that we capture the user input entered in the CLI and validate it, our validation is simple, we just check if the <code>projectName</code> and <code>projectPath</code> are not null.</li>
+<li><code>cmd.Flags()</code>: Here we create the flags with flags, so you can use <code>-name</code> or <code>-n</code>, both will be accepted, we also include the description of what this flag does.</li>
+<li><code>rootCommand.AddCommand(cmd)</code>: We add our <code>cmd</code> to the <code>rootCommand</code> created at the beginning of our <code>main.go</code>.</li>
+<li><code>rootCommand.Execute()</code>: Finally, we run our CLI.</li>
 </ul>
-<p>Isso é tudo que precisamos para deixar nossa CLI funcionando, claro que sem a lógica do nosso boilerplate, mas com isso já conseguimos utilizar via terminal. Vamos testar!</p>
-<p><em>Podemos fazer um build do projeto o usar sem o build</em></p>
-<p>Com build:</p>
+<p>That&rsquo;s all we need to get our CLI working, of course without our boilerplate logic, but with that we can use it via the terminal. Lets test!</p>
+<p><em>We can build the project or use it without build</em></p>
+<p>With build:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go build -o cli .
-</span></span></code></pre></div><p>Vai criar na raiz um arquivo chamado <code>cli</code>, vamos rodar o binário da nossa CLI:</p>
+</span></span></code></pre></div><p>A file called <code>cli</code> will be created at the root, we will run the binary from our CLI:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli --help
-</span></span></code></pre></div><p>Vamos ter uma saida igual a essa:</p>
+</span></span></code></pre></div><p>We will have an output like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Usage:
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">[</span>command<span style="color:#ff79c6">]</span>
 </span></span><span style="display:flex;"><span>
@@ -396,9 +396,9 @@
 </span></span><span style="display:flex;"><span>    -h, --help   <span style="color:#8be9fd;font-style:italic">help</span> <span style="color:#ff79c6">for</span> this <span style="color:#8be9fd;font-style:italic">command</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  Use <span style="color:#f1fa8c">&#34; [command] --help&#34;</span> <span style="color:#ff79c6">for</span> more information about a command.
-</span></span></code></pre></div><p>Veja que já temos as dicas de como utilizar o comando que criamos <code>create  Create boilerplate for a new project</code>, se rodarmos:</p>
+</span></span></code></pre></div><p>See that we already have tips on how to use the command we created <code>create Create boilerplate for a new project</code>, if we run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create --help
-</span></span></code></pre></div><p>Teremos:</p>
+</span></span></code></pre></div><p>We will have:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Create boilerplate <span style="color:#ff79c6">for</span> a new project
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  Usage:
@@ -408,28 +408,28 @@
 </span></span><span style="display:flex;"><span>    -h, --help          <span style="color:#8be9fd;font-style:italic">help</span> <span style="color:#ff79c6">for</span> create
 </span></span><span style="display:flex;"><span>    -n, --name string   Name of the project
 </span></span><span style="display:flex;"><span>    -p, --path string   Path where the project will be created
-</span></span></code></pre></div><p>Vamos rodar agora passando nossas flags:</p>
+</span></span></code></pre></div><p>Let&rsquo;s run it now by passing our flags:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create -n my-project -p ~/documents
-</span></span></code></pre></div><p>Vamos ter nossa mensagem <code>Creating project...</code>, indicando que funcionou, mas nada ainda acontece, pois não implementamos a lógica.</p>
-<p>Podemos ainda criar subcomandos, novas flags, novas validações, mas por enquanto vamos deixar assim, se quiser você pode criar mais opções, veja a <a href="https://pkg.go.dev/github.com/spf13/cobra#section-documentation">documentação</a> do pacote Cobra.</p>
-<h2 id="criando-o-boilerplate">Criando o boilerplate</h2>
-<p>Com a nossa CLI pronta, vamos agora a lógica do boilerplate, que é bem simples, teremos que criar as pastas, depois precisamos criar os arquivos e por fim abrir os arquivos e inserir o código, para isso vamos utilizar bastante o pacote <a href="https://pkg.go.dev/os">os</a> do Go, que permite acessar recursos do sistema operacional.</p>
-<p>Vamos primeiro pegar o diretório principal e validar se já existe uma pasta com o nome que vai se usado para criar o nosso projeto:</p>
+</span></span></code></pre></div><p>We will have our <code>Creating project...</code> message, indicating that it worked, but nothing happens yet, as we have not implemented the logic.</p>
+<p>We can also create subcommands, new flags, new validations, but for now let&rsquo;s leave it like that, if you want you can create more options, see <a href="https://pkg.go.dev/github.com/spf13/cobra#section-documentation">documentation</a> of the Cobra package.</p>
+<h2 id="creating-the-boilerplate">Creating the boilerplate</h2>
+<p>With our CLI ready, let&rsquo;s now go through the boilerplate logic, which is very simple, we will have to create the folders, then we will need to create the files and finally open the files and insert the code, for this we will use the <a href="https://pkg.go.dev/os">os</a> package a lot of Go, which allows you to access operating system resources.</p>
+<p>Let&rsquo;s first get the main directory and validate if there already exists a folder with the name that will be used to create our project:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  globalPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(projectPath, projectName)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> _, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Stat</span>(globalPath); err <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Project directory already exists.&#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Se passarmos o <code>projectName</code> como <strong>test</strong> e o <code>projectPath</code> como <code>/documents</code>, isso valida se não existe nenhuma outra pasta em <strong>documents</strong> chamado <strong>test</strong>, se existir returnamos e devolvemos uma mensagem de erro.</p>
-<p>Você pode modificar e caso exista uma pasta com mesmo nome, alterar o nome do <code>projectName</code> ou deletar a pasta que já existe, mas por hora vamos apenas retornar erro.</p>
+</span></span></code></pre></div><p>If we pass the <code>projectName</code> as <strong>test</strong> and the <code>projectPath</code> as <code>/documents</code>, this validates that there is no other folder in <strong>documents</strong> called <strong>test</strong>, if there is we return and return a error message.</p>
+<p>You can modify and, if there is a folder with the same name, change the name of <code>projectName</code> or delete the folder that already exists, but for now we will just return an error.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(globalPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Nessa parte, vamos criar o diretório no caminho que foi informado usando nossa flag <code>-p</code>, se usarmos:</p>
+</span></span></code></pre></div><p>In this part, we will create the directory in the path that was entered using our <code>-p</code> flag, if we use:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create -n my-project -p ~/documents
-</span></span></code></pre></div><h3 id="iniciando-o-go">Iniciando o Go</h3>
-<p>Vai ser criado uma pasta chamada <strong>my-project</strong> no diretório <strong>documents</strong>.</p>
+</span></span></code></pre></div><h3 id="starting-go">Starting Go</h3>
+<p>A folder called <strong>my-project</strong> will be created in the <strong>documents</strong> directory.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  startGo <span style="color:#ff79c6">:=</span> exec.<span style="color:#50fa7b">Command</span>(<span style="color:#f1fa8c">&#34;go&#34;</span>, <span style="color:#f1fa8c">&#34;mod&#34;</span>, <span style="color:#f1fa8c">&#34;init&#34;</span>, projectName)
 </span></span><span style="display:flex;"><span>  startGo.Dir = globalPath
 </span></span><span style="display:flex;"><span>  startGo.Stdout = os.Stdout
@@ -438,16 +438,16 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>No código acima executamos o comando para iniciar o projeto em Go, vai ser criado no diretório raiz que escolhemos, no nosso exemplo vai rodar dentro de <strong>documents/my-project</strong>, isso vai criar o arquivo <code>go.mod</code> e vai definir o nome do módulo como <strong>my-projects</strong>.</p>
+</span></span></code></pre></div><p>In the code above we execute the command to start the project in Go, it will be created in the root directory we chose, in our example it will run within <strong>documents/my-project</strong>, this will create the file <code>go.mod</code> and will set the module name to <strong>my-projects</strong>.</p>
 <ul>
-<li><code>exec.Command</code>: Cria o comando que vamos rodar no terminal, no caso vai ser <code>go mod init my-project</code>.</li>
-<li><code>startGo.Dir</code>: Determinar onde vai rodar esse comando, no exemplo vai rodar em <strong>documents/my-project</strong>.</li>
-<li><code>startGo.Stdout</code>: Vai colocar no terminal o retorno do comando, vai retornar <code>go: creating new go.mod: module my-project</code>.</li>
-<li><code>startGo.Stderr</code>: Redireciona a saida de um possivel erro para onde o programa está sendo executado.</li>
-<li><code>startGo.Run()</code>: Por fim, executamos tudo.</li>
+<li><code>exec.Command</code>: Create the command that we will run in the terminal, in this case it will be <code>go mod init my-project</code>.</li>
+<li><code>startGo.Dir</code>: Determine where this command will run, in the example it will run in <strong>documents/my-project</strong>.</li>
+<li><code>startGo.Stdout</code>: It will place the command return in the terminal, it will return <code>go: creating new go.mod: module my-project</code>.</li>
+<li><code>startGo.Stderr</code>: Redirects the output of a possible error to where the program is being executed.</li>
+<li><code>startGo.Run()</code>: Finally, we execute everything.</li>
 </ul>
-<h3 id="criando-as-pastas">Criando as pastas</h3>
-<p>Vamos criar nossas pastas, são elas <strong>cmd</strong>, <strong>internal</strong>, <strong>handler</strong> e <strong>routes</strong>.</p>
+<h3 id="creating-the-folders">Creating the folders</h3>
+<p>Let&rsquo;s create our folders, they are <strong>cmd</strong>, <strong>internal</strong>, <strong>handler</strong> and <strong>routes</strong>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  cmdPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(globalPath, <span style="color:#f1fa8c">&#34;cmd&#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(cmdPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
@@ -464,13 +464,13 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Mkdir</span>(routesPath, os.ModePerm); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Esse código acima cria na sequência as pastas necessárias, usando <code>os.Mkdir</code>, (<a href="https://pkg.go.dev/os#Mkdir">veja nas docs</a>), para as pastas <strong>handler</strong> e <strong>routes</strong>, precisamos acessar a pasta <strong>internal</strong>, pois serão criadas dentro da <strong>internal</strong>, para isso pegamos usando o <code>Join</code> mesclamos o caminho, ficando:</p>
+</span></span></code></pre></div><p>This code above creates the necessary folders in sequence, using <code>os.Mkdir</code>, (<a href="https://pkg.go.dev/os#Mkdir">see the docs</a>), for the <strong>handler</strong> and <strong>folders</strong> <strong>routes</strong>, we need to access the <strong>internal</strong> folder, as they will be created within <strong>internal</strong>, for this we use <code>Join</code> to merge the path, resulting in:</p>
 <ul>
 <li><code>handlerPath</code>: <strong>documents/my-project/internal</strong></li>
 <li><code>routesPath</code>: <strong>documents/my-project/internal/handler</strong></li>
 </ul>
-<h3 id="criando-os-arquivos">Criando os arquivos</h3>
-<p>Com as pastas criadas, vamos criar os arquivos, para exemplo vamos criar o <code>main.go</code> é claro e o <code>routes.go</code>, dentro da pasta <strong>routes</strong>.</p>
+<h3 id="creating-the-files">Creating the files</h3>
+<p>With the folders created, let&rsquo;s create the files, for example we will create <code>main.go</code> of course and <code>routes.go</code>, inside the <strong>routes</strong> folder.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  mainPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(cmdPath, <span style="color:#f1fa8c">&#34;main.go&#34;</span>)
 </span></span><span style="display:flex;"><span>  mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(mainPath)
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -484,16 +484,16 @@
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">defer</span> routesFile.<span style="color:#50fa7b">Close</span>()
-</span></span></code></pre></div><p>Acima criamos os arquivos <code>main.go</code> e <code>routes.go</code>.</p>
+</span></span></code></pre></div><p>Above we created the <code>main.go</code> and <code>routes.go</code> files.</p>
 <ul>
-<li><code>mainPath</code>: determinamos o caminho, usando o <code>mainPath</code> usado para criar a pasta <strong>cmd</strong>.</li>
-<li><code>os.Create(mainPath)</code>: Criamos o arquivo, no diretório especificado. (<strong>documents/my-project/cmd</strong>)</li>
-<li><code>routesFilePath</code>: determinamos o caminho, usando o <code>routesPath</code> usado para criar a pasta <strong>routes</strong>.</li>
-<li><code>os.Create(routesFilePath)</code>: Criamos o arquivo, no diretório especificado. (<strong>documents/my-project/internal/handler/routes</strong>)</li>
-<li><code>defer routesFile.Close()</code>: Fechamos o arquivo, <code>defer</code>, usando essa palavra reservada do GO, garantimos que a última coisa a acontecer é fechar o arquivo. Veja mais sobre o <code>defer</code> <a href="https://go.dev/blog/defer-panic-and-recover">aqui</a>.</li>
+<li><code>mainPath</code>: we determine the path, using the <code>mainPath</code> used to create the <strong>cmd</strong> folder.</li>
+<li><code>os.Create(mainPath)</code>: we create the file, in the specified directory. (<strong>documents/my-project/cmd</strong>)</li>
+<li><code>routesFilePath</code>: we determine the path, using the <code>routesPath</code> used to create the <strong>routes</strong> folder.</li>
+<li><code>os.Create(routesFilePath)</code>: We create the file, in the specified directory. (<strong>documents/my-project/internal/handler/routes</strong>)</li>
+<li><code>defer routesFile.Close()</code>: We close the file, <code>defer</code>, using this GO reserved word, we guarantee that the last thing to happen is to close the file. See more about <code>defer</code> <a href="https://go.dev/blog/defer-panic-and-recover">here</a>.</li>
 </ul>
-<h3 id="escrevendo-nos-arquivos">Escrevendo nos arquivos</h3>
-<p>Com as pastas e arquivos criados, agora vamos escrever nos arquivos <code>main.go</code> e <code>routes.go</code>, vamos fazer algo simples, apenas para exemplo, para organizar melhor, vamos separar em funções que escrevem em cada arquivo.</p>
+<h3 id="writing-to-files">Writing to files</h3>
+<p>With the folders and files created, now let&rsquo;s write to the <code>main.go</code> and <code>routes.go</code> files, let&rsquo;s do something simple, just for example, to organize better, we will separate them into functions that write to each file.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteMainFile</span>(mainPath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package main
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
@@ -517,18 +517,18 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Na função acima, recebemos por parâmetro o <code>mainPath</code>, que é o caminho do arquivo, vamos adiciona um código simples, que apenas fazer o log de um <em>Hello World</em>.</p>
+</span></span></code></pre></div><p>In the function above, we have <code>mainPath</code> as a parameter, which is the file path, we will add a simple code, which will just log a <em>Hello World</em>.</p>
 <ul>
-<li><code>packageContent</code>: Criamos o código que vai ser escrito no arquivo.</li>
-<li><code>os.OpenFile</code>: Abrimos o arquivo especificado em <code>mainPath</code>.</li>
-<li><code>defer mainFile.Close()</code>: Fechamos o arquivo por último com <code>defer</code>.</li>
-<li><code>mainFile.Write</code>: Por fim, escrevemos no arquivo, e tratamos o erro se houver.</li>
+<li><code>packageContent</code>: We create the code that will be written to the file.</li>
+<li><code>os.OpenFile</code>: We open the file specified in <code>mainPath</code>.</li>
+<li><code>defer mainFile.Close()</code>: We close the file last with <code>defer</code>.</li>
+<li><code>mainFile.Write</code>: Finally, we write it to the file, and handle the error if any.</li>
 </ul>
-<p><code>O_WRONLY</code> e <code>O_APPEND</code>, são constantes usadas para definir modo de abertura de um arquivo, <code>O_WRONLY</code> indica que o arquivo será aberto apenas para escrita, <code>O_APPEND</code>isso faz com o conteúdo adicionado serão acrescentados no fim do arquivo, sem sobrescrever o conteúdo existente.</p>
+<p><code>O_WRONLY</code> and <code>O_APPEND</code>, are constants used to define the opening mode of a file, <code>O_WRONLY</code> indicates that the file will be opened only for writing, <code>O_APPEND</code> means that the added content will be added to the end of the file, without overwrite existing content.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package routes
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
-</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  // Seu código aqui
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  // your code here
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  `</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">OpenFile</span>(routesFilePath, os.O_WRONLY|os.O_APPEND, <span style="color:#bd93f9">0666</span>)
@@ -544,8 +544,8 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Fazemos o mesmo para o arquivo <code>routes.go</code>.</p>
-<p>Agora basta chamar as novas funções na função <code>main</code>, ficando assim:</p>
+</span></span></code></pre></div><p>We do the same for the <code>routes.go</code> file.</p>
+<p>Now just call the new functions in the <code>main</code> function, looking like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  mainPath <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Join</span>(cmdPath, <span style="color:#f1fa8c">&#34;main.go&#34;</span>)
 </span></span><span style="display:flex;"><span>  mainFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Create</span>(mainPath)
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -565,7 +565,7 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><h3 id="código-final">Código final</h3>
+</span></span></code></pre></div><h3 id="final-code">Final code</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -689,7 +689,7 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">WriteRoutesFile</span>(routesFilePath <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    packageContent <span style="color:#ff79c6">:=</span> []<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">`package routes
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">
-</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  // Seu código aqui
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">    // your code here
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  `</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    routesFile, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">OpenFile</span>(routesFilePath, os.O_WRONLY|os.O_APPEND, <span style="color:#bd93f9">0666</span>)
@@ -705,30 +705,29 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><h2 id="testando-a-cli">Testando a CLI</h2>
-<p>Bom, com tudo pronto, vamos testar! Para isso vamos compilar nosso código com o bom e velho <code>go build</code>.</p>
+</span></span></code></pre></div><h2 id="testing-the-cli">Testing the CLI</h2>
+<p>Well, with everything ready, let&rsquo;s test it! To do this, we will compile our code with the good old <code>go build</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go build -o cli .
-</span></span></code></pre></div><p>Executando a CLI:</p>
+</span></span></code></pre></div><p>Running the CLI:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ./cli create -n my-project -p ~/documents
-</span></span></code></pre></div><p>Vamos ter o retorno:</p>
+</span></span></code></pre></div><p>Let&rsquo;s get the answer:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Creating project...
 </span></span><span style="display:flex;"><span>  go: creating new go.mod: module my-project
-</span></span></code></pre></div><p>Acessando nosso projeto e abrindo no Visual Studio Code com:</p>
+</span></span></code></pre></div><p>Accessing our project and opening it in Visual Studio Code with:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">cd</span> /documents/my-project <span style="color:#ff79c6">&amp;&amp;</span> code .
-</span></span></code></pre></div><p>Teremos noss boilerplate criado:</p>
+</span></span></code></pre></div><p>We will have our boilerplate created:</p>
 <p><img alt="Final Project" src="/posts/cobra-cli-golang/fg&gfhUughp0.png"></p>
-<p>Se rodarmos o projeto criado via CLI, podemos ver que tudo funciona.</p>
+<p>If we run the project created via CLI, we can see that everything works.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go run cmd/main.go
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  output:
 </span></span><span style="display:flex;"><span>    Hello World!
-</span></span></code></pre></div><p>Com isso finalizamos a criação de nossa CLI que cria um boilerplate.</p>
-<h2 id="considerações-finais">Considerações finais</h2>
-<p>Vimos o poder que uma CLI pode nos proporcionar, sem contar a rapidez da sua execução. Usando o pacote <a href="https://github.com/spf13/cobra">Cobra CLI</a> temos ainda mais facilidade, a criação de um boilerplate é apenas um exemplo, podemos automatizar muitas tarefas.</p>
-<p>O nosso boilerplate poderia ser ainda mais automatizado, conseguimos por exemplo instalar um pacote como o <a href="https://go-chi.io/">Go Chi</a>, criando endpoints padrões, tudo isso usando a CLI, você pode até mesmo criar seu próprio framework, já pensou que com apenas 1 comando seu projeto inicial já vem todo configurado?</p>
-<p>Com o conhecimento em na criação de CLI, você tem um grande poder em suas mãos!</p>
-<h2 id="link-do-repositório">Link do repositório</h2>
-<p><a href="https://github.com/wiliamvj/boilerplate-cli-go/blob/main/main.go">repositório</a> do projeto</p>
+</span></span></code></pre></div><p>With this we finish creating our CLI that creates a boilerplate.</p>
+<h2 id="final-considerations">Final considerations</h2>
+<p>Our boilerplate could be even more automated, we could, for example, install a package like the <a href="https://go-chi.io/">Go Chi</a> package, creating standard endpoints, all using the CLI, you can even create your own framework, have you ever thought that with just one command your initial project is already configured?</p>
+<p>With knowledge in CLI creation, you have great power in your hands!</p>
+<h2 id="repository-link">Repository link</h2>
+<p><a href="https://github.com/wiliamvj/boilerplate-cli-go/blob/main/main.go">repository</a> of the project</p>
 </section>
 
   

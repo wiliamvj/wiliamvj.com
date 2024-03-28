@@ -49,7 +49,7 @@ Nesse exemplo acima, criamos uma flag `date`, ao passar essa flag é retornado a
   dateFlag := flag.Bool("date", false, "Exibir a data atual")
 ```
 
-No código acima, criamos uma flag, o primeiro argumento `date` é o nome de flag, o false como valor padrão significa que, se você rodar o programa sem especificar explicitamente a flag --date, o valor associado a `dateFlag` será `false`. Isso permite que o programa tenha um comportamento padrão específico caso essa flag não seja fornecida quando o programa é executado, já o terceiro argumento `Exibir a data atual` é o detalhe do que essa flag faz.
+No código acima, criamos uma flag, o primeiro argumento `date` é o nome de flag, o false como valor padrão significa que, se você rodar o programa sem especificar explicitamente a flag `--date`, o valor associado a `dateFlag` será `false`. Isso permite que o programa tenha um comportamento padrão específico caso essa flag não seja fornecida quando o programa é executado, já o terceiro argumento `Exibir a data atual` é o detalhe do que essa flag faz.
 
 Se rodarmos:
 
@@ -195,7 +195,7 @@ Veja que já temos as dicas de como utilizar o comando que criamos `create  Crea
 
 Teremos:
 
-```
+```bash
   Create boilerplate for a new project
 
   Usage:
@@ -268,7 +268,7 @@ No código acima executamos o comando para iniciar o projeto em Go, vai ser cria
 - `exec.Command`: Cria o comando que vamos rodar no terminal, no caso vai ser `go mod init my-project`.
 - `startGo.Dir`: Determinar onde vai rodar esse comando, no exemplo vai rodar em **documents/my-project**.
 - `startGo.Stdout`: Vai colocar no terminal o retorno do comando, vai retornar `go: creating new go.mod: module my-project`.
-- `startGo.Stderr `: Redireciona a saida de um possivel erro para onde o programa está sendo executado.
+- `startGo.Stderr`: Redireciona a saida de um possivel erro para onde o programa está sendo executado.
 - `startGo.Run()`: Por fim, executamos tudo.
 
 ### Criando as pastas
@@ -301,7 +301,7 @@ Esse código acima cria na sequência as pastas necessárias, usando `os.Mkdir`,
 
 ### Criando os arquivos
 
-Com as pastas criadas, vamos criar os aquivos, para exemplo vamos criar o `main.go` é claro e o `routes.go`, dentro da pasta **routes**.
+Com as pastas criadas, vamos criar os arquivos, para exemplo vamos criar o `main.go` é claro e o `routes.go`, dentro da pasta **routes**.
 
 ```go
   mainPath := filepath.Join(cmdPath, "main.go")
@@ -357,7 +357,7 @@ Com as pastas e arquivos criados, agora vamos escrever nos arquivos `main.go` e 
   }
 ```
 
-Na função acima, recemos por parâmetro o `mainPath`, que é o caminho do arquivo, vamos adiciona um código simples, que apenas fazer o log de um _Hello World_.
+Na função acima, recebemos por parâmetro o `mainPath`, que é o caminho do arquivo, vamos adiciona um código simples, que apenas fazer o log de um _Hello World_.
 
 - `packageContent`: Criamos o código que vai ser escrito no arquivo.
 - `os.OpenFile`: Abrimos o arquivo especificado em `mainPath`.

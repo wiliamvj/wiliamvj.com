@@ -76,6 +76,16 @@
   </url><url>
     <loc>//localhost:1313/posts/cobra-cli-golang/</loc>
     <lastmod>2023-11-15T16:40:41-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/posts/cobra-cli-golang/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/posts/cobra-cli-golang/"
+                />
   </url><url>
     <loc>//localhost:1313/posts/dark-mode-swaggo/</loc>
     <lastmod>2023-11-11T15:39:40-03:00</lastmod>

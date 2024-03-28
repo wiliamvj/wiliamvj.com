@@ -17,6 +17,13 @@
       <description>What will we cover? SQL injection is one of the most used techniques to carry out attacks on your system, where we can execute malicious SQL on vulnerable endpoints, making it possible to manipulate your database, although there are already many ways to mitigate this attack, it is still possible to leave this gap if the developer don&amp;rsquo;t pay attention.</description>
     </item>
     <item>
+      <title>The power of the CLI with Golang and Cobra CLI</title>
+      <link>//localhost:1313/en/posts/cobra-cli-golang/</link>
+      <pubDate>Wed, 15 Nov 2023 16:40:41 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/cobra-cli-golang/</guid>
+      <description>Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface.</description>
+    </item>
+    <item>
       <title>Using contracts with NestJS, facilitating your unit tests</title>
       <link>//localhost:1313/en/posts/nestjs-contratos/</link>
       <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>
