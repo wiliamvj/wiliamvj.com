@@ -21,7 +21,7 @@
       <link>//localhost:1313/en/posts/cobra-cli-golang/</link>
       <pubDate>Wed, 15 Nov 2023 16:40:41 -0300</pubDate>
       <guid>//localhost:1313/en/posts/cobra-cli-golang/</guid>
-      <description>Hoje vamos ver todo o poder quem uma CLI (Command line interface) pode trazer para o desenvolvimento, uma CLI pode nos ajudar a executar tarefas de forma mais eficaz e leve através de comandos via terminal, sem precisar de uma interface.</description>
+      <description>Today we are going to see all the power that a CLI (Command line interface) can bring to development, a CLI can help us perform tasks more effectively and lightly through commands via terminal, without needing an interface.</description>
     </item>
     <item>
       <title>Using contracts with NestJS, facilitating your unit tests</title>
