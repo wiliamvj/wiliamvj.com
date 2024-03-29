@@ -25,10 +25,10 @@ enableEmoji = true
 [giscus]       
     enable = true
     repo = "wiliamvj/wiliamvj.com"
-    repoId = "R_kgDOKqMPTA"
+    repoId = "R_kgDOLkkfgA"
     category = "General"
-    categoryId = "DIC_kwDOKqMPTM4CbzWf"
-    mapping = "pathname"  # comment value is the default value
+    categoryId = "DIC_kwDOLkkfgM4CeL5M"
+    mapping = "title" 
     # strict = 0
     # reactionsEnabled = 1
     # emitMetadata = 0

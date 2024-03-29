@@ -137,7 +137,6 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-    localStorage.setItem('giscus-theme', giscusTheme);
     setTheme(theme);
   });
 
@@ -161,6 +160,42 @@
     const newTheme = theme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
     setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'en',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
   }
 </script>
 </li>
@@ -192,7 +227,6 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-    localStorage.setItem('giscus-theme', giscusTheme);
     setTheme(theme);
   });
 
@@ -216,6 +250,42 @@
     const newTheme = theme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
     setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'en',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
   }
 </script>
 
@@ -242,6 +312,7 @@
   </header>
 
   
+
 
   <section><p><img alt="thumbnail" src="/posts/cobra-cli-golang/thumb_efefewfweGFH567.png"></p>
 <p>Today we are going to see all the power that a CLI (Command line interface) can bring to development, a CLI can help us perform tasks more effectively and lightly through commands via terminal, without needing an interface. For example, <a href="https://git-scm.com/">git</a> and <a href="https://www.docker.com/">Docker</a> , we practically use their CLI all the time, when we execute a <code>git commit -m &quot;commit message&quot;</code> or <code>docker ps -a</code> we are using a CLI. I&rsquo;m going to leave an <a href="https://dev.to/bboyakers/what-is-a-cli-53a6">article</a> that details what a CLI is.</p>
@@ -705,34 +776,45 @@ We can make our entire boilerplate with this approach, but let&rsquo;s make it a
 </section>
 
   
-    
-  
-    <div class="giscus-comment">
-  <script
-    src="https://giscus.app/client.js"
-    data-repo="wiliamvj/wiliamvj.com"
-    data-repo-id="R_kgDOKqMPTA"
-    data-category="General"
-    data-category-id="DIC_kwDOKqMPTM4CbzWf"
-    data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="top"
-    data-theme="noborder_dark"
-    data-lang="en"
-    
-    data-loading="lazy"
-    
-    crossorigin="anonymous"
-    async
-  ></script>
+
+ <div class="giscus-comment">
+  <script>
+    let theme = localStorage.getItem('theme');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': theme,
+      'data-lang': 'en',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    let giscusScript = document.createElement('script');
+    const article = document.querySelector('article');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    article.appendChild(giscusScript);
+  </script>
 </div>
+ 
 
-  
 
-    
-  
+ 
 
 
   <footer>
