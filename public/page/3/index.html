@@ -138,12 +138,10 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-
-    if (!theme || theme !== 'light') {
-      setTheme('dark');
-    } else {
-      setTheme(theme);
-    }
+    let giscusTheme = theme === 'light' ? 'light' : 'dark';
+    localStorage.setItem('giscus-theme', giscusTheme);
+    setTheme(theme);
+    loadGiscus(giscusTheme);
   });
 
   function setTheme(theme) {
@@ -151,17 +149,11 @@
     localStorage.setItem('theme', theme);
 
     if (theme === 'light') {
-      if (html.classList.contains('dark')) {
-        document.querySelector('html').classList.remove('dark');
-      }
-
+      html.classList.remove('dark');
       document.querySelector('.theme-icon.light').style.display = 'none';
       document.querySelector('.theme-icon.dark').style.display = 'block';
     } else {
-      if (!html.classList.contains('dark')) {
-        document.querySelector('html').classList.add('dark');
-      }
-
+      html.classList.add('dark');
       document.querySelector('.theme-icon.dark').style.display = 'none';
       document.querySelector('.theme-icon.light').style.display = 'block';
     }
@@ -169,12 +161,38 @@
 
   function toggleTheme() {
     const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    localStorage.setItem('giscus-theme', newTheme);
+    setTheme(newTheme);
+    loadGiscus(newTheme);
+  }
 
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
+  function loadGiscus(theme) {
+    let giscusTheme = theme || 'dark';
+    let giscusScript = document.getElementById('giscus-script');
+    if (giscusScript) {
+      giscusScript.remove();
     }
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOKqMPTA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
+      'data-mapping': 'pathname',
+      'data-reactions-enabled': '',
+      'data-emit-metadata': '',
+      'data-theme': giscusTheme,
+    };
+
+    let giscusScriptElement = document.createElement('script');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScriptElement.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScriptElement);
   }
 </script>
 </li>
@@ -206,12 +224,10 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-
-    if (!theme || theme !== 'light') {
-      setTheme('dark');
-    } else {
-      setTheme(theme);
-    }
+    let giscusTheme = theme === 'light' ? 'light' : 'dark';
+    localStorage.setItem('giscus-theme', giscusTheme);
+    setTheme(theme);
+    loadGiscus(giscusTheme);
   });
 
   function setTheme(theme) {
@@ -219,17 +235,11 @@
     localStorage.setItem('theme', theme);
 
     if (theme === 'light') {
-      if (html.classList.contains('dark')) {
-        document.querySelector('html').classList.remove('dark');
-      }
-
+      html.classList.remove('dark');
       document.querySelector('.theme-icon.light').style.display = 'none';
       document.querySelector('.theme-icon.dark').style.display = 'block';
     } else {
-      if (!html.classList.contains('dark')) {
-        document.querySelector('html').classList.add('dark');
-      }
-
+      html.classList.add('dark');
       document.querySelector('.theme-icon.dark').style.display = 'none';
       document.querySelector('.theme-icon.light').style.display = 'block';
     }
@@ -237,12 +247,38 @@
 
   function toggleTheme() {
     const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    localStorage.setItem('giscus-theme', newTheme);
+    setTheme(newTheme);
+    loadGiscus(newTheme);
+  }
 
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
+  function loadGiscus(theme) {
+    let giscusTheme = theme || 'dark';
+    let giscusScript = document.getElementById('giscus-script');
+    if (giscusScript) {
+      giscusScript.remove();
     }
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOKqMPTA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
+      'data-mapping': 'pathname',
+      'data-reactions-enabled': '',
+      'data-emit-metadata': '',
+      'data-theme': giscusTheme,
+    };
+
+    let giscusScriptElement = document.createElement('script');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScriptElement.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScriptElement);
   }
 </script>
 
@@ -386,11 +422,8 @@
     </svg>
   </span>
 </button>
-</body>
-</html>
 
-
-<script>
+<script defer>
   const mybutton = document.getElementById('btn-back-to-top');
   const scrollFunction = () => {
     if (
@@ -409,5 +442,5 @@
   mybutton.addEventListener('click', backToTop);
   window.addEventListener('scroll', scrollFunction);
 </script>
-
-
+</body>
+</html>

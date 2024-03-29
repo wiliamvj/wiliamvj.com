@@ -175,6 +175,25 @@
       setTheme('light');
     }
   }
+
+  let giscusTheme = localStorage.getItem('giscus-theme');
+  let giscusAttributes = {
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'wiliamvj/wiliamvj.com',
+    'data-repo-id': 'R_kgDOKqMPTA',
+    'data-category': 'General',
+    'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
+    'data-mapping': 'pathname',
+    'data-reactions-enabled': '1',
+    'data-emit-metadata': '0',
+    'data-theme': giscusTheme,
+  };
+
+  let giscusScript = document.createElement('script');
+  Object.entries(giscusAttributes).forEach(([key, value]) =>
+    giscusScript.setAttribute(key, value)
+  );
+  document.body.appendChild(giscusScript);
 </script>
 </li>
   </ul>
@@ -243,6 +262,25 @@
       setTheme('light');
     }
   }
+
+  let giscusTheme = localStorage.getItem('giscus-theme');
+  let giscusAttributes = {
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'wiliamvj/wiliamvj.com',
+    'data-repo-id': 'R_kgDOKqMPTA',
+    'data-category': 'General',
+    'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
+    'data-mapping': 'pathname',
+    'data-reactions-enabled': '1',
+    'data-emit-metadata': '0',
+    'data-theme': giscusTheme,
+  };
+
+  let giscusScript = document.createElement('script');
+  Object.entries(giscusAttributes).forEach(([key, value]) =>
+    giscusScript.setAttribute(key, value)
+  );
+  document.body.appendChild(giscusScript);
 </script>
 
       </div>
@@ -660,7 +698,7 @@
       data-reactions-enabled="1"
       data-emit-metadata="0"
       data-input-position="top"
-      data-theme="dark"
+      data-theme="light"
       data-lang="en"
       
         data-loading="lazy"
@@ -725,77 +763,49 @@
 </div>
 
 </footer>
+
+<button
+  type="button"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  class="!fixed bottom-5 end-5 hidden rounded-md bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-wpurplehover hover:shadow-lg focus:bg-wpurplehover focus:shadow-lg focus:outline-none focus:ring-0 active:bg-wpurple active:shadow-lg"
+  id="btn-back-to-top"
+>
+  <span class="[&>svg]:w-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="3"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+      />
+    </svg>
+  </span>
+</button>
+
+<script defer>
+  const mybutton = document.getElementById('btn-back-to-top');
+  const scrollFunction = () => {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.classList.remove('hidden');
+    } else {
+      mybutton.classList.add('hidden');
+    }
+  };
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  mybutton.addEventListener('click', backToTop);
+  window.addEventListener('scroll', scrollFunction);
+</script>
 </body>
 </html>
-
-<script>
-  const body = document.body;
-  const backToTop = document.querySelector('.back-to-top');
-  const opacityClass = 'opacity-0';
-  const visibilityClass = 'invisible';
-
-  const scroll = new LocomotiveScroll({
-    el: document.querySelector('[data-scroll-container]'),
-    smooth: true,
-    tablet: { smooth: true },
-    smartphone: { smooth: true },
-  });
-
-  const arrayOfColors = [
-    '#0a9396',
-    '#005f73',
-    '#ae2012',
-    '#3d405b',
-    '#003049',
-    '#bc6c25',
-    '#ff006e',
-    '#ef476f',
-    '#1982c4',
-    '#ee964b',
-    '#0ead69',
-    '#390099',
-    '#f6aa1c',
-    '#54101d',
-    '#2b2c28',
-    '#85c7f2',
-    '#e15a97',
-    '#2b70e3',
-    '#b36a5e',
-  ];
-
-  function getRandomColor() {
-    const arrayLength = arrayOfColors.length;
-    const randomValue = Math.random() * arrayLength;
-    const roundedNumber = Math.floor(randomValue);
-    const color = arrayOfColors[roundedNumber];
-    return color;
-  }
-
-  scroll.on('call', (value, way, obj) => {
-    if (value === 'randomizeTextColor') {
-      if (way === 'enter') {
-        obj.el.style.color = getRandomColor();
-      }
-    } else if (value === 'toggleBackToTop') {
-      if (way === 'enter') {
-        backToTop.classList.add(opacityClass, visibilityClass);
-      } else {
-        backToTop.classList.remove(opacityClass, visibilityClass);
-      }
-    }
-  });
-
-  scroll.on('scroll', (instance) => {
-    const visibleSubSectionHeading = document.querySelector(
-      '.sub-section h2.is-inview'
-    );
-
-    if (visibleSubSectionHeading) {
-      const parentSection =
-        visibleSubSectionHeading.parentElement.parentElement;
-      body.style.backgroundColor = parentSection.dataset.bgColor;
-    } else {
-      body.style.backgroundColor = '';
-    }
-  });
-</script>

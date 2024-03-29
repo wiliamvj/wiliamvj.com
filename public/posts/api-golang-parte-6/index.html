@@ -175,6 +175,25 @@
       setTheme('light');
     }
   }
+
+  let giscusTheme = localStorage.getItem('giscus-theme');
+  let giscusAttributes = {
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'wiliamvj/wiliamvj.com',
+    'data-repo-id': 'R_kgDOKqMPTA',
+    'data-category': 'General',
+    'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
+    'data-mapping': 'pathname',
+    'data-reactions-enabled': '1',
+    'data-emit-metadata': '0',
+    'data-theme': giscusTheme,
+  };
+
+  let giscusScript = document.createElement('script');
+  Object.entries(giscusAttributes).forEach(([key, value]) =>
+    giscusScript.setAttribute(key, value)
+  );
+  document.body.appendChild(giscusScript);
 </script>
 </li>
   </ul>
@@ -243,6 +262,25 @@
       setTheme('light');
     }
   }
+
+  let giscusTheme = localStorage.getItem('giscus-theme');
+  let giscusAttributes = {
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'wiliamvj/wiliamvj.com',
+    'data-repo-id': 'R_kgDOKqMPTA',
+    'data-category': 'General',
+    'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
+    'data-mapping': 'pathname',
+    'data-reactions-enabled': '1',
+    'data-emit-metadata': '0',
+    'data-theme': giscusTheme,
+  };
+
+  let giscusScript = document.createElement('script');
+  Object.entries(giscusAttributes).forEach(([key, value]) =>
+    giscusScript.setAttribute(key, value)
+  );
+  document.body.appendChild(giscusScript);
 </script>
 
       </div>
@@ -824,7 +862,7 @@
       data-reactions-enabled="1"
       data-emit-metadata="0"
       data-input-position="top"
-      data-theme="dark"
+      data-theme="light"
       data-lang="en"
       
         data-loading="lazy"
@@ -889,11 +927,12 @@
 </div>
 
 </footer>
+
 <button
   type="button"
   data-twe-ripple-init
   data-twe-ripple-color="light"
-  class="!fixed bottom-5 end-5 hidden rounded-full bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+  class="!fixed bottom-5 end-5 hidden rounded-md bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-wpurplehover hover:shadow-lg focus:bg-wpurplehover focus:shadow-lg focus:outline-none focus:ring-0 active:bg-wpurple active:shadow-lg"
   id="btn-back-to-top"
 >
   <span class="[&>svg]:w-4">
@@ -902,6 +941,7 @@
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="3"
+      stroke="currentColor"
     >
       <path
         stroke-linecap="round"
@@ -911,10 +951,8 @@
     </svg>
   </span>
 </button>
-</body>
-</html>
 
-<script>
+<script defer>
   const mybutton = document.getElementById('btn-back-to-top');
   const scrollFunction = () => {
     if (
@@ -933,3 +971,5 @@
   mybutton.addEventListener('click', backToTop);
   window.addEventListener('scroll', scrollFunction);
 </script>
+</body>
+</html>
