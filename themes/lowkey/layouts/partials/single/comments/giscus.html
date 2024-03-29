@@ -2,6 +2,8 @@
   <script>
     let theme = localStorage.getItem('theme');
     const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
     let giscusAttributes = {
       id: 'giscus-script',
       src: 'https://giscus.app/client.js',
@@ -18,7 +20,7 @@
       'data-input-position':
         '{{ .Site.Params.giscus.inputPosition | default `top` }}',
       'data-theme': theme,
-      'data-lang': '{{ .Site.Params.giscus.lang | default `en` }}',
+      'data-lang': lang,
       'data-loading': '{{ if .Site.Params.giscus.lazyLoading }}lazy{{ end }}',
       crossorigin: 'anonymous',
       async: '',

@@ -34,5 +34,5 @@ enableEmoji = true
     # emitMetadata = 0
     # inputPosition = "top"
     theme = "noborder_dark"
-    # lang = "zh-CN"
+    lang = "pt"
     lazyLoading = true

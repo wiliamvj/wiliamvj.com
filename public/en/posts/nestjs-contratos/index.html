@@ -186,7 +186,7 @@
       'data-input-position':
         'top',
       'data-theme': giscusTheme,
-      'data-lang': 'en',
+      'data-lang': 'pt',
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -276,7 +276,7 @@
       'data-input-position':
         'top',
       'data-theme': giscusTheme,
-      'data-lang': 'en',
+      'data-lang': 'pt',
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -520,6 +520,8 @@ In the example below we have a simple service, which searches for the user by id
   <script>
     let theme = localStorage.getItem('theme');
     const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
     let giscusAttributes = {
       id: 'giscus-script',
       src: 'https://giscus.app/client.js',
@@ -536,7 +538,7 @@ In the example below we have a simple service, which searches for the user by id
       'data-input-position':
         'top',
       'data-theme': theme,
-      'data-lang': 'en',
+      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',

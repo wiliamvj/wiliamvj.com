@@ -186,7 +186,7 @@
       'data-input-position':
         'top',
       'data-theme': giscusTheme,
-      'data-lang': 'en',
+      'data-lang': 'pt',
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -276,7 +276,7 @@
       'data-input-position':
         'top',
       'data-theme': giscusTheme,
-      'data-lang': 'en',
+      'data-lang': 'pt',
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -617,6 +617,8 @@
   <script>
     let theme = localStorage.getItem('theme');
     const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
     let giscusAttributes = {
       id: 'giscus-script',
       src: 'https://giscus.app/client.js',
@@ -633,7 +635,7 @@
       'data-input-position':
         'top',
       'data-theme': theme,
-      'data-lang': 'en',
+      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
