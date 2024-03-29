@@ -33,6 +33,6 @@ enableEmoji = true
     # reactionsEnabled = 1
     # emitMetadata = 0
     # inputPosition = "top"
-    # theme = "dark"
+    theme = "noborder_dark"
     # lang = "zh-CN"
     lazyLoading = true

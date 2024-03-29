@@ -137,12 +137,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-
-    if (!theme || theme !== 'light') {
-      setTheme('dark');
-    } else {
-      setTheme(theme);
-    }
+    localStorage.setItem('giscus-theme', giscusTheme);
+    setTheme(theme);
   });
 
   function setTheme(theme) {
@@ -150,17 +146,11 @@
     localStorage.setItem('theme', theme);
 
     if (theme === 'light') {
-      if (html.classList.contains('dark')) {
-        document.querySelector('html').classList.remove('dark');
-      }
-
+      html.classList.remove('dark');
       document.querySelector('.theme-icon.light').style.display = 'none';
       document.querySelector('.theme-icon.dark').style.display = 'block';
     } else {
-      if (!html.classList.contains('dark')) {
-        document.querySelector('html').classList.add('dark');
-      }
-
+      html.classList.add('dark');
       document.querySelector('.theme-icon.dark').style.display = 'none';
       document.querySelector('.theme-icon.light').style.display = 'block';
     }
@@ -168,32 +158,10 @@
 
   function toggleTheme() {
     const theme = localStorage.getItem('theme');
-
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
   }
-
-  let giscusTheme = localStorage.getItem('giscus-theme');
-  let giscusAttributes = {
-    src: 'https://giscus.app/client.js',
-    'data-repo': 'wiliamvj/wiliamvj.com',
-    'data-repo-id': 'R_kgDOKqMPTA',
-    'data-category': 'General',
-    'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
-    'data-mapping': 'pathname',
-    'data-reactions-enabled': '1',
-    'data-emit-metadata': '0',
-    'data-theme': giscusTheme,
-  };
-
-  let giscusScript = document.createElement('script');
-  Object.entries(giscusAttributes).forEach(([key, value]) =>
-    giscusScript.setAttribute(key, value)
-  );
-  document.body.appendChild(giscusScript);
 </script>
 </li>
   </ul>
@@ -224,12 +192,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-
-    if (!theme || theme !== 'light') {
-      setTheme('dark');
-    } else {
-      setTheme(theme);
-    }
+    localStorage.setItem('giscus-theme', giscusTheme);
+    setTheme(theme);
   });
 
   function setTheme(theme) {
@@ -237,17 +201,11 @@
     localStorage.setItem('theme', theme);
 
     if (theme === 'light') {
-      if (html.classList.contains('dark')) {
-        document.querySelector('html').classList.remove('dark');
-      }
-
+      html.classList.remove('dark');
       document.querySelector('.theme-icon.light').style.display = 'none';
       document.querySelector('.theme-icon.dark').style.display = 'block';
     } else {
-      if (!html.classList.contains('dark')) {
-        document.querySelector('html').classList.add('dark');
-      }
-
+      html.classList.add('dark');
       document.querySelector('.theme-icon.dark').style.display = 'none';
       document.querySelector('.theme-icon.light').style.display = 'block';
     }
@@ -255,32 +213,10 @@
 
   function toggleTheme() {
     const theme = localStorage.getItem('theme');
-
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
   }
-
-  let giscusTheme = localStorage.getItem('giscus-theme');
-  let giscusAttributes = {
-    src: 'https://giscus.app/client.js',
-    'data-repo': 'wiliamvj/wiliamvj.com',
-    'data-repo-id': 'R_kgDOKqMPTA',
-    'data-category': 'General',
-    'data-category-id': 'DIC_kwDOKqMPTM4CbzWf',
-    'data-mapping': 'pathname',
-    'data-reactions-enabled': '1',
-    'data-emit-metadata': '0',
-    'data-theme': giscusTheme,
-  };
-
-  let giscusScript = document.createElement('script');
-  Object.entries(giscusAttributes).forEach(([key, value]) =>
-    giscusScript.setAttribute(key, value)
-  );
-  document.body.appendChild(giscusScript);
 </script>
 
       </div>
@@ -1434,27 +1370,27 @@
     
   
     <div class="giscus-comment">
-    <script
-      src="https://giscus.app/client.js"
-      data-repo="wiliamvj/wiliamvj.com"
-      data-repo-id="R_kgDOKqMPTA"
-      data-category="General"
-      data-category-id="DIC_kwDOKqMPTM4CbzWf"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="top"
-      data-theme="light"
-      data-lang="en"
-      
-        data-loading="lazy"
-      
-      crossorigin="anonymous"
-      async
-    >
-    </script>
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="wiliamvj/wiliamvj.com"
+    data-repo-id="R_kgDOKqMPTA"
+    data-category="General"
+    data-category-id="DIC_kwDOKqMPTM4CbzWf"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="noborder_dark"
+    data-lang="en"
+    
+    data-loading="lazy"
+    
+    crossorigin="anonymous"
+    async
+  ></script>
 </div>
+
   
 
     

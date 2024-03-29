@@ -15,10 +15,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const theme = localStorage.getItem('theme');
-    let giscusTheme = theme === 'light' ? 'light' : 'dark';
-    localStorage.setItem('giscus-theme', giscusTheme);
     setTheme(theme);
-    loadGiscus(giscusTheme);
   });
 
   function setTheme(theme) {
@@ -40,35 +37,6 @@
     const theme = localStorage.getItem('theme');
     const newTheme = theme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
-    localStorage.setItem('giscus-theme', newTheme);
     setTheme(newTheme);
-    loadGiscus(newTheme);
-  }
-
-  function loadGiscus(theme) {
-    let giscusTheme = theme || 'dark';
-    let giscusScript = document.getElementById('giscus-script');
-    if (giscusScript) {
-      giscusScript.remove();
-    }
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': '{{ .Site.Params.giscus.repo }}',
-      'data-repo-id': '{{ .Site.Params.giscus.repoId }}',
-      'data-category': '{{ .Site.Params.giscus.category }}',
-      'data-category-id': '{{ .Site.Params.giscus.categoryId }}',
-      'data-mapping': '{{ .Site.Params.giscus.mapping }}',
-      'data-reactions-enabled': '{{ .Site.Params.giscus.reactionsEnabled }}',
-      'data-emit-metadata': '{{ .Site.Params.giscus.emitMetadata }}',
-      'data-theme': giscusTheme,
-    };
-
-    let giscusScriptElement = document.createElement('script');
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScriptElement.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScriptElement);
   }
 </script>
