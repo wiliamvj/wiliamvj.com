@@ -3,6 +3,7 @@ title: 'Utilizando Testcontainers para Testes de Integração com NestJS e Prism
 date: 2024-03-16T19:03:34-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'thumb_fd435fgh5y.png'
 ---
 
 ![thumbnail](thumb_fd435fgh5y.png)

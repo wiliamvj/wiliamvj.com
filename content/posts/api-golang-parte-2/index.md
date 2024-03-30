@@ -3,6 +3,7 @@ title: 'API completa em Golang - Parte 2'
 date: 2023-12-05T17:38:31-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'ODggcvG44fhfry546K.png'
 ---
 
 ![thumbnail](ODggcvG44fhfry546K.png)

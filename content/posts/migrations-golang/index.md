@@ -3,6 +3,7 @@ title: 'Usando migrations com Golang'
 date: 2023-11-18T17:00:30-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'dsfU80Olpdrfdg.png'
 ---
 
 ![thumbnail](dsfU80Olpdrfdg.png)

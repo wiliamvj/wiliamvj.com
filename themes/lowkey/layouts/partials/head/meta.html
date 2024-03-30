@@ -2,7 +2,9 @@
 resources.GetMatch .Site.Params.appleTouchIcon }} {{ $favicon16 :=
 resources.GetMatch .Site.Params.favicon16x16 }} {{ $favicon32 :=
 resources.GetMatch .Site.Params.favicon32x32 }} {{ $favicon16 :=
-resources.GetMatch .Site.Params.favicon16x16 }}
+resources.GetMatch .Site.Params.favicon16x16 }} {{ $permalink := replace
+.Permalink "/en/" "/" }} {{ $thumbnail := replace .Params.thumbnail "/en/" "/"
+}}
 
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -21,14 +23,14 @@ resources.GetMatch .Site.Params.favicon16x16 }}
 <meta name="twitter:site" content="{{ .Permalink }}" />
 <meta name="twitter:title" content="{{ .Title }}" />
 <meta name="twitter:description" content="{{ .Description }}" />
-<meta name="twitter:image" content="{{ .Permalink }}{{ .Params.thumbnail }}" />
+<meta name="twitter:image" content="{{ $permalink }}{{ .Params.thumbnail }}" />
 <meta property="twitter:domain" content="wiliamvj.com" />
 
 <meta property="og:type" content="article" />
 <meta property="og:title" content="{{ .Title }}" />
 <meta property="og:description" content="{{ .Description }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
-<meta property="og:image" content="{{ .Permalink }}{{ .Params.thumbnail }}" />
+<meta property="og:image" content="{{ $permalink }}{{ .Params.thumbnail }}" />
 <!-- end meta tags -->
 
 <meta

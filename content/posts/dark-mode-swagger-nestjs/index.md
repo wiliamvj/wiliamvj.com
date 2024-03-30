@@ -4,6 +4,7 @@ author: 'wiliamvj'
 date: 2023-11-05T15:14:48-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'fsdf98s0f980sd.png'
 ---
 
 ![thumbnail](fsdf98s0f980sd.png)

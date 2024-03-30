@@ -3,6 +3,7 @@ title: 'Preventing SQL Injection with Golang'
 date: 2023-12-27T19:03:34-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'thumb_en_fgfgdfg.png'
 ---
 
 ![thumbnail](thumb_en_fgfgdfg.png)

@@ -3,6 +3,7 @@ title: 'Desvendando o package fmt do Go'
 date: 2023-11-01T15:06:59-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'iiph6pld3fw52byv31rc6.png'
 ---
 
 ![thumbnail](iiph6pld3fw52byv31rc6.png)

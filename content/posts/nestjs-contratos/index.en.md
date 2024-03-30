@@ -3,6 +3,7 @@ title: Using contracts with NestJS, facilitating your unit tests
 date: 2023-10-11T14:56:59-03:00
 draft: false
 tableOfContents: false
+thumbnail: '8df7g897dfg98dfg7.png'
 ---
 
 ![thumbnail](8df7g897dfg98dfg7.png)

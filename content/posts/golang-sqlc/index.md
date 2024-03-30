@@ -3,6 +3,7 @@ title: 'Tenha controle sobre seu SQL com Golang e SQLC'
 date: 2023-11-25T17:11:00-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'dfgU78Lpfdg34.png'
 ---
 
 ![thumbnail](dfgU78Lpfdg34.png)

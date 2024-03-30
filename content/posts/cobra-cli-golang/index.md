@@ -3,6 +3,7 @@ title: 'O poder do CLI com Golang e Cobra CLI'
 date: 2023-11-15T16:40:41-03:00
 draft: false
 tableOfContents: false
+thumbnail: 'thumb_efefewfweGFH567.png'
 ---
 
 ![thumbnail](thumb_efefewfweGFH567.png)
