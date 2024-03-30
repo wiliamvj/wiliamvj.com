@@ -7,7 +7,6 @@ description: 'A parte de autenticação de uma aplicação é algo muito importa
 thumbnail: 'thumb_esdhfkjhsd342DSF.png'
 ---
 
-thumbnail= "images/landscape.jpg"
 ![thumbnail](thumb_esdhfkjhsd342DSF.png)
 
 ## O que é o cognito?
