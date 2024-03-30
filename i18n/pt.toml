@@ -24,3 +24,6 @@
 
 [published_in]
     other = "Publicado em"
+
+[readingMetadata]
+    other = "Tempo de leitura"

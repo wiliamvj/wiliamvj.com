@@ -20,9 +20,15 @@
 <meta name="twitter:title" content="404 Page not found" />
 <meta name="twitter:description" content="" />
 <meta name="twitter:image" content="//localhost:1313/404.html" />
+<meta
+  name="twitter:image:src"
+  content="//localhost:1313/404.html"
+/>
 <meta name="twitter:domain" content="wiliamvj.com" />
 <meta name="twitter:creator" content="@wiliamjoaquim" />
 <meta name="twitter:image:alt" content="404 Page not found" />
+<meta name="twitter:label1" content="Reading time" />
+<meta name="twitter:data1" content="0 minutos de leitura" />
 
 <meta property="og:type" content="article" />
 <meta property="og:title" content="404 Page not found" />
@@ -190,42 +196,15 @@
     setTheme(newTheme);
     reloadGiscus(newTheme);
   }
+</script>
 
+
+<script>
   function reloadGiscus(theme) {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': 'pt',
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
+    return;
   }
 </script>
+
 </li>
   </ul>
 </nav>
@@ -280,42 +259,15 @@
     setTheme(newTheme);
     reloadGiscus(newTheme);
   }
+</script>
 
+
+<script>
   function reloadGiscus(theme) {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': 'pt',
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
+    return;
   }
 </script>
+
 
       </div>
     </div>
