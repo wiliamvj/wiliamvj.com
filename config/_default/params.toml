@@ -7,6 +7,8 @@ description = "Wiliam V. Joaquim - Software Developer"
 # Header Configuration
 avatar = "img/profile-picture.jpg"
 
+
+
 #favicon
 favicon = "icons/favicon.ico"
 favicon16x16 = "icons/favicon-16x16.png"
