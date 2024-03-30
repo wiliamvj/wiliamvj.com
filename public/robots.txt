@@ -1,10 +1,10 @@
 User-agent: *
 
-Disallow: /
-
 Disallow: /posts/
 
 Disallow: /posts/teste-integracao-nestjs/
+
+Disallow: /
 
 Disallow: /posts/autenticacao-golang-cognito/
 

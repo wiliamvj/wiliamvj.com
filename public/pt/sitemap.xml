@@ -2,19 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:1313/</loc>
-    <lastmod>2024-03-16T19:03:34-03:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="//localhost:1313/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="//localhost:1313/"
-                />
-  </url><url>
     <loc>//localhost:1313/posts/</loc>
     <lastmod>2024-03-16T19:03:34-03:00</lastmod>
     <xhtml:link
@@ -30,6 +17,19 @@
   </url><url>
     <loc>//localhost:1313/posts/teste-integracao-nestjs/</loc>
     <lastmod>2024-03-16T19:03:34-03:00</lastmod>
+  </url><url>
+    <loc>//localhost:1313/</loc>
+    <lastmod>2024-03-16T19:03:34-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/"
+                />
   </url><url>
     <loc>//localhost:1313/posts/autenticacao-golang-cognito/</loc>
     <lastmod>2024-02-07T19:03:34-03:00</lastmod>

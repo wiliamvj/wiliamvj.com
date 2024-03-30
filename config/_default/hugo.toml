@@ -8,6 +8,9 @@ enableRobotsTXT = true
 summaryLength = 15
 paginate = 8
 googleAnalytics = "G-TG8KZ9PQBT"
+[author]
+  name = "Wiliam V. Joaquim"
+  homepage = "https://wiliamvj.com"
 
 [languages]
 [languages.en]
