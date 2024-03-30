@@ -5,6 +5,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>The power of the CLI with Golang and Cobra CLI</title>
+
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="wiliamvj.com" />
+<meta name="twitter:title" content="The power of the CLI with Golang and Cobra CLI" />
+<meta name="twitter:description" content="" />
+<meta
+  name="twitter:image"
+  content="https://html.sammy-codes.com/images/large-profile.jpg"
+/>
+
+
 <meta
   name="apple-mobile-web-app-title"
   content="The power of the CLI with Golang and Cobra CLI"
@@ -88,7 +101,6 @@
         href="/en"
         class=""
         
-        onclick="reloadGiscusLanguage()"
       >
         Posts
       </a>
@@ -100,7 +112,6 @@
         href="https://wiliamvj.substack.com/"
         class=""
          target="_blank" 
-        onclick="reloadGiscusLanguage()"
       >
         Newsletter
       </a>
@@ -112,7 +123,6 @@
         href="/"
         class=""
         
-        onclick="reloadGiscusLanguage()"
       >
         pt-BR
       </a>
@@ -190,45 +200,6 @@
         'top',
       'data-theme': giscusTheme,
       'data-lang': 'pt',
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
-  }
-
-  function reloadGiscusLanguage() {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-    const theme = localStorage.getItem('theme');
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-    var currentUrl = window.location.href;
-    const lang = currentUrl.indexOf('/en/') !== -1 ? 'pt' : 'en';
-
-    console.log(lang);
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -319,45 +290,6 @@
         'top',
       'data-theme': giscusTheme,
       'data-lang': 'pt',
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
-  }
-
-  function reloadGiscusLanguage() {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-    const theme = localStorage.getItem('theme');
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-    var currentUrl = window.location.href;
-    const lang = currentUrl.indexOf('/en/') !== -1 ? 'pt' : 'en';
-
-    console.log(lang);
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -862,6 +794,8 @@ We can make our entire boilerplate with this approach, but let&rsquo;s make it a
   <script>
     let theme = localStorage.getItem('theme');
     const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
     let giscusAttributes = {
       id: 'giscus-script',
       src: 'https://giscus.app/client.js',
@@ -878,7 +812,7 @@ We can make our entire boilerplate with this approach, but let&rsquo;s make it a
       'data-input-position':
         'top',
       'data-theme': theme,
-      'data-lang': 'pt',
+      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',

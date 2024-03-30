@@ -5,6 +5,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Categories</title>
+
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="wiliamvj.com" />
+<meta name="twitter:title" content="Categories" />
+<meta name="twitter:description" content="" />
+<meta
+  name="twitter:image"
+  content="https://html.sammy-codes.com/images/large-profile.jpg"
+/>
+
+
 <meta
   name="apple-mobile-web-app-title"
   content="Categories"
@@ -88,7 +101,6 @@
         href="/"
         class=""
         
-        onclick="reloadGiscusLanguage()"
       >
         Artigos
       </a>
@@ -100,7 +112,6 @@
         href="https://wiliamvj.substack.com/"
         class=""
          target="_blank" 
-        onclick="reloadGiscusLanguage()"
       >
         Newsletter
       </a>
@@ -112,7 +123,6 @@
         href="/en/"
         class=""
         
-        onclick="reloadGiscusLanguage()"
       >
         en-US
       </a>
@@ -190,45 +200,6 @@
         'top',
       'data-theme': giscusTheme,
       'data-lang': 'pt',
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
-  }
-
-  function reloadGiscusLanguage() {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-    const theme = localStorage.getItem('theme');
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-    var currentUrl = window.location.href;
-    const lang = currentUrl.indexOf('/en/') !== -1 ? 'pt' : 'en';
-
-    console.log(lang);
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -329,85 +300,36 @@
     );
     document.body.appendChild(giscusScript);
   }
-
-  function reloadGiscusLanguage() {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-    const theme = localStorage.getItem('theme');
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-    var currentUrl = window.location.href;
-    const lang = currentUrl.indexOf('/en/') !== -1 ? 'pt' : 'en';
-
-    console.log(lang);
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': lang,
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
-  }
 </script>
 
       </div>
     </div>
 
-    <main id="content"> 
+    <main id="content">
 
 <div class="flex flex-col gap-1">
   <h1 class="title-small">
-    
-      Categories
-    
+     Categories 
   </h1>
 
-  
-    <p>Our Categories Collection</p>
-
-  
+   <p>Our Categories Collection</p>
+ 
 </div>
 
 <section class="py-10 flex flex-col gap-10">
   <ul class="taxonomy-list">
-     
-      <li>
-        <a href=" //localhost:1313/categories/css/ ">
-          CSS (0)
-        </a>
-      </li>
-     
-      <li>
-        <a href=" //localhost:1313/categories/javascript/ ">
-          JavaScript (0)
-        </a>
-      </li>
-     
-      <li>
-        <a href=" //localhost:1313/categories/uncategories/ ">
-          Uncategories (0)
-        </a>
-      </li>
+    
+    <li>
+      <a href=" //localhost:1313/categories/css/ "> CSS (0) </a>
+    </li>
+    
+    <li>
+      <a href=" //localhost:1313/categories/javascript/ "> JavaScript (0) </a>
+    </li>
+    
+    <li>
+      <a href=" //localhost:1313/categories/uncategories/ "> Uncategories (0) </a>
+    </li>
     
   </ul>
 </section>

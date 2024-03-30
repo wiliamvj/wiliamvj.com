@@ -3,8 +3,11 @@ title: 'Autenticação com Golang e AWS Cognito'
 date: 2024-02-07T19:03:34-03:00
 draft: false
 tableOfContents: false
+description: 'A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.'
+thumbnail: 'thumb_esdhfkjhsd342DSF.png'
 ---
 
+thumbnail= "images/landscape.jpg"
 ![thumbnail](thumb_esdhfkjhsd342DSF.png)
 
 ## O que é o cognito?

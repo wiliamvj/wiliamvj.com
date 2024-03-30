@@ -5,13 +5,28 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Autenticação com Golang e AWS Cognito</title>
+
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="//localhost:1313/posts/autenticacao-golang-cognito/" />
+<meta name="twitter:title" content="Autenticação com Golang e AWS Cognito" />
+<meta name="twitter:description" content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar." />
+<meta name="twitter:image" content="//localhost:1313/thumb_esdhfkjhsd342DSF.png" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Autenticação com Golang e AWS Cognito" />
+<meta property="og:description" content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar." />
+<meta property="og:url" content="//localhost:1313/posts/autenticacao-golang-cognito/" />
+<meta property="og:image" content="//localhost:1313/thumb_esdhfkjhsd342DSF.png" />
+
+
 <meta
   name="apple-mobile-web-app-title"
   content="Autenticação com Golang e AWS Cognito"
 />
 <meta
   name="description"
-  content="O que é o cognito? A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar."
+  content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar."
 />
 <link
   rel="apple-touch-icon"
@@ -88,7 +103,6 @@
         href="/"
         class=""
         
-        onclick="reloadGiscusLanguage()"
       >
         Artigos
       </a>
@@ -100,7 +114,6 @@
         href="https://wiliamvj.substack.com/"
         class=""
          target="_blank" 
-        onclick="reloadGiscusLanguage()"
       >
         Newsletter
       </a>
@@ -112,7 +125,6 @@
         href="/en/"
         class=""
         
-        onclick="reloadGiscusLanguage()"
       >
         en-US
       </a>
@@ -190,45 +202,6 @@
         'top',
       'data-theme': giscusTheme,
       'data-lang': 'pt',
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
-  }
-
-  function reloadGiscusLanguage() {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-    const theme = localStorage.getItem('theme');
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-    var currentUrl = window.location.href;
-    const lang = currentUrl.indexOf('/en/') !== -1 ? 'pt' : 'en';
-
-    console.log(lang);
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',
@@ -329,45 +302,6 @@
     );
     document.body.appendChild(giscusScript);
   }
-
-  function reloadGiscusLanguage() {
-    const existingGiscusScript = document.getElementById('giscus-script');
-    if (existingGiscusScript) existingGiscusScript.remove();
-    const theme = localStorage.getItem('theme');
-    let giscusScript = document.createElement('script');
-    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
-    var currentUrl = window.location.href;
-    const lang = currentUrl.indexOf('/en/') !== -1 ? 'pt' : 'en';
-
-    console.log(lang);
-
-    let giscusAttributes = {
-      id: 'giscus-script',
-      src: 'https://giscus.app/client.js',
-      'data-repo': 'wiliamvj\/wiliamvj.com',
-      'data-repo-id': 'R_kgDOLkkfgA',
-      'data-category': 'General',
-      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
-      'data-mapping': 'title',
-      'data-strict': '0',
-      'data-reactions-enabled':
-        '1',
-      'data-emit-metadata':
-        '0',
-      'data-input-position':
-        'top',
-      'data-theme': giscusTheme,
-      'data-lang': lang,
-      'data-loading': 'lazy',
-      crossorigin: 'anonymous',
-      async: '',
-    };
-
-    Object.entries(giscusAttributes).forEach(([key, value]) =>
-      giscusScript.setAttribute(key, value)
-    );
-    document.body.appendChild(giscusScript);
-  }
 </script>
 
       </div>
@@ -395,7 +329,8 @@
   
 
 
-  <section><p><img alt="thumbnail" src="/posts/autenticacao-golang-cognito/thumb_esdhfkjhsd342DSF.png"></p>
+  <section><p>thumbnail= &ldquo;images/landscape.jpg&rdquo;
+<img alt="thumbnail" src="/posts/autenticacao-golang-cognito/thumb_esdhfkjhsd342DSF.png"></p>
 <h2 id="o-que-é-o-cognito">O que é o cognito?</h2>
 <p>A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.</p>
 <p>Pensando nisso abordar um pouco sobre o <a href="https://aws.amazon.com/pt/pm/cognito/">Cognito</a>, uma ferramenta muito bacana da AWS que pode ajudar você na parte de autenticação e validação do usuário para aplicações web e mobile e que muitas pessoas não conhecem.</p>
@@ -921,6 +856,8 @@
   <script>
     let theme = localStorage.getItem('theme');
     const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
     let giscusAttributes = {
       id: 'giscus-script',
       src: 'https://giscus.app/client.js',
@@ -937,7 +874,7 @@
       'data-input-position':
         'top',
       'data-theme': theme,
-      'data-lang': 'pt',
+      'data-lang': lang,
       'data-loading': 'lazy',
       crossorigin: 'anonymous',
       async: '',

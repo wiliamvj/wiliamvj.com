@@ -7,6 +7,21 @@ resources.GetMatch .Site.Params.favicon16x16 }}
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}</title>
+
+<!-- Meta tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="{{ .Permalink }}" />
+<meta name="twitter:title" content="{{ .Title }}" />
+<meta name="twitter:description" content="{{ .Description }}" />
+<meta name="twitter:image" content="{{ .Params.thumbnail | absURL }}" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{ .Title }}" />
+<meta property="og:description" content="{{ .Description }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:image" content="{{ .Params.thumbnail | absURL }}" />
+<!-- end meta tags -->
+
 <meta
   name="apple-mobile-web-app-title"
   content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}"
