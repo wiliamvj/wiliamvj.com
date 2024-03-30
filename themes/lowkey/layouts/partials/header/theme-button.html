@@ -40,7 +40,10 @@
     setTheme(newTheme);
     reloadGiscus(newTheme);
   }
+</script>
 
+{{if eq .Section "posts"}}
+<script>
   function reloadGiscus(theme) {
     const existingGiscusScript = document.getElementById('giscus-script');
     if (existingGiscusScript) existingGiscusScript.remove();
@@ -76,3 +79,10 @@
     document.body.appendChild(giscusScript);
   }
 </script>
+{{else}}
+<script>
+  function reloadGiscus(theme) {
+    return;
+  }
+</script>
+{{end}}
