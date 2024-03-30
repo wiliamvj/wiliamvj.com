@@ -24,13 +24,16 @@ resources.GetMatch .Site.Params.favicon16x16 }} {{ $permalink := replace
 <meta name="twitter:title" content="{{ .Title }}" />
 <meta name="twitter:description" content="{{ .Description }}" />
 <meta name="twitter:image" content="{{ $permalink }}{{ .Params.thumbnail }}" />
-<meta property="twitter:domain" content="wiliamvj.com" />
+<meta name="twitter:domain" content="wiliamvj.com" />
+<meta name="twitter:creator" content="@wiliamjoaquim" />
+<meta name="twitter:image:alt" content="{{ .Title }}"" />
 
 <meta property="og:type" content="article" />
 <meta property="og:title" content="{{ .Title }}" />
 <meta property="og:description" content="{{ .Description }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
 <meta property="og:image" content="{{ $permalink }}{{ .Params.thumbnail }}" />
+<meta property="og:image:alt" content="{{ .Title }}" />
 <!-- end meta tags -->
 
 <meta
