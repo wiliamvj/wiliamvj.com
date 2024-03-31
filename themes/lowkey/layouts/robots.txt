@@ -2,3 +2,9 @@ User-agent: *
 {{ range .Pages }}
 Disallow: {{ .RelPermalink }}
 {{ end }}
+
+{{ range .Site.Pages }}
+{{ if and (eq .Type "post") (strings.HasPrefix .Permalink "/en/posts") }}
+Disallow: {{ .Permalink }}
+{{ end }}
+{{ end }}
