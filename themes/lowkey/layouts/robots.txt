@@ -1,8 +1,4 @@
 User-agent: *
-Allow: /
-
 Disallow: /categories/
-Disallow: /categories/css/
-Disallow: /categories/javascript/
 Disallow: /tags/
 Disallow: /categories/uncategories/
