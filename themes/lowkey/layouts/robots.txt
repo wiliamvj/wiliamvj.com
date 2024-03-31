@@ -1,4 +1,8 @@
 User-agent: *
-{{ range .Pages }}
-Disallow: {{ .RelPermalink }}
-{{ end }}
+Allow: /
+
+Disallow: /categories/
+Disallow: /categories/css/
+Disallow: /categories/javascript/
+Disallow: /tags/
+Disallow: /categories/uncategories/
