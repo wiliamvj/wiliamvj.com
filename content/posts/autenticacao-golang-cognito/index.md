@@ -707,7 +707,7 @@ Por último, vamos fazer a função `UpdatePassword` que vai atualizar a senha d
   }
 ```
 
-Também colocamos a obrigatoriedade de informar o token no header, o resto do função ´o que já fizemos anteriormente.
+Também colocamos a obrigatoriedade de informar o token no header, o resto do função o que já fizemos anteriormente.
 
 Vamos criar o último endpoint:
 
