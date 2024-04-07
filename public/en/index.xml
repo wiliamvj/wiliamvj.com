@@ -17,6 +17,13 @@
       <description>What will we cover? SQL injection is one of the most used techniques to carry out attacks on your system, where we can execute malicious SQL on vulnerable endpoints, making it possible to manipulate your database, although there are already many ways to mitigate this attack, it is still possible to leave this gap if the developer don&amp;rsquo;t pay attention.</description>
     </item>
     <item>
+      <title>Get control over your SQL with Golang and SQLC</title>
+      <link>//localhost:1313/en/posts/golang-sqlc/</link>
+      <pubDate>Sat, 25 Nov 2023 17:11:00 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/golang-sqlc/</guid>
+      <description>Introduction Dealing with SQL often becomes complicated and tiring, dealing with so many queries, indexing, performance, security, transactions and everything that involves the use of SQL, with this in mind, the use of ORM is increasingly being adopted, aiming to make our lives easier.</description>
+    </item>
+    <item>
       <title>The power of the CLI with Golang and Cobra CLI</title>
       <link>//localhost:1313/en/posts/cobra-cli-golang/</link>
       <pubDate>Wed, 15 Nov 2023 16:40:41 -0300</pubDate>

@@ -14,7 +14,7 @@ Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas q
 
 O Uso de ORM geralmente é recomendado devido sua a praticidade de uso, agilidade, entrega de queries mais seguras e rápidas (nem sempre), porém nem tudo é perfeito, o uso de ORM acaba nos limitando quando é preciso fazer uma query mais complexa, a grande maioria dos ORM não oferecem uma boa performance com queries complexas ou até mesmo não tem suporte, precisando então usar SQL no próprio ORM.
 
-Em GO, a comunidade desencoraja o uso de ORM, apesar do [GORM](https://gorm.io/) ser um excelente ORM, o uso dele pode sim fazer sentido em pequenas aplicações que não necessitam de uma query mais complexa.
+Em Go, a comunidade desencoraja o uso de ORM, apesar do [GORM](https://gorm.io/) ser um excelente ORM, o uso dele pode sim fazer sentido em pequenas aplicações que não necessitam de uma query mais complexa.
 
 ## O usar em Go então?
 
@@ -26,7 +26,7 @@ Podemos usar o [GORM](https://gorm.io/), como mencionei, podemos fazer nossas qu
 
 O SQLC faz a parte mais chata para nós, que é receber os dados do banco e passar para nossa struct por exemplo, e já gera as interfaces para nós.
 
-Pode parecer estranho, vai gerar código GO? Não deve ser bom, eu pensava da mesma forma, até utilizar.
+Pode parecer estranho, vai gerar código Go? Não deve ser bom, eu pensava da mesma forma, até utilizar.
 
 ## Instalando o SQLC
 
@@ -76,7 +76,7 @@ Vamos apenas ter nosso `main.go`, que vai iniciar a conexão com o banco Postgre
 ```
 
 Na pasta **internal/database**, no arquivo `queries.sql` vai ser onde vamos deixar nossas queries.
-Na pasta **internal/database/migrations**, vamos deixar a migration que vai criar as nossas tabelas, já fiz um post de como usar o golang-migrate, veja [aqui](https://wiliamvj.com/posts/migrations-golang/){: .normal }.
+Na pasta **internal/database/migrations**, vamos deixar a migration que vai criar as nossas tabelas, já fiz um post de como usar o golang-migrate, veja [aqui](https://wiliamvj.com/posts/migrations-golang/).
 
 Para rodar as migrations, verifique se o seu banco PostgreSQL está rodando na porta `5432` (vou deixar um arquivo `docker-compose` no repositório), depois rode a migration com:
 

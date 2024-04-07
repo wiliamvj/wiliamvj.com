@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
 
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tenha controle sobre seu SQL com Golang e SQLC</title>
+<title>Get control over your SQL with Golang and SQLC</title>
 
 
 <meta name="description" content="" />
@@ -15,8 +15,8 @@
 />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="//localhost:1313/posts/golang-sqlc/" />
-<meta name="twitter:title" content="Tenha controle sobre seu SQL com Golang e SQLC" />
+<meta name="twitter:site" content="//localhost:1313/en/posts/golang-sqlc/" />
+<meta name="twitter:title" content="Get control over your SQL with Golang and SQLC" />
 <meta name="twitter:description" content="" />
 <meta name="twitter:image" content="//localhost:1313/posts/golang-sqlc/dfgU78Lpfdg34.png" />
 <meta
@@ -25,27 +25,27 @@
 />
 <meta name="twitter:domain" content="wiliamvj.com" />
 <meta name="twitter:creator" content="@wiliamjoaquim" />
-<meta name="twitter:image:alt" content="Tenha controle sobre seu SQL com Golang e SQLC" />
-<meta name="twitter:label1" content="Tempo de leitura"> <meta
-name="twitter:data1" content="12 minutos de leitura">
+<meta name="twitter:image:alt" content="Get control over your SQL with Golang and SQLC" />
+<meta name="twitter:label1" content="Reading time"> <meta
+name="twitter:data1" content="12 minutes read">
 <meta name="twitter:app:name:iphone" content="wiliamvj" />
 
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Tenha controle sobre seu SQL com Golang e SQLC" />
+<meta property="og:title" content="Get control over your SQL with Golang and SQLC" />
 <meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
 <meta property="og:description" content="" />
-<meta property="og:url" content="//localhost:1313/posts/golang-sqlc/" />
+<meta property="og:url" content="//localhost:1313/en/posts/golang-sqlc/" />
 <meta property="og:image" content="//localhost:1313/posts/golang-sqlc/dfgU78Lpfdg34.png" />
-<meta property="og:image:alt" content="Tenha controle sobre seu SQL com Golang e SQLC" />
+<meta property="og:image:alt" content="Get control over your SQL with Golang and SQLC" />
 
 
 <meta
   name="apple-mobile-web-app-title"
-  content="Tenha controle sobre seu SQL com Golang e SQLC"
+  content="Get control over your SQL with Golang and SQLC"
 />
 <meta
   name="description"
-  content="Introdução Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas."
+  content="Introduction Dealing with SQL often becomes complicated and tiring, dealing with so many queries, indexing, performance, security, transactions and everything that involves the use of SQL, with this in mind, the use of ORM is increasingly being adopted, aiming to make our lives easier."
 />
 <link
   rel="apple-touch-icon"
@@ -64,7 +64,7 @@ name="twitter:data1" content="12 minutos de leitura">
   sizes="16x16"
   href="/icons/favicon-16x16.png"
 />
-<link rel="canonical" href="//localhost:1313/posts/golang-sqlc/" />
+<link rel="canonical" href="//localhost:1313/en/posts/golang-sqlc/" />
 <link rel="robots" href="/robots.txt" />
 <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
 
@@ -119,11 +119,11 @@ name="twitter:data1" content="12 minutos de leitura">
      
     <li>
       <a
-        href="/"
+        href="/en"
         class=""
         
       >
-        Artigos
+        Posts
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -141,11 +141,11 @@ name="twitter:data1" content="12 minutos de leitura">
     
     <li>
       <a
-        href="/en/"
+        href="/"
         class=""
         
       >
-        en-US
+        pt-BR
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -338,7 +338,7 @@ name="twitter:data1" content="12 minutos de leitura">
 
 <article class="flex flex-col gap-10">
   <header class="flex flex-col gap-2">
-    <h2 class="title-small">Tenha controle sobre seu SQL com Golang e SQLC</h2>
+    <h2 class="title-small">Get control over your SQL with Golang and SQLC</h2>
 
     <div class="meta">
       
@@ -346,7 +346,7 @@ name="twitter:data1" content="12 minutos de leitura">
         datetime="2023-11-25 17:11:00 -0300 -03"
         title='Sat, Nov 25, 2023, 5:11 PM -03'
       >
-        Publicado em: 25/11/2023 - 12 minutos de leitura
+        Published in: 25/11/2023 - 12 minutes read
       </time>
 
        
@@ -357,22 +357,22 @@ name="twitter:data1" content="12 minutos de leitura">
 
 
   <section><p><img alt="thumbnail" src="/posts/golang-sqlc/dfgU78Lpfdg34.png"></p>
-<h2 id="introdução">Introdução</h2>
-<p>Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas.</p>
-<p>O Uso de ORM geralmente é recomendado devido sua a praticidade de uso, agilidade, entrega de queries mais seguras e rápidas (nem sempre), porém nem tudo é perfeito, o uso de ORM acaba nos limitando quando é preciso fazer uma query mais complexa, a grande maioria dos ORM não oferecem uma boa performance com queries complexas ou até mesmo não tem suporte, precisando então usar SQL no próprio ORM.</p>
-<p>Em Go, a comunidade desencoraja o uso de ORM, apesar do <a href="https://gorm.io/">GORM</a> ser um excelente ORM, o uso dele pode sim fazer sentido em pequenas aplicações que não necessitam de uma query mais complexa.</p>
-<h2 id="o-usar-em-go-então">O usar em Go então?</h2>
-<p>Podemos usar o <a href="https://gorm.io/">GORM</a>, como mencionei, podemos fazer nossas queries e usar apenas o driver do banco de dados, como o <a href="github.com/lib/pq">pq</a> para PostgreSQL (é a opção mais trabalhosa, porém com controle total), mas como o intuito do post é falar sobre o SQLC, vamos usar ele.</p>
-<h2 id="o-que-é-o-sqlc">O que é o SQLC?</h2>
-<p><a href="https://sqlc.dev/">SQLC</a> é um pacote para facilitar a execução e manipulação das nossas consultas ao banco, ele gera o código automaticamente de acordo com a query SQL que escrevemos.</p>
-<p>O SQLC faz a parte mais chata para nós, que é receber os dados do banco e passar para nossa struct por exemplo, e já gera as interfaces para nós.</p>
-<p>Pode parecer estranho, vai gerar código Go? Não deve ser bom, eu pensava da mesma forma, até utilizar.</p>
-<h2 id="instalando-o-sqlc">Instalando o SQLC</h2>
-<p>Precisamos instalar o SQLC na nossa máquina, mas como qualquer pacote em GO, é bem simples, veja como nas <a href="https://docs.sqlc.dev/en/stable/overview/install.html">docs</a>, lembrando que por enquanto o SQLC tem suporte apenas a PostgreSQL, MySQL e SQLite.</p>
-<h2 id="criando-o-projeto">Criando o projeto</h2>
-<p>Vamos ao código, para isso vamos criar um projeto simples:</p>
+<h2 id="introduction">Introduction</h2>
+<p>Dealing with SQL often becomes complicated and tiring, dealing with so many queries, indexing, performance, security, transactions and everything that involves the use of SQL, with this in mind, the use of ORM is increasingly being adopted, aiming to make our lives easier.</p>
+<p>The use of ORM is generally recommended due to its practicality of use, agility, delivery of safer and faster queries (not always), however not everything is perfect, the use of ORM ends up limiting us when it is necessary to make a more complex query, The vast majority of ORMs do not offer good performance with complex queries or even do not have support, thus requiring the use of SQL in the ORM itself.</p>
+<p>In Go, the community encourages the use of ORM, although <a href="https://gorm.io/">GORM</a> is an excellent ORM, its use may make sense in small applications that do not occur in a more complex query.</p>
+<h2 id="using-it-in-go-then">Using it in Go then?</h2>
+<p>We can use <a href="https://gorm.io/">GORM</a>, as I mentioned, we can make our queries and just use the database driver, like <a href="github.com/lib/pq">pq</a> for PostgreSQL (it&rsquo;s the most laborious option, but with full control), but as the purpose of the post is to talk about SQLC, let&rsquo;s use it.</p>
+<h2 id="what-is-sqlc">What is SQLC?</h2>
+<p><a href="https://sqlc.dev/">SQLC</a> is a package to facilitate the execution and manipulation of our database queries, it automatically generates the code according to the SQL query we write.</p>
+<p>SQLC does the most boring part for us, which is receiving data from the database and passing it to our struct, for example, and already generates the interfaces for us.</p>
+<p>It may seem strange, will it generate Go code? It can&rsquo;t be good, I thought the same way, until I used it.</p>
+<h2 id="installing-sqlc">Installing SQLC</h2>
+<p>We need to install SQLC on our machine, but like any GO package, it&rsquo;s very simple, see how in the <a href="https://docs.sqlc.dev/en/stable/overview/install.html">docs</a>, remembering that for while SQLC only supports PostgreSQL, MySQL and SQLite.</p>
+<h2 id="creating-the-project">Creating the project</h2>
+<p>Let&rsquo;s go to the code, for this we will create a simple project:</p>
 <p><img alt="Project structure" src="/posts/golang-sqlc/fgh67hjksfdR65hUioPo.png"></p>
-<p>Vamos apenas ter nosso <code>main.go</code>, que vai iniciar a conexão com o banco PostgreSQL e fazer nossa aplicação rodar:</p>
+<p>Let&rsquo;s just have our <code>main.go</code>, which will initiate the connection with the PostgreSQL database and make our application run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -405,17 +405,17 @@ name="twitter:data1" content="12 minutos de leitura">
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// keep the program running
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">select</span> {}
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Na pasta <strong>internal/database</strong>, no arquivo <code>queries.sql</code> vai ser onde vamos deixar nossas queries.
-Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration que vai criar as nossas tabelas, já fiz um post de como usar o golang-migrate, veja <a href="https://wiliamvj.com/posts/migrations-golang/">aqui</a>.</p>
-<p>Para rodar as migrations, verifique se o seu banco PostgreSQL está rodando na porta <code>5432</code> (vou deixar um arquivo <code>docker-compose</code> no repositório), depois rode a migration com:</p>
+</span></span></code></pre></div><p>In the <strong>internal/database</strong> folder, the <code>queries.sql</code> file will be where we will leave our queries.
+In the <strong>internal/database/migrations</strong> folder, we will leave the migration that will create our tables, I already made a post on how to use golang-migrate, see <a href="https://wiliamvj.com/posts/migrations-golang/">here</a>.</p>
+<p>To run the migrations, make sure your PostgreSQL database is running on port <code>5432</code> (I will leave a <code>docker-compose</code> file in the repository), then run the migration with:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  make migrate_up
-</span></span></code></pre></div><p>para desfazer a migration rode:</p>
+</span></span></code></pre></div><p>To undo the migration run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  make migrate_down
-</span></span></code></pre></div><h2 id="executando-o-sqlc">Executando o SQLC</h2>
-<p>Finalmente, vamos gerar nossa query e rodar o SQLC, mas antes só verifique se está realmente instalando o SQLC na sua máquina com o comando</p>
+</span></span></code></pre></div><h2 id="running-sqlc">Running SQLC</h2>
+<p>Finally, let&rsquo;s generate our query and run SQLC, but first just check if you are actually installing SQLC on your machine with the command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  sqlc version
-</span></span></code></pre></div><p>Se receber uma versão <code>v1.20.0</code> por exemplo, está tudo certo (não precisa ser a mesma versão do exemplo).</p>
-<p>Precisamos antes criar um arquivo de config do SLQC, chamado <code>sqlc.yaml</code> na raiz do projeto, nele vamos definir o banco que vamos usar, caminho das pastas e outras configs.</p>
+</span></span></code></pre></div><p>If you receive a version <code>v1.20.0</code> for example, everything is fine (it doesn&rsquo;t have to be the same version as the example).</p>
+<p>We first need to create an SLQC config file, called <code>sqlc.yaml</code> in the root of the project, in it we will define the database we will use, folder paths and other configs.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;2&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">sql</span>:
 </span></span><span style="display:flex;"><span>  - <span style="color:#ff79c6">schema</span>: <span style="color:#f1fa8c">&#39;internal/database/migrations&#39;</span>
@@ -426,24 +426,24 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">package</span>: <span style="color:#f1fa8c">&#39;db&#39;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">out</span>: <span style="color:#f1fa8c">&#39;internal/database/db&#39;</span>
 </span></span></code></pre></div><ul>
-<li><code>schema</code>: onde fica nosso arquivo da estrutura da nossa tabela no banco de dados.</li>
-<li><code>queries</code>: Pasta com as queries que vamos criar.</li>
-<li><code>out</code>: Aqui é onde o SQLC vai gerar seu código.</li>
+<li><code>schema</code>: where our table structure file is located in the database.</li>
+<li><code>queries</code>: Folder with the queries we are going to create.</li>
+<li><code>out</code>: This is where SQLC will generate your code.</li>
 </ul>
-<p>Vamos criar uma query chamada <code>user.sql</code> que adiciona um usuário no banco, veja como fica usando o SQLC:</p>
+<p>Let&rsquo;s create a query called <code>user.sql</code> that adds a user to the database, see how it looks using SQLC:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: CreateOneUser :exec
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">INSERT</span> <span style="color:#ff79c6">INTO</span> users (id, name, email, password, created_at, updated_at)
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">VALUES</span> ($<span style="color:#bd93f9">1</span>, $<span style="color:#bd93f9">2</span>, $<span style="color:#bd93f9">3</span>, $<span style="color:#bd93f9">4</span>, $<span style="color:#bd93f9">5</span>, $<span style="color:#bd93f9">6</span>);
 </span></span></code></pre></div><p>O SQLC utiliza anotações para as queries, veja:</p>
 <ul>
-<li><code>--name</code>: Indica o nome da query, será usado como o nome da interface.</li>
-<li><code>exec</code>: Indica que queremos executar a query, existem várias, veja <a href="https://docs.sqlc.dev/en/stable/reference/query-annotations.html">aqui</a> nas docs.</li>
+<li><code>--name</code>: Indicates the name of the query, it will be used as the name of the interface.</li>
+<li><code>exec</code>: Indicates that we want to execute the query, there are several, see <a href="https://docs.sqlc.dev/en/stable/reference/query-annotations.html">here</a> in the docs.</li>
 </ul>
-<p>Vamos criar os arquivos com o comando do SQLC:</p>
+<p>Let&rsquo;s create the files with the SQLC command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  sqlc generate
-</span></span></code></pre></div><p>Você vai perceber que vai ser gerado uma basta chamada <strong>db</strong> dentro da pasta <strong>database</strong>, essa pasta é de uso exclusivo do SQLC e não deve ser alterada.</p>
-<p>O SQLC criou 3 arquivos, vamos ver eles:</p>
-<p><code>db.go</code>: Aqui é onde o SQLC lida com a conexão do banco, transactions e as queries.</p>
+</span></span></code></pre></div><p>You will notice that a simple call <strong>db</strong> will be generated within the <strong>database</strong> folder, this folder is for the exclusive use of SQLC and should not be changed.</p>
+<p>SQLC created 3 files, let&rsquo;s see them:</p>
+<p><code>db.go</code>: This is where SQLC handles the database connection, transactions and queries.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> DBTX <span style="color:#8be9fd;font-style:italic">interface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">ExecContext</span>(context.Context, <span style="color:#8be9fd">string</span>, <span style="color:#ff79c6">...</span><span style="color:#8be9fd;font-style:italic">interface</span>{}) (sql.Result, <span style="color:#8be9fd">error</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">PrepareContext</span>(context.Context, <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>sql.Stmt, <span style="color:#8be9fd">error</span>)
@@ -464,7 +464,7 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>      db: tx,
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p><code>models.go</code>: Aqui é onde o SQLC cria os nossos models, de acordo com a estrutura do nosso banco.</p>
+</span></span></code></pre></div><p><code>models.go</code>: This is where SQLC creates our models, according to the structure of our database.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Post <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>    ID        <span style="color:#8be9fd">string</span>
 </span></span><span style="display:flex;"><span>    AuthorID  <span style="color:#8be9fd">string</span>
@@ -482,7 +482,7 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    CreatedAt time.Time
 </span></span><span style="display:flex;"><span>    UpdatedAt time.Time
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p><code>user.sql.go</code>: Aqui é onde o SQLC cria as funções que vamos executar e nossas structs para envio dos parâmetros:</p>
+</span></span></code></pre></div><p><code>user.sql.go</code>: This is where SQLC creates the functions that we are going to execute and our structs to send the parameters:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">const</span> createOneUser = <span style="color:#f1fa8c">`-- name: CreateOneUser :exec
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  INSERT INTO users (id, name, email, password, created_at, updated_at)
 </span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">  VALUES ($1, $2, $3, $4, $5, $6)
@@ -508,10 +508,10 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> err
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>O SQLC também deixa a query que vai ser executada, no nosso caso em <code>createOneUser</code>.</p>
-<h2 id="criando-um-registro-com-sqlc">Criando um registro com SQLC</h2>
-<p>Vamos salvar um usuário com uso do SQLC, no nosso caso vamos salvar o usuário quando iniciar nossa aplicação, mas em uso real, seria criado quando receber uma requisição <code>POST</code> de um controller por exemplo.</p>
-<p>Vamos criar dentro da pasta <strong>internal</strong>, uma pasta chamada <strong>handler</strong> e o arquivo chamado <code>user.go</code>:</p>
+</span></span></code></pre></div><p>SQLC also leaves the query that will be executed, in our case in <code>createOneUser</code>.</p>
+<h2 id="creating-a-record-with-sqlc">Creating a record with SQLC</h2>
+<p>Let&rsquo;s save a user using SQLC, in our case we will save the user when starting our application, but in real use, it would be created when receiving a <code>POST</code> request from a controller for example.</p>
+<p>Let&rsquo;s create inside the <strong>internal</strong> folder, a folder called <strong>handler</strong> and the file called <code>user.go</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> handler
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -542,15 +542,15 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;User created&#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Criamos uma struct, que vai receber um ponteiro das queries criadas pelo SQLC, depois usamos a função <code>CreateOneUser</code> criada pelo SQLC e passamos os parâmetros esperados, isso é o suficiente para salvar no banco, vamos agora chamar o <code>CreateUser</code> no <code>main.go</code>, simulando uma requisição.</p>
+</span></span></code></pre></div><p>We create a struct, which will receive a pointer to the queries created by SQLC, then we use the <code>CreateOneUser</code> function created by SQLC and pass the expected parameters, this is enough to save it in the database, let&rsquo;s now call <code>CreateUser</code> in <code>main .go</code>, simulating a request.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>   <span style="color:#6272a4">// start slqc queries
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  slqcQueries <span style="color:#ff79c6">:=</span> db.<span style="color:#50fa7b">New</span>(dbConnection)
 </span></span><span style="display:flex;"><span>  q <span style="color:#ff79c6">:=</span> handler.UserHandler{
 </span></span><span style="display:flex;"><span>    Queries: slqcQueries,
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  handler.<span style="color:#50fa7b">CreateUser</span>(context.<span style="color:#50fa7b">Background</span>(), <span style="color:#ff79c6">&amp;</span>q)
-</span></span></code></pre></div><p>Iniciamos no SQLC passando para o <code>db.New</code> a conexão com o banco, depois iniciamos a struct <code>UserHandler</code> e por fim chamamos a função <code>CreateUser</code>.</p>
-<p><code>main.go</code> completo:</p>
+</span></span></code></pre></div><p>We start in SQLC by passing the connection to the database to <code>db.New</code>, then we start the <code>UserHandler</code> struct and finally we call the <code>CreateUser</code> function.</p>
+<p><code>main.go</code> complete:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// load .env file
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    godotenv.<span style="color:#50fa7b">Load</span>()
@@ -578,20 +578,20 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// keep the program running
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">select</span> {}
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Agora se iniciar a aplicação, vamos receber o log <code>User created</code>:</p>
+</span></span></code></pre></div><p>Now if you start the application, we will receive the <code>User created</code> log:`:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Connected to database
 </span></span><span style="display:flex;"><span>  User created
-</span></span></code></pre></div><p>Se tentar rodar novamente, vamos receber um erro, isso porque nosso e-mail é único no banco, e já existe, o correto é antes de salvar no banco, verificar se já existe um registro com o mesmo e-mail, mas não vamos fazer isso por enquanto.</p>
+</span></span></code></pre></div><p>If we try to run again, we will receive an error, this is because our email is unique in the database, and already exists, the correct thing is before saving in the database, check if there is already a record with the same email, but we won&rsquo;t do this for now.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Connected to database
 </span></span><span style="display:flex;"><span>  Error creating user pq: duplicate key value violates unique constraint <span style="color:#f1fa8c">&#34;users_email_key&#34;</span>
-</span></span></code></pre></div><p>Agora, vamos salvar nosso post, vamos criar o usuário e logo em seguida criar o post, vamos fazer isso para exemplificar um problema que vamos enfrentar:</p>
-<p>Criando query <code>post.sql</code>na pasta <strong>queries</strong> para salvar o post:</p>
+</span></span></code></pre></div><p>Now, let&rsquo;s save our post, let&rsquo;s create the user and then create the post, let&rsquo;s do this to exemplify a problem we will face:</p>
+<p>Creating query <code>post.sql</code> in the <strong>queries</strong> folder to save the post:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: CreateOnePost :exec
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">INSERT</span> <span style="color:#ff79c6">INTO</span> posts (id, title, body, author_id, created_at, updated_at)
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">VALUES</span> ($<span style="color:#bd93f9">1</span>, $<span style="color:#bd93f9">2</span>, $<span style="color:#bd93f9">3</span>, $<span style="color:#bd93f9">4</span>, $<span style="color:#bd93f9">5</span>, $<span style="color:#bd93f9">6</span>);
-</span></span></code></pre></div><p>Vamos rodar novamente o comando do sqlc para atualizar os arquivos:</p>
+</span></span></code></pre></div><p>Let&rsquo;s run the sqlc command again to update the files:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  sqlc generate
-</span></span></code></pre></div><p>Com os arquivos atualizados, vamos criar o post dentro do <code>user.go</code></p>
+</span></span></code></pre></div><p>With the files updated, let&rsquo;s create the post within <code>user.go</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserHandler <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>    Queries <span style="color:#ff79c6">*</span>db.Queries
 </span></span><span style="display:flex;"><span>  }
@@ -629,16 +629,16 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Post created&#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Fizemos o mesmo processo ao salvar o usuário, mas perceba que separei o id do usuário en uma variável chamada <code>userID</code>, pois precisamos do id para salvar o post, uma vez que temos um relacionamento one-to-many, onde um usuário pode ter muitos posts e um post tem apenas 1 usuário, é apenas um exemplo.</p>
-<p>Ao rodar o projeto novamente, vamos ter sucesso ao salvar o usuário e o post, mas antes lembre-se de apagar todos os registros, como não validamos se já existe registros de usuário com mesmo e-mail, vai dar erro.</p>
+</span></span></code></pre></div><p>We did the same process when saving the user, but notice that I separated the user id into a variable called <code>userID</code>, as we need the id to save the post, since we have a one-to-many relationship, where a user can having many posts and a post has only one user, is just an example.</p>
+<p>When running the project again, we will be successful in saving the user and the post, but first remember to delete all records, as we do not validate if there are already user records with the same email, it will give an error.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Connected to database
 </span></span><span style="display:flex;"><span>  User created
 </span></span><span style="display:flex;"><span>  Post created
-</span></span></code></pre></div><p>Nosso usuário e nosso post foram criados com sucesso, porém quando criamos registros em &ldquo;cascata&rdquo;, se um deles falhar por algum motivo os demais ainda podem ser criados, vamos ver como resolver isso com transactions.</p>
+</span></span></code></pre></div><p>Our user and post were created successfully, but when we create &ldquo;cascade&rdquo; records, if one of them fails for some reason the others can still be created, let&rsquo;s see how to solve this with transactions.</p>
 <h2 id="transactions">Transactions</h2>
-<p>As transactions são um conjunto de operações que são tratadas como uma única operação, no nosso exemplo ao criar um usuário em seguida já criamos um post, as duas operações depende uma da outra, então usamos as transações.</p>
-<p>Uma transação só pode ter sucesso ou falhar, se tiver sucesso, salvamos todos os registros, em nosso exemplo será criado um usuário e um post, mas se falhar, não será criado nenhum registros, caso a criação do post falhe, será feito um <code>rollback</code> nas operações anteriores, ou seja o usuário não será salvo. Isso garante que todas as operações realizadas sejam escritas com sucesso, mas se falhar nenhuma operação é salva.</p>
-<p>O SQLC nos permite trabalhar com isso, vamos a um exemplo, imagine que sempre que criar um usuário seja obrigatório criar um post, mas e se a criação do post falhar? Vamos alterar o <code>user.go</code>, forçando um erro, vamos sempre tentar salvar um post com o mesmo <code>id</code>, na segunda tentativa já vai falar, pois teremos no banco um registro com o mesmo <code>id</code>.</p>
+<p>Transactions are a set of operations that are treated as a single operation, in our example when creating a user we then create a post, the two operations depend on each other, so we use transactions.</p>
+<p>A transaction can only succeed or fail, if it succeeds, we save all the records, in our example a user and a post will be created, but if it fails, no records will be created, if the post creation fails, a <code>will be done. rollback</code> in previous operations, i.e. the user will not be saved. This ensures that all operations performed are written successfully, but if it fails, no operations are saved.</p>
+<p>SQLC allows us to work with this, let&rsquo;s take an example, imagine that whenever you create a user it is mandatory to create a post, but what if the post creation fails? Let&rsquo;s change <code>user.go</code>, forcing an error, we will always try to save a post with the same <code>id</code>, on the second attempt it will speak, as we will have a record with the same <code>id</code> in the database.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, h <span style="color:#ff79c6">*</span>UserHandler) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    userID <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">New</span>().<span style="color:#50fa7b">String</span>()
 </span></span><span style="display:flex;"><span>    userEmail <span style="color:#ff79c6">:=</span> fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;john.doe-%v@email.com&#34;</span>, time.<span style="color:#50fa7b">Now</span>().<span style="color:#50fa7b">Unix</span>())
@@ -673,13 +673,13 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Post created&#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Deixamos o <code>id</code> do post sempre o mesmo, também coloquei o <code>userEmail</code> para gerar um e-mail único sempre que iniciar nossa aplicação, recebemos o erro na segunda tentativa:</p>
+</span></span></code></pre></div><p>We left the <code>id</code> of the post always the same, I also added <code>userEmail</code> to generate a unique email whenever we start our application, we received the error on the second attempt:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Connected to database
 </span></span><span style="display:flex;"><span>  User created
 </span></span><span style="display:flex;"><span>  Error creating post pq: duplicate key value violates unique constraint <span style="color:#f1fa8c">&#34;posts_pkey&#34;</span>
-</span></span></code></pre></div><p>Mas se você perceber na tabela <code>users</code> o usuário é sempre criado, vamos então usar transactions.</p>
-<h2 id="utilizando-transactions-com-sqlc">Utilizando transactions com SQLC</h2>
-<p>Para utilizar transactions, vamos injetar uma função no SQLX que executa nossa queries, ficando assim:</p>
+</span></span></code></pre></div><p>But if you notice in the <code>users</code> table the user is always created, let&rsquo;s use transactions.</p>
+<h2 id="using-transactions-with-sqlc">Using transactions with SQLC</h2>
+<p>To use transactions, we will inject a function into SQLX that executes our queries, looking like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">runWithTX</span>(ctx context.Context, c <span style="color:#ff79c6">*</span>sql.DB, fn <span style="color:#8be9fd;font-style:italic">func</span>(<span style="color:#ff79c6">*</span>db.Queries) <span style="color:#8be9fd">error</span>) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    tx, err <span style="color:#ff79c6">:=</span> c.<span style="color:#50fa7b">BeginTx</span>(ctx, <span style="color:#ff79c6">nil</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -695,8 +695,8 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> tx.<span style="color:#50fa7b">Commit</span>()
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Essa função vai ser a que vamos usar para executar as queries com transactions, passamos a conexão com o banco, iniciamos a conexão com transaction com <code>BeginTx</code>, passando o contexto e <code>nil</code>, o <code>nil</code> é referente <em>isolation level</em> (não vamos abordar no momento, mas veja <a href="https://www.postgresql.org/docs/current/transaction-iso.html">aqui</a> do que se trata, iniciamos o <code>db.New(tx)</code>, conforme já vimos, mas agora usando transactions, depois executamos nossa query, se der erro fazemos <code>tx.Rollback()</code>, se não houver erro <code>tx.Commit()</code> finalizando tudo.</p>
-<p>Para isso funcionar, precisamos atualizar a função <code>CreateUser</code>:</p>
+</span></span></code></pre></div><p>This function will be the one we will use to execute queries with transactions, we pass the connection to the database, we start the connection with transaction with <code>BeginTx</code>, passing the context and <code>nil</code>, <code>nil</code> refers to <em>isolation level</em> (not we will address it at the moment, but see <a href="https://www.postgresql.org/docs/current/transaction-iso.html">here</a> what it is about, we start <code>db.New(tx)</code>, as we have already seen , but now using transactions, then we execute our query, if there is an error we do <code>tx.Rollback()</code>, if there is no error <code>tx.Commit()</code> ending everything.</p>
+<p>For this to work, we need to update the <code>CreateUser</code> function:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">CreateUser</span>(ctx context.Context, h <span style="color:#ff79c6">*</span>UserHandler) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    userID <span style="color:#ff79c6">:=</span> uuid.<span style="color:#50fa7b">New</span>().<span style="color:#50fa7b">String</span>()
 </span></span><span style="display:flex;"><span>    userEmail <span style="color:#ff79c6">:=</span> fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;john.doe-%v@email.com&#34;</span>, time.<span style="color:#50fa7b">Now</span>().<span style="color:#50fa7b">Unix</span>())
@@ -739,19 +739,19 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Agora utilizamos o <code>runWithTX</code>, e ao usar as queries do sqlc, não usamos mais o <code>h.Queries</code>, usamos o <code>q</code>, que vem da função que injetamos, assim executando utilizando transactions, agora se rodas a aplicação, veja o erro:</p>
+</span></span></code></pre></div><p>Now we use <code>runWithTX</code>, and when using sqlc queries, we no longer use <code>h.Queries</code>, we use <code>q</code>, which comes from the function we injected, thus executing using transactions, now if you run the application, see the mistake:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  Connected to database
 </span></span><span style="display:flex;"><span>  User created
 </span></span><span style="display:flex;"><span>  Error creating post pq: duplicate key value violates unique constraint <span style="color:#f1fa8c">&#34;posts_pkey&#34;</span>
 </span></span><span style="display:flex;"><span>  Error creating user and post, roll back applied pq: duplicate key value violates unique constraint <span style="color:#f1fa8c">&#34;posts_pkey&#34;</span>
-</span></span></code></pre></div><p>No log <code>creating user and post, roll back applied</code>, pode perceber que a transactions rodou, se olhar no banco, nenhum usuário agora é salvo devido ao erro na criação do post, se remover o <code>id</code> do post que está fixo, e colocar novamente o
-<code>uuid.New().String()</code>, e rodar a aplicação, tudo funcionará normalmente.</p>
-<p>Abordamos apenas um exemplo simples sobre transactions, é um assunto mais complexo, vou deixar a <a href="https://docs.sqlc.dev/en/stable/howto/transactions.html">documentação</a> do sqlc sobre transactions.</p>
-<h2 id="considerações-finais">Considerações finais</h2>
-<p>Como podem perceber o uso do sqlc nos possibilita controle total sobre nosso SQL, o sqlc também é bastante simples de utilizar. Se você não quer usar ORM a utilização do sqlc pode ser uma opção, remove o trabalho mais braçal que é ficar transformando dados conhecido como &ldquo;hidratação de dados&rdquo;.</p>
-<p>O sqlc tem vários &ldquo;truques&rdquo; que podem facilitar a manipulação de dados como <a href="https://docs.sqlc.dev/en/stable/howto/overrides.html">Overriding types</a>, <a href="https://docs.sqlc.dev/en/stable/howto/named_parameters.html">Naming parameters</a> e muitos outros, vale a pena olhar as docs.</p>
-<h2 id="link-do-repositório">Link do repositório</h2>
-<p><a href="https://github.com/wiliamvj/golang-sqlc">repositório</a> do projeto</p>
+</span></span></code></pre></div><p>In the log <code>creating user and post, roll back applied</code>, you can see that the transactions ran, if you look in the database, no user is now saved due to the error in creating the post, if you remove the <code>id</code> of the post which is fixed, and put the
+<code>uuid.New().String()</code>, and run the application, everything will work normally.</p>
+<p>We only covered a simple example about transactions, it is a more complex subject, I will leave the sqlc <a href="https://docs.sqlc.dev/en/stable/howto/transactions.html">documentation</a> about transactions.</p>
+<h2 id="final-considerations">Final considerations</h2>
+<p>As you can see, using sqlc gives us full control over our SQL, sqlc is also quite simple to use. If you don&rsquo;t want to use ORM, using sqlc can be an option, it removes the most manual work of transforming data known as &ldquo;data hydration&rdquo;.</p>
+<p>SQL has several &ldquo;tricks&rdquo; that can facilitate data manipulation such as <a href="https://docs.sqlc.dev/en/stable/howto/overrides.html">Overriding types</a>, [Naming parameters](https:// docs.sqlc.dev/en/stable/howto/named_parameters.html) and many others, it&rsquo;s worth looking at the docs.</p>
+<h2 id="repository-link">Repository link</h2>
+<p>project <a href="https://github.com/wiliamvj/golang-sqlc">repository</a></p>
 <p><a href="https://github.com/egonelbre/gophers">Gopher credits</a></p>
 </section>
 
