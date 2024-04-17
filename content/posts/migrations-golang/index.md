@@ -191,7 +191,7 @@ O campo `phone` é removido.
 
 Como você pode perceber, os comandos do golang-migrate podem ser um pouco cansativos de usar, podemos facilitar usando um arquivo [makefile](https://dev.to/antoniomotta/makefile-22nh).
 
-```make
+```yaml
   include .env
 
   create_migration:

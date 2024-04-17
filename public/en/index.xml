@@ -24,6 +24,13 @@
       <description>Introduction Dealing with SQL often becomes complicated and tiring, dealing with so many queries, indexing, performance, security, transactions and everything that involves the use of SQL, with this in mind, the use of ORM is increasingly being adopted, aiming to make our lives easier.</description>
     </item>
     <item>
+      <title>Using migrations with Golang</title>
+      <link>//localhost:1313/en/posts/migrations-golang/</link>
+      <pubDate>Sat, 18 Nov 2023 17:00:30 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/migrations-golang/</guid>
+      <description>What are migrations? Migrations are widely used to maintain version control of your database structure, it is a very useful solution for keeping your database organized.</description>
+    </item>
+    <item>
       <title>The power of the CLI with Golang and Cobra CLI</title>
       <link>//localhost:1313/en/posts/cobra-cli-golang/</link>
       <pubDate>Wed, 15 Nov 2023 16:40:41 -0300</pubDate>
