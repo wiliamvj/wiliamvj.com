@@ -30,7 +30,7 @@ Now with these files, we maintain a history of database changes, each change has
 
 ## Migrations in Go
 
-Go does not natively support the use of migrations, but we could use the ORM that has this functionality, such as [GORM](https://gorm.io/docs/migration.html) which is the most used by the community, but We can use migrations without using an ORM, for this we will use the [golang-migrate] package (https://github.com/golang-migrate/migrate).
+Go does not natively support the use of migrations, but we could use the ORM that has this functionality, such as [GORM](https://gorm.io/docs/migration.html) which is the most used by the community, but We can use migrations without using an ORM, for this we will use the [golang-migrate](https://github.com/golang-migrate/migrate) package.
 
 ## Golang Migrate Package
 
