@@ -21,7 +21,14 @@
       <link>//localhost:1313/en/posts/golang-sqlc/</link>
       <pubDate>Sat, 25 Nov 2023 17:11:00 -0300</pubDate>
       <guid>//localhost:1313/en/posts/golang-sqlc/</guid>
-      <description>Introduction Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas.</description>
+      <description>Introduction Dealing with SQL often becomes complicated and tiring, dealing with so many queries, indexing, performance, security, transactions and everything that involves the use of SQL, with this in mind, the use of ORM is increasingly being adopted, aiming to make our lives easier.</description>
+    </item>
+    <item>
+      <title>Using migrations with Golang</title>
+      <link>//localhost:1313/en/posts/migrations-golang/</link>
+      <pubDate>Sat, 18 Nov 2023 17:00:30 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/migrations-golang/</guid>
+      <description>O que são migrations? As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado.</description>
     </item>
     <item>
       <title>The power of the CLI with Golang and Cobra CLI</title>

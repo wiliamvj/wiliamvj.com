@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
 
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Usando migrations com Golang</title>
+<title>Using migrations with Golang</title>
 
 
 <meta name="description" content="" />
@@ -15,8 +15,8 @@
 />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="//localhost:1313/posts/migrations-golang/" />
-<meta name="twitter:title" content="Usando migrations com Golang" />
+<meta name="twitter:site" content="//localhost:1313/en/posts/migrations-golang/" />
+<meta name="twitter:title" content="Using migrations with Golang" />
 <meta name="twitter:description" content="" />
 <meta name="twitter:image" content="//localhost:1313/posts/migrations-golang/dsfU80Olpdrfdg.png" />
 <meta
@@ -25,27 +25,27 @@
 />
 <meta name="twitter:domain" content="wiliamvj.com" />
 <meta name="twitter:creator" content="@wiliamjoaquim" />
-<meta name="twitter:image:alt" content="Usando migrations com Golang" />
-<meta name="twitter:label1" content="Tempo de leitura"> <meta
-name="twitter:data1" content="6 minutos de leitura">
+<meta name="twitter:image:alt" content="Using migrations with Golang" />
+<meta name="twitter:label1" content="Reading time"> <meta
+name="twitter:data1" content="6 minutes read">
 <meta name="twitter:app:name:iphone" content="wiliamvj" />
 
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Usando migrations com Golang" />
+<meta property="og:title" content="Using migrations with Golang" />
 <meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
 <meta property="og:description" content="" />
-<meta property="og:url" content="//localhost:1313/posts/migrations-golang/" />
+<meta property="og:url" content="//localhost:1313/en/posts/migrations-golang/" />
 <meta property="og:image" content="//localhost:1313/posts/migrations-golang/dsfU80Olpdrfdg.png" />
-<meta property="og:image:alt" content="Usando migrations com Golang" />
+<meta property="og:image:alt" content="Using migrations with Golang" />
 
 
 <meta
   name="apple-mobile-web-app-title"
-  content="Usando migrations com Golang"
+  content="Using migrations with Golang"
 />
 <meta
   name="description"
-  content="O que são migrations? As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado."
+  content="What are migrations? Migrations are widely used to maintain version control of your database structure, it is a very useful solution for keeping your database organized."
 />
 <link
   rel="apple-touch-icon"
@@ -64,7 +64,7 @@ name="twitter:data1" content="6 minutos de leitura">
   sizes="16x16"
   href="/icons/favicon-16x16.png"
 />
-<link rel="canonical" href="//localhost:1313/posts/migrations-golang/" />
+<link rel="canonical" href="//localhost:1313/en/posts/migrations-golang/" />
 <link rel="robots" href="/robots.txt" />
 <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
 
@@ -119,11 +119,11 @@ name="twitter:data1" content="6 minutos de leitura">
      
     <li>
       <a
-        href="/"
+        href="/en"
         class=""
         
       >
-        Artigos
+        Posts
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -141,11 +141,11 @@ name="twitter:data1" content="6 minutos de leitura">
     
     <li>
       <a
-        href="/en/"
+        href="/"
         class=""
         
       >
-        en-US
+        pt-BR
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -338,7 +338,7 @@ name="twitter:data1" content="6 minutos de leitura">
 
 <article class="flex flex-col gap-10">
   <header class="flex flex-col gap-2">
-    <h2 class="title-small">Usando migrations com Golang</h2>
+    <h2 class="title-small">Using migrations with Golang</h2>
 
     <div class="meta">
       
@@ -346,7 +346,7 @@ name="twitter:data1" content="6 minutos de leitura">
         datetime="2023-11-18 17:00:30 -0300 -03"
         title='Sat, Nov 18, 2023, 5:00 PM -03'
       >
-        Publicado em: 18/11/2023 - 6 minutos de leitura
+        Published in: 18/11/2023 - 6 minutes read
       </time>
 
        
@@ -357,23 +357,23 @@ name="twitter:data1" content="6 minutos de leitura">
 
 
   <section><p><img alt="thumbnail" src="/posts/migrations-golang/dsfU80Olpdrfdg.png"></p>
-<h2 id="o-que-são-migrations">O que são migrations?</h2>
-<p>As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado.</p>
-<p>Imagine que você tenha uma tabela de usuários e precise inserir um novo campo nessa tabela, sem migrations você precisaria rodar um SQL na mão, como por exemplo:</p>
+<h2 id="what-are-migrations">What are migrations?</h2>
+<p>Migrations are widely used to maintain version control of your database structure, it is a very useful solution for keeping your database organized.</p>
+<p>Imagine that you have a users table and need to insert a new field into that table, without migrations you would need to run SQL by hand, for example:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">ALTER</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#f1fa8c">&#34;users&#34;</span> <span style="color:#ff79c6">ADD</span> <span style="color:#ff79c6">COLUMN</span> <span style="color:#f1fa8c">&#34;phone&#34;</span> <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NULL</span>;
-</span></span></code></pre></div><p>Agora, toda vez que precisar recriar a tabela <code>users</code>, você vai precisar lembrar de criar este campo, a menos que alterar a criação original da tabela <code>users</code>, porém isso começa a fica inviável a medida que sua tabela e sua aplicação crescem, por isso utilizar as migrations são uma ótima opção.</p>
-<h2 id="as-migrations">As migrations</h2>
-<p>O funcionamento das migrations são relativamente simples, geralmente temos um arquivo de <code>up</code> e outro de <code>down</code>, alguns ORMs como o <a href="https://www.prisma.io/docs/concepts/components/prisma-migrate">PrismaORM</a> criam apenas 1 arquivo, no arquivo de <code>up</code> criamos nosso SQL que vai criar ou alterar nosso banco, no arquivo de <code>down</code> criamos o SQL que desfaz a alteração.</p>
-<h3 id="qual-a-vantagem">Qual a vantagem?</h3>
-<p>Agora com esses arquivos, mantemos um histórico de alterações do banco de dados, cada alteração tem seu arquivo de <code>up</code> e <code>down</code>, agora se precisarmos criar as tabelas, rodamos todos os arquivo de <code>up</code> e tudo é criado, se precisar reverter, basta rodar o <code>down</code>.</p>
-<h2 id="migrations-em-go">Migrations em Go</h2>
-<p>O Go não oferece nativamente suporte ao uso de migrations, mas poderíamos utilizar o ORM que tenha essa funcionalidade, como o <a href="https://gorm.io/docs/migration.html">GORM</a> que é o mais utilizado pela comunidade, mas podemos utilizar as migrations sem o uso de um ORM, para isso vamos utilizar o pacote <a href="https://github.com/golang-migrate/migrate">golang-migrate</a>.</p>
-<h2 id="pacote-golang-migrate">Pacote Golang Migrate</h2>
-<p>O pacote <a href="https://github.com/golang-migrate/migrate">golang-migrate</a> é o mais recomendado para isso, já temos tudo que precisamos para gerenciar nossas migrations e oferece suporte a praticamente todos os bancos de dados, para o nosso exemplo vamos utilizar o PostgreSQL.</p>
-<h2 id="nosso-projeto-de-exemplo">Nosso projeto de exemplo</h2>
-<p>Já criei previamente um <a href="https://github.com/wiliamvj/golang-migrations">projeto</a> simples, mas vou explicar rapidamente, pois o foco é utilizar as migrations.</p>
+</span></span></code></pre></div><p>Now, every time you need to recreate the <code>users</code> table, you will need to remember to create this field, unless you change the original creation of the <code>users</code> table, but this becomes unfeasible as your table and application grow , so using migrations is a great option.</p>
+<h2 id="the-migrations">The migrations</h2>
+<p>The way migrations work is relatively simple, we generally have an <code>up</code> file and another <code>down</code> file, some ORMs like <a href="https://www.prisma.io/docs/concepts/components/prisma-migrate">PrismaORM</a> create only 1 file, in the <code>up</code> file we create our SQL that will create or change our database, in the <code>down</code> file we create the SQL that undoes the change.</p>
+<h3 id="whats-the-advantage">What&rsquo;s the advantage?</h3>
+<p>Now with these files, we maintain a history of database changes, each change has its <code>up</code> and <code>down</code> file, now if we need to create the tables, we run all the <code>up</code> files and everything is created, if If you need to revert, just run <code>down</code>.</p>
+<h2 id="migrations-in-go">Migrations in Go</h2>
+<p>Go does not natively support the use of migrations, but we could use the ORM that has this functionality, such as <a href="https://gorm.io/docs/migration.html">GORM</a> which is the most used by the community, but We can use migrations without using an ORM, for this we will use the [golang-migrate] package (<a href="https://github.com/golang-migrate/migrate)">https://github.com/golang-migrate/migrate)</a>.</p>
+<h2 id="golang-migrate-package">Golang Migrate Package</h2>
+<p>The <a href="https://github.com/golang-migrate/migrate">golang-migrate</a> package is the most recommended for this, we already have everything we need to manage our migrations and it offers support for practically all databases, so In our example we will use PostgreSQL.</p>
+<h2 id="example-project">Example project</h2>
+<p>I have previously created a simple <a href="https://github.com/wiliamvj/golang-migrations">project</a>, but I will explain it quickly, as the focus is on using migrations.</p>
 <p><img alt="Project structure" src="/posts/migrations-golang/F6ghjghj23dfgfgjhkUo.png"></p>
-<p>Teremos essa estrutura, bem simples, o código para exemplo deve ficar inteiro em <code>main.go</code>:</p>
+<p>We will have this structure, very simple, the code for the example should be in <code>main.go</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> main
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -406,22 +406,22 @@ name="twitter:data1" content="6 minutos de leitura">
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// keep the program running
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">select</span> {}
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><h2 id="utilizando-o-golang-migrate">Utilizando o golang-migrate</h2>
-<p>Precisamos instalar a CLI do pacote golang-migrate, veja como instalar <a href="https://github.com/golang-migrate/migrate/tree/master/cmd/migrate">aqui</a>, rode o comando:</p>
+</span></span></code></pre></div><h2 id="using-golang-migrate">Using golang-migrate</h2>
+<p>We need to install the CLI of the golang-migrate package, see how to install <a href="https://github.com/golang-migrate/migrate/tree/master/cmd/migrate">here</a>, run the command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate -version
-</span></span></code></pre></div><p>Se a saida for algo como:</p>
+</span></span></code></pre></div><p>If the output is something like:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  v4.16.2
-</span></span></code></pre></div><p>Todo certo para continuar! O próximo passo é criar nossa primeira migrations com o comando:</p>
+</span></span></code></pre></div><p>All right to continue! The next step is to create our first migrations with the command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate create -ext<span style="color:#ff79c6">=</span>sql -dir<span style="color:#ff79c6">=</span>internal/database/migrations -seq init
 </span></span></code></pre></div><ul>
-<li><code>ext</code>: determina a extensão, vamos usar o sql.</li>
-<li><code>dir</code>: Aqui fica o diretório onde vai ser criado as nossas migrations.</li>
-<li><code>seq</code>: Determina a sequência do nome do arquivo da migrations, vamos usar numérico, pode ser usado timestamp.</li>
+<li><code>ext</code>: defines the extension, let&rsquo;s use sql.</li>
+<li><code>dir</code>: here is the directory where our migrations will be created.</li>
+<li><code>seq</code>: defines the sequence of the migrations file name, we will use numeric, timestamp can be used.</li>
 </ul>
-<p>Com isso, você vai perceber que foi criado uma pasta chamada <strong>migrations</strong> dentro da pasta <strong>database</strong>.</p>
+<p>With this, you will notice that a folder called <strong>migrations</strong> was created inside the <strong>database</strong> folder.</p>
 <p><img alt="Project Migrations" src="/posts/migrations-golang/mrt8kjHd62iPdg.png"></p>
-<p>Foi criado o arquivo <code>up</code> e o arquivo <code>down</code>, na sequência, como é a primeira fica <em>000001</em>, se rodar novamente o comando <code>migrate create</code>, vai criar a migration <em>000002</em>. Agora vamos criar nosso SQL e rodar as migrations:</p>
-<p>No arquivo de <code>up</code>, vamos criar a seguinte tabela:</p>
+<p>The <code>up</code> file and the <code>down</code> file were created, in sequence, as the first is <em>000001</em>, if you run the <code>migrate create</code> command again, it will create the migration <em>000002</em>. Now let&rsquo;s create our SQL and run the migrations:</p>
+<p>In the <code>up</code> file, we will create the following table:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">CREATE</span> <span style="color:#ff79c6">TABLE</span> users (
 </span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
 </span></span><span style="display:flex;"><span>    first_name <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
@@ -431,35 +431,35 @@ name="twitter:data1" content="6 minutos de leitura">
 </span></span><span style="display:flex;"><span>    created_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">DEFAULT</span> <span style="color:#ff79c6">CURRENT_TIMESTAMP</span>,
 </span></span><span style="display:flex;"><span>    updated_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>
 </span></span><span style="display:flex;"><span>  );
-</span></span></code></pre></div><p>Agora no arquivo de <code>down</code> vamos remover a tabela:</p>
+</span></span></code></pre></div><p>Now in the <code>down</code> file we will remove the table:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">EXISTS</span> users;
-</span></span></code></pre></div><p>Com nosso SQL pronto, podemos rodar o <code>up</code> da nossa migrations, não se esqueça de garantir que seu banco esteja rodando, para isso deixei no projeto um arquivo docker compose para rodar uma imagem do PostgreSQL.</p>
+</span></span></code></pre></div><p>With our SQL ready, we can run the <code>up</code> of our migrations, don&rsquo;t forget to ensure that your database is running, for this I left a docker compose file in the project to run a PostgreSQL image.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate -path<span style="color:#ff79c6">=</span>internal/database/migrations -database <span style="color:#f1fa8c">&#34;postgresql://golang_migrate:golang_migrate@localhost:5432/golang_migrate?sslmode=disable&#34;</span> -verbose up
 </span></span></code></pre></div><ul>
-<li><code>path</code>: Informa onde estão as nossas migrations.</li>
-<li><code>database</code>: Url da conexão com o banco de dados.</li>
-<li><code>-verbose</code>: Apenas para exibir todas as execuções.</li>
+<li><code>path</code>: Defines where our migrations are..</li>
+<li><code>database</code>: Database connection url.</li>
+<li><code>-verbose</code>: Just to display all runs.</li>
 </ul>
-<p>Se acessarmos algum cliente como o <a href="https://www.pgadmin.org/">PgAdmin</a> ou <a href="https://www.beekeeperstudio.io/">Beekeeper</a>, ou acessando seu container via bash e verificando via CLI, poderemos ver que a tabela foi criada com sucesso:</p>
+<p>If we access a client like <a href="https://www.pgadmin.org/">PgAdmin</a> or <a href="https://www.beekeeperstudio.io/">Beekeeper</a>, or accessing its container via bash and checking via CLI, we can see that the table was created successfully:</p>
 <p><img alt="Beekeeper" src="/posts/migrations-golang/gfasoijfFG567fgghj.png"></p>
-<p>Agora podemos rodar o <code>down</code>, é exatamente o mesmo comando, porém alterando de <code>up</code> para <code>down</code>:</p>
+<p>Now we can run <code>down</code>, it&rsquo;s exactly the same command, but changing from <code>up</code> to <code>down</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate -path<span style="color:#ff79c6">=</span>internal/database/migrations -database <span style="color:#f1fa8c">&#34;postgresql://golang_migrate:golang_migrate@localhost:5432/golang_migrate?sslmode=disable&#34;</span> -verbose down
-</span></span></code></pre></div><p>Com isso a tabela é removida.</p>
-<h3 id="adicionando-mais-campos">Adicionando mais campos</h3>
-<p>Vamos ver agora como ficaria se fosse necessário adicionar mais um campo na tabela <code>users</code>, sem migrations, teríamos que alterar diretamente a tabela original, mas com migrations não precisamos, vamos criar outra migration:</p>
+</span></span></code></pre></div><p>With this the table is removed.</p>
+<h3 id="adding-more-fields">Adding more fields</h3>
+<p>Let&rsquo;s see now what it would look like if it were necessary to add another field to the <code>users</code> table, without migrations, we would have to directly change the original table, but with migrations we don&rsquo;t need to, let&rsquo;s create another migration:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate create -ext<span style="color:#ff79c6">=</span>sql -dir<span style="color:#ff79c6">=</span>internal/database/migrations -seq init
-</span></span></code></pre></div><p>Vai criar a migration <code>up</code> e <code>down</code> com sequencial <em>000002</em>, vamos adicionar o campo <code>phone</code>:</p>
+</span></span></code></pre></div><p>It will create the <code>up</code> and <code>down</code> migration with sequential <em>000002</em>, let&rsquo;s add the <code>phone</code> field:</p>
 <p><code>up</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">ALTER</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#f1fa8c">&#34;users&#34;</span> <span style="color:#ff79c6">ADD</span> <span style="color:#ff79c6">COLUMN</span> <span style="color:#f1fa8c">&#34;phone&#34;</span> <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NULL</span>;
 </span></span></code></pre></div><p><code>down</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">ALTER</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#f1fa8c">&#34;users&#34;</span> <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">COLUMN</span> <span style="color:#f1fa8c">&#34;phone&#34;</span>;
-</span></span></code></pre></div><p>Ao rodar novamente:</p>
+</span></span></code></pre></div><p>When running again:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate -path<span style="color:#ff79c6">=</span>internal/database/migrations -database <span style="color:#f1fa8c">&#34;postgresql://golang_migrate:golang_migrate@localhost:5432/golang_migrate?sslmode=disable&#34;</span> -verbose up
-</span></span></code></pre></div><p>Nosso campo <code>phone</code> é adicionado a tabela user, mas e se eu quiser fazer o <code>down</code> apenas na migration que adiciona o campo <code>phone</code>? É possível, basta usar o mesmo comando, passando o valor 1, que significa que deseja desfazer a última migration:</p>
+</span></span></code></pre></div><p>Our <code>phone</code> field is added to the user table, but what if I want to <code>down</code> only in the migration that adds the <code>phone</code> field? It&rsquo;s possible, just use the same command, passing the value 1, which means you want to undo the last migration:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  migrate -path<span style="color:#ff79c6">=</span>internal/database/migrations -database <span style="color:#f1fa8c">&#34;postgresql://golang_migrate:golang_migrate@localhost:5432/golang_migrate?sslmode=disable&#34;</span> -verbose down <span style="color:#bd93f9">1</span>
-</span></span></code></pre></div><p>O campo <code>phone</code> é removido.</p>
-<h2 id="facilitando-o-uso-da-cli">Facilitando o uso da CLI</h2>
-<p>Como você pode perceber, os comandos do golang-migrate podem ser um pouco cansativos de usar, podemos facilitar usando um arquivo <a href="https://dev.to/antoniomotta/makefile-22nh">makefile</a>.</p>
+</span></span></code></pre></div><p>The <code>phone</code> field is removed.</p>
+<h2 id="making-the-cli-easier-to-use">Making the CLI easier to use</h2>
+<p>As you can see, the golang-migrate commands can be a little tiring to use, we can make it easier by using a file <a href="https://dev.to/antoniomotta/makefile-22nh">makefile</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  include .env
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">create_migration</span>:
@@ -472,21 +472,21 @@ name="twitter:data1" content="6 minutos de leitura">
 </span></span><span style="display:flex;"><span>    migrate -path=internal/database/migrations -database &#34;postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable&#34; -verbose down
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">.PHONY</span>: create_migration migrate_up migrate_down
-</span></span></code></pre></div><p>Criamos atalhos que rodam o comando de <code>migrate</code>, precisamos incluir nossas envs usando o <code>include .env</code>, depois criamos os comandos:</p>
+</span></span></code></pre></div><p>We create shortcuts that run the <code>migrate</code> command, we need to include our envs using <code>include .env</code>, then we create the commands:</p>
 <ul>
-<li><code>create_migration</code>: Cria nossos arquivos de migration.</li>
-<li><code>migrate_up</code>: Executa nossas migrations <code>up</code>.</li>
-<li><code>migrate_down</code>: Executa nossas migrations <code>down</code>.</li>
-<li><code>PHONY</code>: Garante que vai executar um comando, o makefile pode tentar pegar um arquivo, caso existe arquivos com o nome <code>migrate_up</code> por exemplo.</li>
+<li><code>create_migration</code>: Creates our migration files.</li>
+<li><code>migrate_up</code>: Run migrations <code>up</code>.</li>
+<li><code>migrate_down</code>:Run migrations <code>down</code>.</li>
+<li><code>PHONY</code>: It will execute a command, the makefile may try to get a file, if there are files with the name <code>migrate_up</code> for example.</li>
 </ul>
-<p>Com isso, basta usar o comando:</p>
+<p>With that, just use the command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  make create_migration
-</span></span></code></pre></div><p>E teremos nossos arquivos de migration criados, isso vale para os demais atalhos criados.</p>
-<h2 id="considerações-finais">Considerações finais</h2>
-<p>Nesse post vimos como utilizar as migrations e o quanto elas são importantes para manter um histórico de alterações e facilitar a manutenção do nosso banco de dados. Mas vale ressaltar que o uso de forma errada das migrations podem acabar fazendo você perder os dados do seu banco, por isso é importante ter esse conhecimento de como funcionam as migrations e como seu ORM ou sua linguagem lidam com as migrations.</p>
-<p>Evite apagar migrations, elas podem se tornar um pesadelo se não forem utilizadas de forma correta.</p>
-<h2 id="link-do-repositório">Link do repositório</h2>
-<p><a href="https://github.com/wiliamvj/golang-migrations">repositório</a> do projeto</p>
+</span></span></code></pre></div><p>And we will have our migration files created, this applies to the other shortcuts created.</p>
+<h2 id="final-considerations">Final considerations</h2>
+<p>In this post we saw how to use migrations and how important they are to maintain a history of changes and facilitate the maintenance of our database. But it is worth mentioning that using migrations incorrectly can end up causing you to lose data from your database, so it is important to have this knowledge of how migrations work and how your ORM or language deals with migrations.</p>
+<p>Avoid deleting migrations, they can become a nightmare if not used correctly.</p>
+<h2 id="repository-link">Repository link</h2>
+<p><a href="https://github.com/wiliamvj/golang-migrations">repository</a> project</p>
 <p><a href="https://github.com/MariaLetta/free-gophers-pack">Gopher credits</a></p>
 </section>
 

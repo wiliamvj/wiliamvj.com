@@ -83,6 +83,16 @@
   </url><url>
     <loc>//localhost:1313/posts/migrations-golang/</loc>
     <lastmod>2023-11-18T17:00:30-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/posts/migrations-golang/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/posts/migrations-golang/"
+                />
   </url><url>
     <loc>//localhost:1313/posts/cobra-cli-golang/</loc>
     <lastmod>2023-11-15T16:40:41-03:00</lastmod>
