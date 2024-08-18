@@ -33,6 +33,16 @@
   </url><url>
     <loc>//localhost:1313/posts/autenticacao-golang-cognito/</loc>
     <lastmod>2024-02-07T19:03:34-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/posts/autenticacao-golang-cognito/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/posts/autenticacao-golang-cognito/"
+                />
   </url><url>
     <loc>//localhost:1313/posts/api-golang-parte-7/</loc>
     <lastmod>2024-02-03T19:03:34-03:00</lastmod>

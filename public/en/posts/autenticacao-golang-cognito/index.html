@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
 
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Autenticação com Golang e AWS Cognito</title>
+<title>Authentication with Golang and AWS Cognito</title>
 
 
-<meta name="description" content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar." />
+<meta name="description" content="The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered." />
 <meta
   name="keywords"
   content="Golang, Go, GCP, Sql, Gorm, NestJS, Javascript, Typescript, AWS, SQS, RabbitMq, Kafka, microservices, brazilian devs, software developer, back-end, NodeJS, Unit tests, integration testes"
 />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="//localhost:1313/posts/autenticacao-golang-cognito/" />
-<meta name="twitter:title" content="Autenticação com Golang e AWS Cognito" />
-<meta name="twitter:description" content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar." />
+<meta name="twitter:site" content="//localhost:1313/en/posts/autenticacao-golang-cognito/" />
+<meta name="twitter:title" content="Authentication with Golang and AWS Cognito" />
+<meta name="twitter:description" content="The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered." />
 <meta name="twitter:image" content="//localhost:1313/posts/autenticacao-golang-cognito/thumb_esdhfkjhsd342DSF.png" />
 <meta
   name="twitter:image:src"
@@ -25,27 +25,27 @@
 />
 <meta name="twitter:domain" content="wiliamvj.com" />
 <meta name="twitter:creator" content="@wiliamjoaquim" />
-<meta name="twitter:image:alt" content="Autenticação com Golang e AWS Cognito" />
-<meta name="twitter:label1" content="Tempo de leitura"> <meta
-name="twitter:data1" content="15 minutos de leitura">
+<meta name="twitter:image:alt" content="Authentication with Golang and AWS Cognito" />
+<meta name="twitter:label1" content="Reading time"> <meta
+name="twitter:data1" content="16 minutes read">
 <meta name="twitter:app:name:iphone" content="wiliamvj" />
 
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Autenticação com Golang e AWS Cognito" />
+<meta property="og:title" content="Authentication with Golang and AWS Cognito" />
 <meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
-<meta property="og:description" content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar." />
-<meta property="og:url" content="//localhost:1313/posts/autenticacao-golang-cognito/" />
+<meta property="og:description" content="The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered." />
+<meta property="og:url" content="//localhost:1313/en/posts/autenticacao-golang-cognito/" />
 <meta property="og:image" content="//localhost:1313/posts/autenticacao-golang-cognito/thumb_esdhfkjhsd342DSF.png" />
-<meta property="og:image:alt" content="Autenticação com Golang e AWS Cognito" />
+<meta property="og:image:alt" content="Authentication with Golang and AWS Cognito" />
 
 
 <meta
   name="apple-mobile-web-app-title"
-  content="Autenticação com Golang e AWS Cognito"
+  content="Authentication with Golang and AWS Cognito"
 />
 <meta
   name="description"
-  content="A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar."
+  content="The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered."
 />
 <link
   rel="apple-touch-icon"
@@ -64,7 +64,7 @@ name="twitter:data1" content="15 minutos de leitura">
   sizes="16x16"
   href="/icons/favicon-16x16.png"
 />
-<link rel="canonical" href="//localhost:1313/posts/autenticacao-golang-cognito/" />
+<link rel="canonical" href="//localhost:1313/en/posts/autenticacao-golang-cognito/" />
 <link rel="robots" href="/robots.txt" />
 <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
 
@@ -119,11 +119,11 @@ name="twitter:data1" content="15 minutos de leitura">
      
     <li>
       <a
-        href="/"
+        href="/en"
         class=""
         
       >
-        Artigos
+        Posts
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -141,11 +141,11 @@ name="twitter:data1" content="15 minutos de leitura">
     
     <li>
       <a
-        href="/en/"
+        href="/"
         class=""
         
       >
-        en-US
+        pt-BR
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -338,7 +338,7 @@ name="twitter:data1" content="15 minutos de leitura">
 
 <article class="flex flex-col gap-10">
   <header class="flex flex-col gap-2">
-    <h2 class="title-small">Autenticação com Golang e AWS Cognito</h2>
+    <h2 class="title-small">Authentication with Golang and AWS Cognito</h2>
 
     <div class="meta">
       
@@ -346,7 +346,7 @@ name="twitter:data1" content="15 minutos de leitura">
         datetime="2024-02-07 19:03:34 -0300 -03"
         title='Wed, Feb 7, 2024, 7:03 PM -03'
       >
-        Publicado em: 07/02/2024 - 15 minutos de leitura
+        Published in: 07/02/2024 - 16 minutes read
       </time>
 
        
@@ -356,72 +356,72 @@ name="twitter:data1" content="15 minutos de leitura">
   
 
 
-  <section><p><img alt="thumbnail" src="/posts/autenticacao-golang-cognito/thumb_esdhfkjhsd342DSF.png"></p>
-<h2 id="o-que-é-o-cognito">O que é o cognito?</h2>
-<p>A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.</p>
-<p>Pensando nisso decidi abordar um pouco sobre o <a href="https://aws.amazon.com/pt/pm/cognito/">Cognito</a>, uma ferramenta muito bacana da AWS que pode ajudar você na parte de autenticação e validação do usuário para aplicações web e mobile e que muitas pessoas não conhecem.</p>
-<p>O Cognito é uma plataforma da aws responsável por armazenar e validar dados de acesso de usuários, com o cognito você consegue cadastrar usuário e armazenar suas informações, além de gerar tokens do tipo OAuth o cognito também consegue prover toda a validação de usuários.</p>
-<p>Conseguimos armazenar alguns dados do usuário como: email, name, phone, birthdate, nickname, gender, website e muitos outros, também conseguimos colocar campos personalizados.</p>
-<p>O cognito ainda nos permite trabalhar com &ldquo;provedores federados&rdquo;, conhecidos como login social, como Google, Facebook e GitHub, não vamos abordar nesse post, mas é possível de fazer com o cognito.</p>
-<h2 id="o-que-vamos-vamos-fazer">O que vamos vamos fazer?</h2>
-<p>Vamos fazer alguns endpoints para mostrar como o cognito funciona, vamos criar um usuário, confirmar e-mail, login, buscar um usuário usando o token fornecido pelo cognito, atualização de senha.</p>
-<h2 id="configurando-o-projeto">Configurando o projeto</h2>
-<p>Vamos fazer algo bem simples, não vamos nos preocupar com padrão de projeto, queremos abordar apenas o uso do cognito.</p>
-<p>Para criar os endpoints vamos utilizar o <a href="https://github.com/gin-gonic/gin">gin</a>.</p>
-<p>Vamos criar os seguintes arquivos:</p>
+  <section><p><img alt="thumbnail" src="/posts/autenticacao-golang-cognito/thumb_esdhfkjhsd342DSF_en.png"></p>
+<h2 id="what-is-cognito">What is cognito?</h2>
+<p>The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered.</p>
+<p>I decided to make a post demonstrating a about <a href="https://aws.amazon.com/pt/pm/cognito/">Cognito</a>, a very nice tool from AWS that can help you in the authentication and validation of the user for Web and mobile applications that many people do not know.</p>
+<p>Cognito is an AWS platform responsible for creating and validating user access data, as well as being able to register users and store their information, in addition to generating OAuth tokens, and Cognito can also provide all user validation.</p>
+<p>We can create some user data such as: email, name, phone, birthdate, nickname, gender, website and many others, we can also place custom fields.</p>
+<p>Cognito still allows us to work with &ldquo;federated providers&rdquo;, known as social logins, such as Google, Facebook and GitHub, we are not going to address this post, but it is possible to do it with cognito.</p>
+<h2 id="what-are-we-going-to-do">What are we going to do?</h2>
+<p>We are going to make some endpoints to show how cognito works, we are going to create a user, confirm email, login, search for a user using the token provided by cognito, update information.</p>
+<h2 id="setting-up-the-project">Setting up the project</h2>
+<p>We are going to do something very simple, we are not going to worry about the project father, we want to address only the use of knowledge.</p>
+<p>To create the endpoints we are going to use <a href="https://github.com/gin-gonic/gin">gin</a>.</p>
+<p>Let&rsquo;s create the following files:</p>
 <ul>
 <li>
-<p>O entrypoint da nossa aplicação <code>main.go</code> na raiz do projeto</p>
+<p>The entrypoint of our application <code>main.go</code> at the root of the project</p>
 </li>
 <li>
-<p><code>.env</code> Para salvar as credencias do cognito</p>
+<p><code>.env</code> To save cognitive credentials</p>
 </li>
 <li>
-<p>Uma pasta chamada <strong>cognitoClient</strong> e dentro um arquivo chamado <code>cognito.go</code></p>
+<p>A paste called <strong>cognitoClient</strong> and inside a file called <code>cognito.go</code></p>
 </li>
 <li>
-<p>E um arquivo chamado <code>request.http</code>, para fazer as requisições</p>
+<p>There is a file called <code>request.http</code>, to complete your requests.</p>
 </li>
 </ul>
-<p>A estrutura vai ficar assim:</p>
+<p>The structure will be as follows:</p>
 <p><img alt="project struct" src="/posts/autenticacao-golang-cognito/DfpSdfoasfsdf435fdg435f.png"></p>
-<h2 id="configurando-o-cognito-na-aws">Configurando o cognito na AWS</h2>
-<p>Antes de iniciar o código, vamos configurar o cognito na AWS, para isso acesse o painel e busque por cognito, depois disso vamos criar nosso pool, selecione a opção <strong>Add user directories to your app</strong>.</p>
-<p>Para o <strong>Provider types</strong> selecione a opção <strong>Cognito user pool</strong>, você pode optar por permitir login usando e-mail, user name e telefone, vou optar apenas por e-mail, selecione o que preferir, vai ficar assim a primeira etapa:</p>
+<h2 id="setting-up-cognito-on-aws">Setting up Cognito on AWS</h2>
+<p>Before starting the code, we will configure the cognito in AWS, to access the panel and search by cognito, after we will create our pool, select the option <strong>Add user directories to your app</strong>.</p>
+<p>For <strong>Provider types</strong>, select the <strong>Cognito user pool</strong> option, you can choose to allow login using email, user name and phone, you can only opt for email, select what you prefer, select assim to first stage:</p>
 <p><img alt="cognito configuration step 1" src="/posts/autenticacao-golang-cognito/sdffghj456FG234fdgdsgdfgDfg.png"></p>
-<p>É preciso configurar mais algumas coisas, vamos lá!</p>
+<p>I need to configure some more things, let&rsquo;s go!</p>
 <ul>
-<li>O <strong>Password policy mode</strong> permite que você escolhe uma politica de senha, vamos deixar o <strong>Cognito defaults</strong>.</li>
-<li>O <strong>Multi-factor authentication</strong> permite que nosso login tenham autentiação de dois fatores, vamos deixar sem, mas você pode implementar se deseja, vou optar por <strong>No MFA</strong>.</li>
-<li>Por fim, o <strong>User account recovery</strong>, você pode escolher formas de recuperar a conta, vou escolher apenas e-mail.</li>
+<li><strong>Password policy mode</strong> allows you to select a specific policy, let&rsquo;s deixar the <strong>Cognito defaults</strong>.</li>
+<li><strong>Multi-factor authentication</strong> allows our login to have two-factor authentication, let&rsquo;s go without, but you can implement it if desired, you can opt for <strong>No MFA</strong>.</li>
+<li>Finally, or <strong>User account recovery</strong>, you can choose ways to recover your account, you can just choose email.</li>
 </ul>
 <p><img alt="cognito configuration step 2.1" src="/posts/autenticacao-golang-cognito/sdf5fghfghf-part-1.png"></p>
 <p><img alt="cognito configuration step 2.2" src="/posts/autenticacao-golang-cognito/ssdf798HGJdfg-part-2.png"></p>
-<p>Próxima etapa:</p>
+<p>Next step:</p>
 <ul>
-<li><strong>Self-service sign-up</strong>, vamos permitir que qualquer pessoa possa fazer uma conta, deixe selecionado.</li>
-<li><strong>Cognito-assisted verification and confirmation</strong>, permita que o cognito se responsabilize por confirmar a identidade do usuário, deixe marcado, e também seleciona a opção <strong>Send email message, verify email address</strong>.</li>
-<li><strong>Verifying attribute changes</strong>, deixe marcado essa opção, para que ao atualizar o e-mail do usuário seja necessário validar novamente.</li>
-<li><strong>Required attributes</strong>, selecione os campos que deseja tornar obrigatórios para criar um novo usuário, vou deixar as opções, email (já é obrigatório) e name, a senha também já é obrigatório por padrão.</li>
-<li><strong>Custom attributes</strong>, é opcional, mas você pode adicionar campos personalizados, para exemplo, vou criar um campo chamado <code>custom_id</code> que vai ser um <code>uuid</code> qualquer.</li>
+<li><strong>Self-service sign-up</strong>, we will allow any person to do so, leave selected.</li>
+<li><strong>Cognito-assisted verification and confirmation</strong>, allow cognito to be responsible for confirming the user&rsquo;s identity, check it, and also select the option <strong>Send email message, verify email address</strong>.</li>
+<li><strong>Verifying attribute changes</strong>, check this option, so that updating the user&rsquo;s email needs to be validated again.</li>
+<li><strong>Required attributes</strong>, select the fields that you want to make mandatory to create a new user, you will select the options, email (and the name) and the name will also be required by your father.</li>
+<li><strong>Custom attributes</strong>, it is optional, but you can add custom fields, for example, you will create a field called <code>custom_id</code> which will be any <code>uuid</code>.</li>
 </ul>
-<p>Ficou assim essa etapa:</p>
+<p>This stage also occurred:</p>
 <p><img alt="cognito configuration step 2.3" src="/posts/autenticacao-golang-cognito/sdfsdfsdfsdfsdhfgYT4-part-1.png"></p>
 <p><img alt="cognito configuration step 2.4" src="/posts/autenticacao-golang-cognito/sdfsdfsdfsdfsdhfgYT4-part-2.png"></p>
 <p><img alt="cognito configuration step 2.5" src="/posts/autenticacao-golang-cognito/sdfsdfsdfsdfsdhfgYT4-part-3.png"></p>
-<p>Seguindo, selecione a opção <strong>Send email with Cognito</strong>, assim não precisamos configurar nada para disparar os e-mails.</p>
-<p>Na próxima etapa, em <strong>User pool name</strong> coloque o nome que desejar em <strong>App client name</strong>, coloque também o nome que desejar e prossiga.</p>
-<p>Na última etapa não vamos precisar alterar nada, basta finalizar e criar o user pool.</p>
-<p>Com tudo feito, acesse o cognito &gt; User pools, selecione o pool que acabou de criar, nessa parte vai ficar listado todos os usuários da sua aplicação, sendo possível revogar token do usuário, desativar, verificar entre outras funcionalidades.</p>
-<p>Vamos precisar do id do pool, para poder utilizar o <a href="https://aws.amazon.com/pt/developer/tools/">sdk do Go</a> para a aws, para isso acesse o pool criado <strong>App integration</strong> &gt; <strong>App client list</strong> e vai ver o nosso <strong>Client ID</strong>:</p>
+<p>Next, select the <strong>Send email with Cognito</strong> option, so we do not need to configure anything to trigger the emails.</p>
+<p>In the next step, in <strong>User pool name</strong> put the name you want in <strong>App client name</strong>, also put the name you want and continue.</p>
+<p>In the last stage we will not need to alter anything, just finish and create the user pool.</p>
+<p>With everything, access or cognito &gt; User pools, select the pool that you just created, this part will list all the users of your application, and it is possible to revoke the user&rsquo;s token, deactivate, verify among other functionalities.</p>
+<p>We are going to specify the id of the pool, to be able to use the <a href="https://aws.amazon.com/pt/developer/tools/">Go sdk</a> for aws, for access to the created pool <strong>App integration</strong> &gt; <strong>App client list</strong> and see our <strong>Client ID</strong>:</p>
 <p><img alt="cognito client id" src="/posts/autenticacao-golang-cognito/asdfgh567Hfh.png"></p>
-<p>Vamos salvar esse id no nosso arquivo <code>.env</code>:</p>
+<p>Let&rsquo;s save this id in our <code>.env</code> file:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>COGNITO_CLIENT_ID=client_id
-</span></span></code></pre></div><p>Lembrando que ainda é necessário ter as credencias da aws, geralmente fica dentro do diretório <code>/Users/seu-usuário/.aws</code>, caso não tenha configurado ainda, veja <a href="https://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-chap-configure.html">aqui</a> como fazer.</p>
-<h2 id="implementando-o-cognito">Implementando o cognito</h2>
-<p>Vamos separar a parte do cognito em outro arquivo.</p>
-<h3 id="cadastrando-o-usuário">Cadastrando o usuário</h3>
-<p>Dentro do arquivo <code>cognito.go</code>, vamos inicializar nosso cognito e criar nossa interface:</p>
+</span></span></code></pre></div><p>Remembering that you still need to have the AWS credentials, usually located in the <code>/Users/your-user/.aws</code> directory, if you haven&rsquo;t configured it yet, see <a href="https://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-chap-configure.html">here</a> how to do it.</p>
+<h2 id="implementing-cognito">Implementing cognito</h2>
+<p>Let&rsquo;s separate the cognito part into another file.</p>
+<h3 id="registering-the-user">Registering the user</h3>
+<p>Inside the <code>cognito.go</code> file, we will initialize our cognito and create our interface:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">package</span> congnitoClient
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">import</span> (
@@ -463,11 +463,11 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (c <span style="color:#ff79c6">*</span>cognitoClient) <span style="color:#50fa7b">SignUp</span>(user <span style="color:#ff79c6">*</span>User) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Primeiro criamos uma struct chamada <code>User</code>, essa struct vai ter os campos do usuário que precisamos para salvar no cognito.</p>
-<p>Depois criamos uma <code>interface</code> chamada <code>CognitoInterface</code>, vamos ter os métodos que vamos usar, primeiramente teremos apenas o <code>SignUp</code> que vai receber um ponteiro da struct <code>User</code>.</p>
-<p>Depois teremos outra struct chamada <code>cognitoClient</code> que vai conter nossa instância para o <code>NewCognitoClient</code> que vai ser nosso construtor.</p>
-<p>Como mencionando o <code>NewCognitoClient</code> vai ser como se fosse nosso construtor, é nele que vamos fazer a sessão com a aws e retornar essa conexão. Essa conexão poderia se uma variável global, no nosso caso não vamos fazer isso, vai de você verificar qual a melhor abordagem para o seu caso de uso.</p>
-<p>Agora vamos implementar o <code>SignUp</code>:</p>
+</span></span></code></pre></div><p>First we create a struct called <code>User</code>, this struct will have the user fields that we need to save in cognito.</p>
+<p>Then we create an <code>interface</code> called <code>CognitoInterface</code>, we will have the methods that we will use, first we will only have <code>SignUp</code> which will receive a pointer to the <code>User</code> struct.</p>
+<p>Then we will have another struct called <code>cognitoClient</code> that will contain our instance for <code>NewCognitoClient</code> that will be our constructor.</p>
+<p>As mentioned, <code>NewCognitoClient</code> will be like our constructor, it is where we will create the session with AWS and return this connection. This connection could be a global variable, in our case we will not do this, it is up to you to check which is the best approach for your use case.</p>
+<p>Now let&rsquo;s implement <code>SignUp</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (c <span style="color:#ff79c6">*</span>cognitoClient) <span style="color:#50fa7b">SignUp</span>(user <span style="color:#ff79c6">*</span>User) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    userCognito <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">&amp;</span>cognito.SignUpInput{
 </span></span><span style="display:flex;"><span>      ClientId: aws.<span style="color:#50fa7b">String</span>(c.appClientID),
@@ -494,15 +494,15 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Vamos usar o <code>AttributeType</code> do cognito para montar os parâmetros que vamos enviar para o <code>SignUp</code> do sdk da aws, repare que o <code>custom_id</code> que é o nosso campo personalizado, precisa que coloque o <code>custom</code> antes, sem isso não vai ser aceito, apenas criamos um uuid com o pacote do google, esse campo é apenas para mostrar como utilizar atributos personalizados.</p>
-<p>O campo <code>ClientId</code> é referente ao <code>COGNITO_CLIENT_ID</code> da nossa env, vamos repassar quando for iniciar o <code>main.go</code>.</p>
-<p>Isso é o que precisamos para salvar o usuário, simples não é?</p>
-<p>Não se esqueça de iniciar o projeto com com:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go mod init &lt;nome <span style="color:#ff79c6">do</span> seu projeto&gt;
-</span></span></code></pre></div><p>E instalar os pacotes necessários:</p>
+</span></span></code></pre></div><p>We will use the <code>AttributeType</code> from Cognito to assemble the parameters that we will send to the <code>SignUp</code> of the AWS SDK, note that the <code>custom_id</code> which is our custom field, needs to be placed <code>custom</code> before, without this it will not be accepted, we just created a uuid with the Google package, this field is just to show how to use custom attributes.</p>
+<p>The <code>ClientId</code> field refers to the <code>COGNITO_CLIENT_ID</code> of our env, we will pass it on when starting <code>main.go</code>.</p>
+<p>This is what we need to save the user, simple isn&rsquo;t it?</p>
+<p>Don&rsquo;t forget to start the project with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go mod init &lt;your project name&gt;
+</span></span></code></pre></div><p>And install the necessary packages:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go mod tidy
-</span></span></code></pre></div><h3 id="confirmando-a-conta">Confirmando a conta</h3>
-<p>Vamos criar outra função para verificar a conta do usuário via e-mail, para verificar a conta o usuário vai precisar informar o código enviado por e-mail, vamos criar uma nova struct e adicionar o novo método <code>ConfirmAccount</code> na interface:</p>
+</span></span></code></pre></div><h3 id="confirming-the-account">Confirming the account</h3>
+<p>Let&rsquo;s create another function to verify the user&rsquo;s account via email. To verify the account, the user will need to enter the code sent by email. Let&rsquo;s create a new struct and add the new <code>ConfirmAccount</code> method to the interface:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserConfirmation <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>    Email <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34; binding:&#34;required,email&#34;`</span>
 </span></span><span style="display:flex;"><span>    Code  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;code&#34; binding:&#34;required&#34;`</span>
@@ -511,7 +511,7 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">SignUp</span>(user <span style="color:#ff79c6">*</span>User) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">ConfirmAccount</span>(user <span style="color:#ff79c6">*</span>UserConfirmation) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Agora vamos implementar:</p>
+</span></span></code></pre></div><p>Now let&rsquo;s implement:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (c <span style="color:#ff79c6">*</span>cognitoClient) <span style="color:#50fa7b">ConfirmAccount</span>(user <span style="color:#ff79c6">*</span>UserConfirmation) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    confirmationInput <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">&amp;</span>cognito.ConfirmSignUpInput{
 </span></span><span style="display:flex;"><span>      Username:         aws.<span style="color:#50fa7b">String</span>(user.Email),
@@ -524,10 +524,10 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>É bem simples, vamos utilizar o <code>ConfirmSignUpInput</code> do pacote cognito para montar os parâmetros, lembrando que o <code>Username</code> é o e-mail do usuário. Por último vamos chamar o <code>ConfirmSignUp</code> passando o <code>confirmationInput</code>.</p>
-<p>Lembrando que apenas retornamos o erro, você poderia aprimorar e verificar os tipos de mensagem de erro.</p>
+</span></span></code></pre></div><p>It&rsquo;s very simple, we will use the <code>ConfirmSignUpInput</code> from the cognito package to assemble the parameters, remembering that the <code>Username</code> is the user&rsquo;s email. Finally, we will call <code>ConfirmSignUp</code> passing the <code>confirmationInput</code>.</p>
+<p>Remembering that we only returned the error, you could improve and check the types of error messages.</p>
 <h3 id="login">Login</h3>
-<p>Esse deve ser a funcionalidade que mais vai ser utilizada, vamos criar um método chamado <code>SignIn</code> e uma struct:</p>
+<p>This should be the functionality that will be used the most, let&rsquo;s create a method called <code>SignIn</code> and a struct:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserLogin <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>    Email    <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34; binding:&#34;required,email&#34;`</span>
 </span></span><span style="display:flex;"><span>    Password <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;password&#34; binding:&#34;required&#34;`</span>
@@ -537,8 +537,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">ConfirmAccount</span>(user <span style="color:#ff79c6">*</span>UserConfirmation) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">SignIn</span>(user <span style="color:#ff79c6">*</span>UserLogin) (<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>)
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Nosso <code>SignIn</code> vai receber um <code>UserLogin</code>.</p>
-<p>Vamos implementar:</p>
+</span></span></code></pre></div><p>Our <code>SignIn</code> will receive a <code>UserLogin</code>.</p>
+<p>Let&rsquo;s implement:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (c <span style="color:#ff79c6">*</span>cognitoClient) <span style="color:#50fa7b">SignIn</span>(user <span style="color:#ff79c6">*</span>UserLogin) (<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>) {
 </span></span><span style="display:flex;"><span>    authInput <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">&amp;</span>cognito.InitiateAuthInput{
 </span></span><span style="display:flex;"><span>      AuthFlow: aws.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;USER_PASSWORD_AUTH&#34;</span>),
@@ -554,27 +554,27 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">*</span>result.AuthenticationResult.AccessToken, <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Vamos utilizar o função <code>InitiateAuth</code> do pacote cognito da aws, precisamos passar o <code>username</code> (e-mail do usuário), <code>password</code> e o <code>AuthFlow</code>, esse campo se refere ao tipo de acesso que vamos permitir, no nosso caso o <code>USER_PASSWORD_AUTH</code>.</p>
+</span></span></code></pre></div><p>We will use the <code>InitiateAuth</code> function from the aws cognito package, we need to pass the <code>username</code> (user&rsquo;s email), <code>password</code> and the <code>AuthFlow</code>, this field refers to the type of access that we will allow, in our case <code>USER_PASSWORD_AUTH</code>.</p>
 <blockquote>
-<p>Caso receba algum erro do tipo:</p>
+<p>If you receive an error like this:</p>
 </blockquote>
 <blockquote>
 <p><code>You trusted all proxies, this is NOT safe. We recommend you to set a value</code></p>
 </blockquote>
-<p>Será necessário habilitar o flow <code>ALLOW_USER_PASSWORD_AUTH</code>, para configurar acesse o cognito no painel da aws, vá em:</p>
-<p><strong>User pools</strong> &gt; <strong>Selecione seu pool</strong> &gt; <strong>App integration</strong> &gt; <strong>App client list</strong> &gt; <strong>Selecione um client</strong>, vai abrir esse tela:</p>
+<p>It will be necessary to enable the <code>ALLOW_USER_PASSWORD_AUTH</code> flow, to configure it access cognito on the aws panel, go to:</p>
+<p><strong>User pools</strong> &gt; <strong>Selecione seu pool</strong> &gt; <strong>App integration</strong> &gt; <strong>App client list</strong> &gt; <strong>Selecione um client</strong>, will open this screen:</p>
 <p><img alt="cognito flow 1" src="/posts/autenticacao-golang-cognito/sdfbfg78F34dfg.png"></p>
-<p>Clique em <strong>edit</strong> e em <strong>Authentication flows</strong> selecione a opção <strong>ALLOW_USER_PASSWORD_AUTH</strong> depois salve, com isso você já pode fazer login com senha e e-mail do usuário.</p>
+<p>Click on <strong>edit</strong> and in <strong>Authentication flows</strong> select the option <strong>ALLOW_USER_PASSWORD_AUTH</strong> then save, with this you can now log in with the user&rsquo;s password and email.</p>
 <h3 id="listando-um-usuário">Listando um usuário</h3>
 <p>Para mostrar como utilizar o token jwt fornecido pelo cognito vamos criar um endpoint que mostra os dados do usuário salvos no cognito apenas com o token.</p>
-<p>Vamos criar outra função chamada <code>GetUserByToken</code> que vai receber um token e vai retornar uma struct do tipo <code>GetUserOutput</code> que vamos pegar do pacote do cognito.</p>
+<p>Let&rsquo;s create another function called <code>GetUserByToken</code> that will receive a token and return a struct of type <code>GetUserOutput</code> that we will get from the cognito package.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CognitoInterface <span style="color:#8be9fd;font-style:italic">interface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">SignUp</span>(user <span style="color:#ff79c6">*</span>User) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">ConfirmAccount</span>(user <span style="color:#ff79c6">*</span>UserConfirmation) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">SignIn</span>(user <span style="color:#ff79c6">*</span>UserLogin) (<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByToken</span>(token <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>cognito.GetUserOutput, <span style="color:#8be9fd">error</span>)
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Se clicar no <code>GetUserOutput</code> vai ver o que tem dentro dessa struct</p>
+</span></span></code></pre></div><p>If you click on <code>GetUserOutput</code> you will see what is inside this struct</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> GetUserOutput <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>    _ <span style="color:#8be9fd;font-style:italic">struct</span>{} <span style="color:#f1fa8c">`type:&#34;structure&#34;`</span>
 </span></span><span style="display:flex;"><span>    MFAOptions []<span style="color:#ff79c6">*</span>MFAOptionType <span style="color:#f1fa8c">`type:&#34;list&#34;`</span>
@@ -583,8 +583,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    UserMFASettingList []<span style="color:#ff79c6">*</span><span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`type:&#34;list&#34;`</span>
 </span></span><span style="display:flex;"><span>    Username <span style="color:#ff79c6">*</span><span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`min:&#34;1&#34; type:&#34;string&#34; required:&#34;true&#34; sensitive:&#34;true&#34;`</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>dentro da <code>_ struct{}</code> vai atributos personalizados que criamos para o nosso usuário, no nosso caso o <code>custom_id</code>.</p>
-<p>Vamos implementar:</p>
+</span></span></code></pre></div><p>inside the <code>_ struct{}</code> there are custom attributes that we created for our user, in our case the <code>custom_id</code>.</p>
+<p>Let&rsquo;s implement:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (c <span style="color:#ff79c6">*</span>cognitoClient) <span style="color:#50fa7b">GetUserByToken</span>(token <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>cognito.GetUserOutput, <span style="color:#8be9fd">error</span>) {
 </span></span><span style="display:flex;"><span>    input <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">&amp;</span>cognito.GetUserInput{
 </span></span><span style="display:flex;"><span>      AccessToken: aws.<span style="color:#50fa7b">String</span>(token),
@@ -595,9 +595,9 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> result, <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Utilizamos o <code>GetUser</code> do pacote cognito, ele precisa apenas de um <code>AccessToken</code> que é o token fornecido pelo próprio cognito.</p>
-<h3 id="atualizando-a-senha">Atualizando a senha</h3>
-<p>Por último vamos atualizar a senha do usuário para isso vamos precisar do e-mail e a nova senha, já temos a struct <code>UserLogin</code> com os campos que precisamos, vamos reaproveitar, se desejar crie uma nova apenas para essa função. Vamos criar a função <code>UpdatePassword</code>:</p>
+</span></span></code></pre></div><p>We use <code>GetUser</code> from the cognito package, it only needs an <code>AccessToken</code> which is the token provided by cognito itself.</p>
+<h3 id="updating-password">Updating password</h3>
+<p>Finally, we will update the user&rsquo;s password. To do this, we will need the email address and the new password. We already have the <code>UserLogin</code> struct with the fields we need. We will reuse it. If you wish, create a new one just for this function. Let&rsquo;s create the <code>UpdatePassword</code> function:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> CognitoInterface <span style="color:#8be9fd;font-style:italic">interface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">SignUp</span>(user <span style="color:#ff79c6">*</span>User) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">ConfirmAccount</span>(user <span style="color:#ff79c6">*</span>UserConfirmation) <span style="color:#8be9fd">error</span>
@@ -605,7 +605,7 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">GetUserByToken</span>(token <span style="color:#8be9fd">string</span>) (<span style="color:#ff79c6">*</span>cognito.GetUserOutput, <span style="color:#8be9fd">error</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">UpdatePassword</span>(user <span style="color:#ff79c6">*</span>UserLogin) <span style="color:#8be9fd">error</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Vamos implementar:</p>
+</span></span></code></pre></div><p>Let&rsquo;s implement:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> (c <span style="color:#ff79c6">*</span>cognitoClient) <span style="color:#50fa7b">UpdatePassword</span>(user <span style="color:#ff79c6">*</span>UserLogin) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    input <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">&amp;</span>cognito.AdminSetUserPasswordInput{
 </span></span><span style="display:flex;"><span>      UserPoolId: aws.<span style="color:#50fa7b">String</span>(os.<span style="color:#50fa7b">Getenv</span>(<span style="color:#f1fa8c">&#34;COGNITO_USER_POOL_ID&#34;</span>)),
@@ -619,11 +619,11 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Vamos usar a função <code>AdminSetUserPassword</code> do pacote cognito, precisamos passar o e-mail do usuário e a nova senha, além disso temos que passar o <code>UserPoolId</code>, vamos colocar no arquivo <code>.env</code> o <code>COGNITO_USER_POOL_ID</code>, para buscar na aws basta acessar seu pool e copiar o <code>User pool ID</code></p>
+</span></span></code></pre></div><p>We will use the <code>AdminSetUserPassword</code> function from the cognito package, we need to pass the user&rsquo;s email and the new password, in addition we have to pass the <code>UserPoolId</code>, we will put the <code>COGNITO_USER_POOL_ID</code> in the <code>.env</code> file, to search in aws just access your pool and copy the <code>User pool ID</code></p>
 <p><img alt="pool id" src="/posts/autenticacao-golang-cognito/sdfsdf345FGfgh567.png"></p>
-<p>Também vamos passar o <code>Permanent</code>, informado que se trata de uma senha permanente, você poderia passar um <code>false</code>, assim o cognito iria criar uma senha temporário para o usuário, isso vai depender da estratégia que vai usar na sua aplicação.</p>
-<h2 id="criando-a-main">Criando a main</h2>
-<p>Vamos criar nosso <code>main.go</code>, vai ser nesse arquivo que vamos iniciar o cognito e criar nossas rotas.</p>
+<p>We will also pass <code>Permanent</code>, informing that it is a permanent password, you could pass <code>false</code>, so Cognito would create a temporary password for the user, this will depend on the strategy you will use in your application.</p>
+<h2 id="creating-the-main">Creating the main</h2>
+<p>Let&rsquo;s create our <code>main.go</code>, this will be the file where we will start cognito and create our routes.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
 </span></span><span style="display:flex;"><span>    err <span style="color:#ff79c6">:=</span> godotenv.<span style="color:#50fa7b">Load</span>()
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -638,10 +638,10 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">panic</span>(err)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Primeiro vamos carregar nossas envs com o pacote <a href="https://github.com/joho/godotenv">godotenv</a>, depois iniciamos nosso cognito client, passando o <code>COGNITO_CLIENT_ID</code>, que pegamos anteriormente, depois iniciamos o gin e criamos um server, isso é o suficiente.</p>
-<h2 id="criando-os-endpoints">Criando os endpoints</h2>
-<h3 id="criando-um-usuário">Criando um usuário</h3>
-<p>Vamos criar uma função dentro do próprio arquivo <code>main.go</code>, vamos chamar de <code>CreateUser</code>:</p>
+</span></span></code></pre></div><p>First we will load our envs with the <a href="https://github.com/joho/godotenv">godotenv</a> package, then we start our cognito client, passing the <code>COGNITO_CLIENT_ID</code>, which we got earlier, then we start gin and create a server, that&rsquo;s enough.</p>
+<h2 id="creating-the-endpoints">Creating the endpoints</h2>
+<h3 id="creating-a-user">Creating a user</h3>
+<p>Let&rsquo;s create a function inside the <code>main.go</code> file itself, let&rsquo;s call it <code>CreateUser</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">CreateUser</span>(c <span style="color:#ff79c6">*</span>gin.Context, cognito congnitoClient.CognitoInterface) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> user congnitoClient.User
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> c.<span style="color:#50fa7b">ShouldBindJSON</span>(<span style="color:#ff79c6">&amp;</span>user); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -653,8 +653,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Algo simples, apenas convertemos o que recebemos no body para nossa struct usando o <code>ShouldBindJSON</code> do gin, depois chamamos o <code>SignUp</code> que criamos no <code>cognito.go</code>.</p>
-<p>Agora vamos criar o endpoint dentro da função <code>main.go</code>:</p>
+</span></span></code></pre></div><p>Something simple, we just convert what we receive in the body to our struct using gin&rsquo;s <code>ShouldBindJSON</code>, then we call the <code>SignUp</code> that we created in <code>cognito.go</code>.</p>
+<p>Now let&rsquo;s create the endpoint inside the <code>main.go</code> function:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  r.<span style="color:#50fa7b">POST</span>(<span style="color:#f1fa8c">&#34;user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(context <span style="color:#ff79c6">*</span>gin.Context) {
 </span></span><span style="display:flex;"><span>		err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">CreateUser</span>(context, cognitoClient)
 </span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -663,26 +663,26 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		context.<span style="color:#50fa7b">JSON</span>(http.StatusCreated, gin.H{<span style="color:#f1fa8c">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;user created&#34;</span>})
 </span></span><span style="display:flex;"><span>	})
-</span></span></code></pre></div><p>Chamamos a função que acabamos de criar <code>CreateUser</code>, se houver um erro lançamos um <code>StatusBadRequest</code>, caso tenha um sucesso um <code>StatusCreated</code>, vamos testar.</p>
-<p>Vamos fazer um <code>go mod tidy</code> baixando todos os pacotes, depois vamos rodar a aplicação com <code>go run main.go</code></p>
-<p>Agora podemos criar uma chamada no arquivo <code>request.http</code> e executar:</p>
+</span></span></code></pre></div><p>We call the function we just created <code>CreateUser</code>, if there is an error we throw a <code>StatusBadRequest</code>, if it is successful a <code>StatusCreated</code>, let&rsquo;s test.</p>
+<p>Let&rsquo;s do a <code>go mod tidy</code> downloading all the packages, then we&rsquo;ll run the application with <code>go run main.go</code></p>
+<p>Now we can create a call in the <code>request.http</code> file and execute:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">POST</span> http://localhost:8080/user <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
 </span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;Name&#34;</span>: <span style="color:#f1fa8c">&#34;John Doe&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;wivobi1159@bitofee.com&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;SuperSenha@1234&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;Pass@1234&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Se tudo estiver correto vamos receber a mensagem:</p>
+</span></span></code></pre></div><p>If everything is correct we will receive the message:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;user created&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Agora entrando no painel do cognito na aws, e acessando o pool depois os usuários, vamos ter nosso usuário lá dentro:</p>
+</span></span></code></pre></div><p>Now entering the Cognito panel on AWS, and accessing the pool then the users, we will have our user there:</p>
 <p><img alt="user" src="/posts/autenticacao-golang-cognito/dfsdhjkdfgsdf78yui.png"></p>
-<h3 id="confirmando-um-usuário">Confirmando um usuário</h3>
-<p>Repare que o usuário que criamos logo acima não está confirmado, vamos confirmar!</p>
-<p>Crie uma função chamada <code>ConfirmAccount</code> no arquivo <code>main.go</code>:</p>
+<h3 id="confirming-a-user">Confirming a user</h3>
+<p>Note that the user we created above is not confirmed, let&rsquo;s confirm it!</p>
+<p>Create a function called <code>ConfirmAccount</code> in the <code>main.go</code> file:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">ConfirmAccount</span>(c <span style="color:#ff79c6">*</span>gin.Context, cognito congnitoClient.CognitoInterface) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> user congnitoClient.UserConfirmation
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> c.<span style="color:#50fa7b">ShouldBindJSON</span>(<span style="color:#ff79c6">&amp;</span>user); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -694,8 +694,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Mesmo conceito que já usamos, convertamos o body para a struct <code>UserConfirmation</code> e repassamos ao <code>ConfirmAccount</code> do <code>cognito.go</code>.</p>
-<p>Vamos criar o endpoint:</p>
+</span></span></code></pre></div><p>Same concept we used before, let&rsquo;s convert the body to the <code>UserConfirmation</code> struct and pass it to <code>ConfirmAccount</code> in <code>cognito.go</code>.</p>
+<p>Let&rsquo;s create the endpoint:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  r.<span style="color:#50fa7b">POST</span>(<span style="color:#f1fa8c">&#34;user/confirmation&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(context <span style="color:#ff79c6">*</span>gin.Context) {
 </span></span><span style="display:flex;"><span>		err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">ConfirmAccount</span>(context, cognitoClient)
 </span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -704,7 +704,7 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		context.<span style="color:#50fa7b">JSON</span>(http.StatusCreated, gin.H{<span style="color:#f1fa8c">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;user confirmed&#34;</span>})
 </span></span><span style="display:flex;"><span>	})
-</span></span></code></pre></div><p>Também é simples, só tratamos o erro e retornamos uma mensagem, vamos criar nossa chamada e testar:</p>
+</span></span></code></pre></div><p>It&rsquo;s also simple, we just handle the error and return a message, let&rsquo;s create our call and test it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">POST</span> http://localhost:8080/user/confirmation <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
 </span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
 </span></span><span style="display:flex;"><span>
@@ -712,14 +712,14 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;wivobi1159@bitofee.com&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;code&#34;</span>: <span style="color:#f1fa8c">&#34;363284&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Vamos receber a mensagem:</p>
+</span></span></code></pre></div><p>We will receive the message:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;user confirmed&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Agora acessando novamente o cognito no painel da aws, repare que o usuário está confirmado, lembrando que precisa colocar um e-mail válido, pode usar e-mail temporário para brincar, mas precisa ser válido, pois o cognito vai enviar o código de confirmação e precisa ser um código válido para confirmar com sucesso.</p>
+</span></span></code></pre></div><p>Now accessing Cognito again on the AWS panel, notice that the user is confirmed, remembering that you need to enter a valid email, you can use a temporary email to play around, but it needs to be valid, as Cognito will send the confirmation code and it needs to be a valid code to confirm successfully.</p>
 <p><img alt="user confirmed" src="/posts/autenticacao-golang-cognito/sdfsdfpoiwoue234546GHw3FDG.png"></p>
 <h3 id="login-1">Login</h3>
-<p>Agora vamos criar nosso token, para isso no arquivo <code>main.go</code> crie uma função chamada <code>SignIn</code>, essa função vai retornar um erro e um token.</p>
+<p>Now let&rsquo;s create our token, to do this in the <code>main.go</code> file create a function called <code>SignIn</code>, this function will return an error and a token.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">SignIn</span>(c <span style="color:#ff79c6">*</span>gin.Context, cognito congnitoClient.CognitoInterface) (<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> user congnitoClient.UserLogin
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> c.<span style="color:#50fa7b">ShouldBindJSON</span>(<span style="color:#ff79c6">&amp;</span>user); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -731,8 +731,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> token, <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Mesmo padrão das demais funções, convertamos o body para a struct <code>UserLogin</code> e repassamos ao <code>SignIn</code> do <code>cognito.go</code>.</p>
-<p>Vamos criar o endpoint:</p>
+</span></span></code></pre></div><p>Same pattern as the other functions, we convert the body to the <code>UserLogin</code> struct and pass it to <code>SignIn</code> of <code>cognito.go</code>.</p>
+<p>Let&rsquo;s create the endpoint:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  r.<span style="color:#50fa7b">POST</span>(<span style="color:#f1fa8c">&#34;user/login&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(context <span style="color:#ff79c6">*</span>gin.Context) {
 </span></span><span style="display:flex;"><span>		token, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">SignIn</span>(context, cognitoClient)
 </span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -741,22 +741,22 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		context.<span style="color:#50fa7b">JSON</span>(http.StatusCreated, gin.H{<span style="color:#f1fa8c">&#34;token&#34;</span>: token})
 </span></span><span style="display:flex;"><span>	})
-</span></span></code></pre></div><p>Agora retornamos um <code>token</code> ao usuário, vamos criar a chamada e testa:</p>
+</span></span></code></pre></div><p>Now we return a <code>token</code> to the user, let&rsquo;s create the call and test:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">POST</span> http://localhost:8080/user/login <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
 </span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;wivobi1159@bitofee.com&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;SuperSenha@1234&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;Pass@1234&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Ao fazer a chamada vamos receber nosso token jwt:</p>
+</span></span></code></pre></div><p>When making the call we will receive our jwt token:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;token&#34;</span>: <span style="color:#f1fa8c">&#34;token_here&#34;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><img alt="user jwt token" src="/posts/autenticacao-golang-cognito/token_dfgdfg765Kas23.png"></p>
-<p>Se pegar o token jwt podemos ver o que tem dentro, usando o site <a href="https://jwt.io/">jwt.io</a>.</p>
-<h3 id="listando-um-usuário-1">Listando um usuário</h3>
-<p>Agora vamos listar os dados do usuário salvos no cognito apenas usando o token, para isso crie uma função chamada <code>GetUserByToken</code> no <code>main.go</code> e vamos precisar de uma struct para representar o response que vamos devolver ao usuário, vamos criar no <code>main</code> também:</p>
+<p>If we get the jwt token we can see what&rsquo;s inside, using the website <a href="https://jwt.io/">jwt.io</a>.</p>
+<h3 id="listing-a-user">Listing a user</h3>
+<p>Now we will list the user data saved in cognito using only the token, to do this create a function called <code>GetUserByToken</code> in <code>main.go</code> and we will need a struct to represent the response that we will return to the user, we will create it in <code>main</code> as well:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> UserResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>    ID            <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
 </span></span><span style="display:flex;"><span>    Name          <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;name&#34;`</span>
@@ -766,7 +766,7 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {}
-</span></span></code></pre></div><p>Agora a função:</p>
+</span></span></code></pre></div><p>Now the function:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">GetUserByToken</span>(c <span style="color:#ff79c6">*</span>gin.Context, cognito congnitoClient.CognitoInterface) (<span style="color:#ff79c6">*</span>UserResponse, <span style="color:#8be9fd">error</span>) {
 </span></span><span style="display:flex;"><span>    token <span style="color:#ff79c6">:=</span> strings.<span style="color:#50fa7b">TrimPrefix</span>(c.<span style="color:#50fa7b">GetHeader</span>(<span style="color:#f1fa8c">&#34;Authorization&#34;</span>), <span style="color:#f1fa8c">&#34;Bearer &#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> token <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
@@ -796,9 +796,9 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> user, <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Essa vai ser a maior função, precisamos mapear o que recebemos do cognito para a nossa struct <code>UserResponse</code>, fazemos isso com um <code>for</code> e um <code>switch</code>, claro que poderíamos aprimorar, mas para exemplificar vamos manter assim. Inclusive para mapear atributos personalizados é preciso colocar o <code>custom</code> antes, como o <code>custom:custom_id</code>.</p>
-<p>Também verificamos se o usuário passou o token no header, caso não informe retornamos um erro.</p>
-<p>Vamos criar o endpoint:</p>
+</span></span></code></pre></div><p>This will be the biggest function, we need to map what we receive from Cognito to our <code>UserResponse</code> struct, we do this with a <code>for</code> and a <code>switch</code>, of course we could improve it, but for the sake of example we will keep it like this. Also to map custom attributes we need to put <code>custom</code> before, like <code>custom:custom_id</code>.</p>
+<p>We also check if the user passed the token in the header, if not we return an error.</p>
+<p>Let&rsquo;s create the endpoint:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  r.<span style="color:#50fa7b">GET</span>(<span style="color:#f1fa8c">&#34;user&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(context <span style="color:#ff79c6">*</span>gin.Context) {
 </span></span><span style="display:flex;"><span>		user, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">GetUserByToken</span>(context, cognitoClient)
 </span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -811,8 +811,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		context.<span style="color:#50fa7b">JSON</span>(http.StatusOK, gin.H{<span style="color:#f1fa8c">&#34;user&#34;</span>: user})
 </span></span><span style="display:flex;"><span>	})
-</span></span></code></pre></div><p>Fazemos a mesma validação dos outros endpoints, porém agora verificamos o tipo do erro e caso seja do tipo <code>token not found</code> retornamos um <code>StatusUnauthorized</code>.</p>
-<p>Vamos testar:</p>
+</span></span></code></pre></div><p>We perform the same validation as the other endpoints, but now we check the error type and if it is of the <code>token not found</code> type we return a <code>StatusUnauthorized</code>.</p>
+<p>Let&rsquo;s test:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">GET</span> http://localhost:8080/user <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
 </span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
 </span></span><span style="display:flex;"><span>Authorization<span style="color:#ff79c6">:</span> Bearer token_jwt
@@ -826,8 +826,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;email_verified&#34;</span>: <span style="color:#ff79c6">true</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="atualizando-a-senha-1">Atualizando a senha</h3>
-<p>Por último, vamos fazer a função <code>UpdatePassword</code> que vai atualizar a senha do usuário:</p>
+</span></span></code></pre></div><h3 id="updating-password-1">Updating password</h3>
+<p>Finally, let&rsquo;s create the <code>UpdatePassword</code> function that will update the user&rsquo;s password:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">UpdatePassword</span>(c <span style="color:#ff79c6">*</span>gin.Context, cognito congnitoClient.CognitoInterface) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>    token <span style="color:#ff79c6">:=</span> strings.<span style="color:#50fa7b">TrimPrefix</span>(c.<span style="color:#50fa7b">GetHeader</span>(<span style="color:#f1fa8c">&#34;Authorization&#34;</span>), <span style="color:#f1fa8c">&#34;Bearer &#34;</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> token <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
@@ -843,8 +843,8 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>  }
-</span></span></code></pre></div><p>Também colocamos a obrigatoriedade de informar o token no header, o resto do função o que já fizemos anteriormente.</p>
-<p>Vamos criar o último endpoint:</p>
+</span></span></code></pre></div><p>We also make it mandatory to inform the token in the header, the rest of the function is what we have already done previously.</p>
+<p>Let&rsquo;s create the last endpoint:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  r.<span style="color:#50fa7b">PATCH</span>(<span style="color:#f1fa8c">&#34;user/password&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(context <span style="color:#ff79c6">*</span>gin.Context) {
 </span></span><span style="display:flex;"><span>		err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">UpdatePassword</span>(context, cognitoClient)
 </span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -857,7 +857,7 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		context.<span style="color:#50fa7b">JSON</span>(http.StatusOK, gin.H{<span style="color:#f1fa8c">&#34;message&#34;</span>: <span style="color:#f1fa8c">&#34;password updated&#34;</span>})
 </span></span><span style="display:flex;"><span>	})
-</span></span></code></pre></div><p>Vamos fazer a chamada:</p>
+</span></span></code></pre></div><p>Let&rsquo;s make the call:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#50fa7b">PATCH</span> http://localhost:8080/user/password <span style="color:#ff79c6">HTTP</span><span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.1</span>
 </span></span><span style="display:flex;"><span>content-type<span style="color:#ff79c6">:</span> application/json
 </span></span><span style="display:flex;"><span>Authorization<span style="color:#ff79c6">:</span> Bearer token_jwt
@@ -866,14 +866,14 @@ name="twitter:data1" content="15 minutos de leitura">
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;email&#34;</span>: <span style="color:#f1fa8c">&#34;wivobi1159@bitofee.com&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;password&#34;</span>: <span style="color:#f1fa8c">&#34;NovaSenha2@2222&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Pronto, agora ao atualizar a senha e tentar efetuar o login vai receber um erro, e se usar a nova senha, tudo vai funcionar.</p>
-<h2 id="considerações-finais">Considerações finais</h2>
-<p>Nesse post abordamos um pouco sobre o cognito um dos muitos serviços da aws que muita gente não conhece mas que ajuda muito na evolução do seu sistema.</p>
-<p>A praticidade do cognito vai além do que abordei, fazer um login básico é simples, mas o cognito se destaca por já lhe entregar &ldquo;pronto&rdquo; um sistema de verificação de conta, opção login com redes sociais (que pode ser bem chato de implementar sem o coginito), autenticação de dois fatores entre outros, e ainda tem a segurança da aws para proteger os dados do usuário.</p>
-<p>O cognito tem mais funcionalidade, vale a pena ver todas na <a href="https://docs.aws.amazon.com/pt_br/cognito/latest/developerguide/what-is-amazon-cognito.html#what-is-amazon-cognito-features">documentação</a>.</p>
-<h2 id="link-do-repositório">Link do repositório</h2>
-<p><a href="https://github.com/wiliamvj/go-auth-cognito">repositório</a> do projeto</p>
-<p>Se inscreva e receba um aviso sobre novos posts, <a href="https://wiliamvj.substack.com/">participar</a></p>
+</span></span></code></pre></div><p>Now when you update your password and try to log in you will receive an error, and if you use the new password, everything will work.</p>
+<h2 id="final-considerations">Final considerations</h2>
+<p>In this post we talk a little about Cognito, one of the many AWS services that many people don&rsquo;t know about but that helps a lot in the evolution of your system.</p>
+<p>Cognito&rsquo;s practicality goes beyond what I&rsquo;ve discussed. Making a basic login is simple, but Cognito stands out for already providing you with an account verification system &ldquo;ready&rdquo;, a login option with social networks (which can be quite annoying to implement without Coginito), two-factor authentication, among others, and it also has AWS security to protect user data.</p>
+<p>Cognito has more functionality, it&rsquo;s worth seeing all of them in the <a href="https://docs.aws.amazon.com/pt_br/cognito/latest/developerguide/what-is-amazon-cognito.html#what-is-amazon-cognito-features">documentation</a>.</p>
+<h2 id="repository-link">Repository link</h2>
+<p>Project <a href="https://github.com/wiliamvj/go-auth-cognito">repository</a></p>
+<p>Subscribe and receive notification of new posts, <a href="https://wiliamvj.substack.com/">participate</a></p>
 </section>
 
   
