@@ -671,7 +671,7 @@ content-type: application/json
 Authorization: Bearer token_jwt
 ```
 
-Vamos receber o usuário:
+Let's receive the user:
 
 ```json
 {
