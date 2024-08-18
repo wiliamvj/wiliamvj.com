@@ -4,7 +4,7 @@ date: 2024-02-07T19:03:34-03:00
 draft: false
 tableOfContents: false
 description: 'The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered.'
-thumbnail: 'thumb_esdhfkjhsd342DSF.png'
+thumbnail: 'thumb_esdhfkjhsd342DSF_en.png'
 ---
 
 ![thumbnail](thumb_esdhfkjhsd342DSF_en.png)
