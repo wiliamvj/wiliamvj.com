@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Wed, 27 Dec 2023 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 07 Feb 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Autenticação com Golang e AWS Cognito</title>
+      <link>//localhost:1313/en/posts/autenticacao-golang-cognito/</link>
+      <pubDate>Wed, 07 Feb 2024 19:03:34 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/autenticacao-golang-cognito/</guid>
+      <description>O que é o cognito? A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.</description>
+    </item>
     <item>
       <title>Preventing SQL Injection with Golang</title>
       <link>//localhost:1313/en/posts/sql-injection-golang/</link>
@@ -28,7 +35,7 @@
       <link>//localhost:1313/en/posts/migrations-golang/</link>
       <pubDate>Sat, 18 Nov 2023 17:00:30 -0300</pubDate>
       <guid>//localhost:1313/en/posts/migrations-golang/</guid>
-      <description>O que são migrations? As migrations são muito utilizadas para manter um controle de versão da estrutura do seu banco de dados, é uma solução muito útil para manter seu banco de dados organizado.</description>
+      <description>What are migrations? Migrations are widely used to maintain version control of your database structure, it is a very useful solution for keeping your database organized.</description>
     </item>
     <item>
       <title>The power of the CLI with Golang and Cobra CLI</title>

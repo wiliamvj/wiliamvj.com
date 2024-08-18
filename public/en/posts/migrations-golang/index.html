@@ -367,7 +367,7 @@ name="twitter:data1" content="6 minutes read">
 <h3 id="whats-the-advantage">What&rsquo;s the advantage?</h3>
 <p>Now with these files, we maintain a history of database changes, each change has its <code>up</code> and <code>down</code> file, now if we need to create the tables, we run all the <code>up</code> files and everything is created, if If you need to revert, just run <code>down</code>.</p>
 <h2 id="migrations-in-go">Migrations in Go</h2>
-<p>Go does not natively support the use of migrations, but we could use the ORM that has this functionality, such as <a href="https://gorm.io/docs/migration.html">GORM</a> which is the most used by the community, but We can use migrations without using an ORM, for this we will use the [golang-migrate] package (<a href="https://github.com/golang-migrate/migrate)">https://github.com/golang-migrate/migrate)</a>.</p>
+<p>Go does not natively support the use of migrations, but we could use the ORM that has this functionality, such as <a href="https://gorm.io/docs/migration.html">GORM</a> which is the most used by the community, but We can use migrations without using an ORM, for this we will use the <a href="https://github.com/golang-migrate/migrate">golang-migrate</a> package.</p>
 <h2 id="golang-migrate-package">Golang Migrate Package</h2>
 <p>The <a href="https://github.com/golang-migrate/migrate">golang-migrate</a> package is the most recommended for this, we already have everything we need to manage our migrations and it offers support for practically all databases, so In our example we will use PostgreSQL.</p>
 <h2 id="example-project">Example project</h2>

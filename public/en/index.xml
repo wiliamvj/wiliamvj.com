@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Wed, 27 Dec 2023 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 07 Feb 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Authentication with Golang and AWS Cognito</title>
+      <link>//localhost:1313/en/posts/autenticacao-golang-cognito/</link>
+      <pubDate>Wed, 07 Feb 2024 19:03:34 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/autenticacao-golang-cognito/</guid>
+      <description>What is cognito? The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered.</description>
+    </item>
     <item>
       <title>Preventing SQL Injection with Golang</title>
       <link>//localhost:1313/en/posts/sql-injection-golang/</link>

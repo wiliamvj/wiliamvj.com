@@ -13,7 +13,7 @@ thumbnail: 'thumb_esdhfkjhsd342DSF.png'
 
 A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.
 
-Pensando nisso abordar um pouco sobre o [Cognito](https://aws.amazon.com/pt/pm/cognito/), uma ferramenta muito bacana da AWS que pode ajudar você na parte de autenticação e validação do usuário para aplicações web e mobile e que muitas pessoas não conhecem.
+Pensando nisso decidi abordar um pouco sobre o [Cognito](https://aws.amazon.com/pt/pm/cognito/), uma ferramenta muito bacana da AWS que pode ajudar você na parte de autenticação e validação do usuário para aplicações web e mobile e que muitas pessoas não conhecem.
 
 O Cognito é uma plataforma da aws responsável por armazenar e validar dados de acesso de usuários, com o cognito você consegue cadastrar usuário e armazenar suas informações, além de gerar tokens do tipo OAuth o cognito também consegue prover toda a validação de usuários.
 
@@ -21,7 +21,7 @@ Conseguimos armazenar alguns dados do usuário como: email, name, phone, birthda
 
 O cognito ainda nos permite trabalhar com "provedores federados", conhecidos como login social, como Google, Facebook e GitHub, não vamos abordar nesse post, mas é possível de fazer com o cognito.
 
-## O que vamos vamos fazer
+## O que vamos vamos fazer?
 
 Vamos fazer alguns endpoints para mostrar como o cognito funciona, vamos criar um usuário, confirmar e-mail, login, buscar um usuário usando o token fornecido pelo cognito, atualização de senha.
 
@@ -56,7 +56,7 @@ Para o **Provider types** selecione a opção **Cognito user pool**, você pode 
 É preciso configurar mais algumas coisas, vamos lá!
 
 - O **Password policy mode** permite que você escolhe uma politica de senha, vamos deixar o **Cognito defaults**.
-- O **Multi-factor authentication** permite que nosso login tenhao autentiação de dois fatores, vamos deixar sem, mas você pode implementar se deseja, vou optar por **No MFA**.
+- O **Multi-factor authentication** permite que nosso login tenham autentiação de dois fatores, vamos deixar sem, mas você pode implementar se deseja, vou optar por **No MFA**.
 - Por fim, o **User account recovery**, você pode escolher formas de recuperar a conta, vou escolher apenas e-mail.
 
 ![cognito configuration step 2.1](sdf5fghfghf-part-1.png)
