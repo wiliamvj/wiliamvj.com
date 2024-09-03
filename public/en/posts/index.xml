@@ -4,17 +4,17 @@
     <title>Posts on Wiliam V. Joaquim</title>
     <link>//localhost:1313/en/posts/</link>
     <description>Recent content in Posts on Wiliam V. Joaquim</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
     <copyright>{year}</copyright>
     <lastBuildDate>Wed, 07 Feb 2024 19:03:34 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/en/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Autenticação com Golang e AWS Cognito</title>
+      <title>Authentication with Golang and AWS Cognito</title>
       <link>//localhost:1313/en/posts/autenticacao-golang-cognito/</link>
       <pubDate>Wed, 07 Feb 2024 19:03:34 -0300</pubDate>
       <guid>//localhost:1313/en/posts/autenticacao-golang-cognito/</guid>
-      <description>O que é o cognito? A parte de autenticação de uma aplicação é algo muito importante do sistema, mas também muito sensível, existem diversas implementações, segurança, validações a se considerar.</description>
+      <description>What is cognito? The authentication of an application is something very important in the system, but also very sensitive, there are various implementations, security, validation to be considered.</description>
     </item>
     <item>
       <title>Preventing SQL Injection with Golang</title>
