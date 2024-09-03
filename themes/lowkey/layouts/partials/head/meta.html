@@ -76,7 +76,7 @@ name="twitter:data1" content="{{ printf (i18n "estimatedReadingTime")
 <!-- Google Analytics -->
 <script
   defer
-  src="https://www.googletagmanager.com/gtag/js?id={{ .Site.GoogleAnalytics }}"
+  src="https://www.googletagmanager.com/gtag/js?id={{ site.Config.Services.GoogleAnalytics.ID }}"
 ></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -85,6 +85,6 @@ name="twitter:data1" content="{{ printf (i18n "estimatedReadingTime")
   }
   gtag('js', new Date());
 
-  gtag('config', '{{ .Site.GoogleAnalytics }}');
+  gtag('config', '{{ site.Config.Services.GoogleAnalytics.ID }}');
 </script>
 <!-- End Google Analytics -->

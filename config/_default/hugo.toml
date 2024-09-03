@@ -7,7 +7,11 @@ title = 'Wiliam V. Joaquim'
 enableRobotsTXT = true
 summaryLength = 15
 paginate = 8
-googleAnalytics = "G-TG8KZ9PQBT"
+
+
+[services]
+[services.googleAnalytics]
+  ID = 'G-TG8KZ9PQBT'
 
 [languages]
 [languages.en]
@@ -36,6 +40,11 @@ googleAnalytics = "G-TG8KZ9PQBT"
   identifier = "x"
   name = "x"
   url = "https://twitter.com/wiliamjoaquim"
+  weight = 2
+[[languages.en.menu.social]]
+  identifier = "bsky"
+  name = "bsky"
+  url = "https://bsky.app/profile/wiliamvj.com"
   weight = 2
 [[languages.en.menu.social]]
   identifier = "github"
@@ -74,6 +83,11 @@ googleAnalytics = "G-TG8KZ9PQBT"
   identifier = "x"
   name = "x"
   url = "https://twitter.com/wiliamjoaquim"
+  weight = 2
+[[languages.pt.menu.social]]
+  identifier = "bsky"
+  name = "bsky"
+  url = "https://bsky.app/profile/wiliamvj.com"
   weight = 2
 [[languages.pt.menu.social]]
   identifier = "github"
