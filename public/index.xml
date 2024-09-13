@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Sat, 16 Mar 2024 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Fri, 13 Sep 2024 11:00:41 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Criando um Bot para o Bluesky Social</title>
+      <link>//localhost:1313/posts/bot-bluesky/</link>
+      <pubDate>Fri, 13 Sep 2024 11:00:41 -0300</pubDate>
+      <guid>//localhost:1313/posts/bot-bluesky/</guid>
+      <description>Como vai funcionar o bot Vamos desenvolver um bot para a rede social Bluesky, vamos utilizar Golang para isso, esse bot vai monitorar algumas hashtags via websocket, caso encontre uma dessas hashtags ele vai fazer um repost e dar um like no post original.</description>
+    </item>
     <item>
       <title>Utilizando Testcontainers para Testes de Integração com NestJS e Prisma ORM</title>
       <link>//localhost:1313/posts/teste-integracao-nestjs/</link>
