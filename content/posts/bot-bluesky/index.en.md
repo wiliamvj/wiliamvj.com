@@ -681,7 +681,7 @@ This is just one of the features we can do with the bot, the Bluesky API is very
 
 ## Links
 
-[repository](https://github.com/wiliamvj/go-vagas) of the project
+[repository](https://github.com/wiliamvj/go-vagas/tree/post-blog) of the project
 
 Subscribe and receive notification of new posts, [participate](https://wiliamvj.substack.com/)
 

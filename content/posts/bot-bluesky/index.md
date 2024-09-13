@@ -681,7 +681,7 @@ Esse é apenas um dos recursos que podemos fazer com o bot, a api do Bluesky é 
 
 ## Links úteis
 
-[repositório](https://github.com/wiliamvj/go-vagas) do projeto
+[repositório](https://github.com/wiliamvj/go-vagas/tree/post-blog) do projeto
 
 Inscreva-se e receba notificações de novas postagens, [participe](https://wiliamvj.substack.com/)
 
