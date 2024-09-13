@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Wed, 07 Feb 2024 19:03:34 -0300</lastBuildDate>
+    <lastBuildDate>Fri, 13 Sep 2024 11:00:41 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating a Bot for Bluesky Social</title>
+      <link>//localhost:1313/en/posts/bot-bluesky/</link>
+      <pubDate>Fri, 13 Sep 2024 11:00:41 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/bot-bluesky/</guid>
+      <description>How the bot will work We will develop a bot for the social network Bluesky, we will use Golang for this, this bot will monitor some hashtags via websocket, if it finds one of these hashtags it will make a repost and like the original post.</description>
+    </item>
     <item>
       <title>Authentication with Golang and AWS Cognito</title>
       <link>//localhost:1313/en/posts/autenticacao-golang-cognito/</link>

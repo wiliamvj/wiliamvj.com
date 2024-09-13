@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt" class="scroll-smooth dark">
+<html lang="en" class="scroll-smooth dark">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
 
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Criando um Bot para o Bluesky Social</title>
+<title>Creating a Bot for Bluesky Social</title>
 
 
 <meta name="description" content="" />
@@ -15,37 +15,37 @@
 />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="//localhost:1313/posts/bot-bluesky/" />
-<meta name="twitter:title" content="Criando um Bot para o Bluesky Social" />
+<meta name="twitter:site" content="//localhost:1313/en/posts/bot-bluesky/" />
+<meta name="twitter:title" content="Creating a Bot for Bluesky Social" />
 <meta name="twitter:description" content="" />
-<meta name="twitter:image" content="//localhost:1313/posts/bot-bluesky/thumb_pt_dsjhfk.png" />
+<meta name="twitter:image" content="//localhost:1313/posts/bot-bluesky/thumb_en_dsjhfk.png" />
 <meta
   name="twitter:image:src"
-  content="//localhost:1313/posts/bot-bluesky/thumb_pt_dsjhfk.png"
+  content="//localhost:1313/posts/bot-bluesky/thumb_en_dsjhfk.png"
 />
 <meta name="twitter:domain" content="wiliamvj.com" />
 <meta name="twitter:creator" content="@wiliamjoaquim" />
-<meta name="twitter:image:alt" content="Criando um Bot para o Bluesky Social" />
-<meta name="twitter:label1" content="Tempo de leitura"> <meta
-name="twitter:data1" content="14 minutos de leitura">
+<meta name="twitter:image:alt" content="Creating a Bot for Bluesky Social" />
+<meta name="twitter:label1" content="Reading time"> <meta
+name="twitter:data1" content="14 minutes read">
 <meta name="twitter:app:name:iphone" content="wiliamvj" />
 
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Criando um Bot para o Bluesky Social" />
+<meta property="og:title" content="Creating a Bot for Bluesky Social" />
 <meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
 <meta property="og:description" content="" />
-<meta property="og:url" content="//localhost:1313/posts/bot-bluesky/" />
-<meta property="og:image" content="//localhost:1313/posts/bot-bluesky/thumb_pt_dsjhfk.png" />
-<meta property="og:image:alt" content="Criando um Bot para o Bluesky Social" />
+<meta property="og:url" content="//localhost:1313/en/posts/bot-bluesky/" />
+<meta property="og:image" content="//localhost:1313/posts/bot-bluesky/thumb_en_dsjhfk.png" />
+<meta property="og:image:alt" content="Creating a Bot for Bluesky Social" />
 
 
 <meta
   name="apple-mobile-web-app-title"
-  content="Criando um Bot para o Bluesky Social"
+  content="Creating a Bot for Bluesky Social"
 />
 <meta
   name="description"
-  content="Como vai funcionar o bot Vamos desenvolver um bot para a rede social Bluesky, vamos utilizar Golang para isso, esse bot vai monitorar algumas hashtags via websocket, caso encontre uma dessas hashtags ele vai fazer um repost e dar um like no post original."
+  content="How the bot will work We will develop a bot for the social network Bluesky, we will use Golang for this, this bot will monitor some hashtags via websocket, if it finds one of these hashtags it will make a repost and like the original post."
 />
 <link
   rel="apple-touch-icon"
@@ -64,7 +64,7 @@ name="twitter:data1" content="14 minutos de leitura">
   sizes="16x16"
   href="/icons/favicon-16x16.png"
 />
-<link rel="canonical" href="//localhost:1313/posts/bot-bluesky/" />
+<link rel="canonical" href="//localhost:1313/en/posts/bot-bluesky/" />
 <link rel="robots" href="/robots.txt" />
 <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
 
@@ -119,11 +119,11 @@ name="twitter:data1" content="14 minutos de leitura">
      
     <li>
       <a
-        href="/"
+        href="/en"
         class=""
         
       >
-        Artigos
+        Posts
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -141,11 +141,11 @@ name="twitter:data1" content="14 minutos de leitura">
     
     <li>
       <a
-        href="/en/"
+        href="/"
         class=""
         
       >
-        en-US
+        pt-BR
       </a>
       <span class="text-wpurple text-lg">.</span>
     </li>
@@ -338,7 +338,7 @@ name="twitter:data1" content="14 minutos de leitura">
 
 <article class="flex flex-col gap-10">
   <header class="flex flex-col gap-2">
-    <h2 class="title-small">Criando um Bot para o Bluesky Social</h2>
+    <h2 class="title-small">Creating a Bot for Bluesky Social</h2>
 
     <div class="meta">
       
@@ -346,7 +346,7 @@ name="twitter:data1" content="14 minutos de leitura">
         datetime="2024-09-13 11:00:41 -0300 -03"
         title='Fri, Sep 13, 2024, 11:00 AM -03'
       >
-        Publicado em: 13/09/2024 - 14 minutos de leitura
+        Published in: 13/09/2024 - 14 minutes read
       </time>
 
        
@@ -356,30 +356,30 @@ name="twitter:data1" content="14 minutos de leitura">
   
 
 
-  <section><p><img alt="thumbnail" src="/posts/bot-bluesky/thumb_pt_dsjhfk.png"></p>
-<h2 id="como-vai-funcionar-o-bot">Como vai funcionar o bot</h2>
-<p>Vamos desenvolver um bot para a rede social <a href="https://bsky.app/">Bluesky</a>, vamos utilizar Golang para isso, esse bot vai monitorar algumas hashtags via websocket,
-caso encontre uma dessas hashtags ele vai fazer um repost e dar um like no post original.</p>
-<p>Vamos abordar algumas coisas bem bacanas como, websocket, <a href="https://atproto.com/pt">AT</a> (protocolo usado pelo bluesky), <a href="https://ipld.io/specs/transport/car/carv1/">CAR</a> (Content Addressable aRchive) e <a href="https://surrealdb.com/blog/understanding-cbor">CBOR</a> (Concise Binary Object Representation) são dois formatos utilizados para armazenar e transmitir dados de forma eficiente.</p>
-<h2 id="estrutura-do-projeto">Estrutura do projeto</h2>
-<p>O projeto vai ter uma estrutura simples, dentro de <code>internal</code> teremos um pacote chamado <code>bot</code> com todos o código para rodar o bot,
-dentro de <code>utils</code> teremos algumas funções para nos auxiliar.</p>
-<p>No arquivo <code>.env</code> teremos as credenciais do bluesky para ter acesso a <a href="https://docs.bsky.app/docs/get-started">api</a>.</p>
+  <section><p><img alt="thumbnail" src="/posts/bot-bluesky/thumb_en_dsjhfk.png"></p>
+<h2 id="how-the-bot-will-work">How the bot will work</h2>
+<p>We will develop a bot for the social network <a href="https://bsky.app/">Bluesky</a>, we will use Golang for this, this bot will monitor some hashtags via websocket,
+if it finds one of these hashtags it will make a repost and like the original post.</p>
+<p>We will cover some really cool things like, websocket, <a href="https://atproto.com/pt">AT</a> (protocol used by bluesky), <a href="https://ipld.io/specs/transport/car/carv1/">CAR</a> (Content Addressable aRchive) and <a href="https://surrealdb.com/blog/understanding-cbor">CBOR</a> (Concise Binary Object Representation) are two formats used to store and transmit data efficiently.</p>
+<h2 id="project-structure">Project structure</h2>
+<p>The project will have a simple structure, within <code>internal</code> we will have a package called <code>bot</code> with all the code to run the bot,
+within <code>utils</code> we will have some functions to help us.</p>
+<p>In the <code>.env</code> file we will have the bluesky credentials to access <a href="https://docs.bsky.app/docs/get-started">api</a>.</p>
 <p><img alt="project struct" src="/posts/bot-bluesky/hdFd343DF.png"></p>
-<h2 id="configurando-as-credenciais">Configurando as credenciais</h2>
-<p>Para se autenticar na api do bluesky precisamos informar um <code>identifier</code> e um <code>password</code>, mas não podemos usar o password de acesso a nossa conta,
-para isso vamos criar um <strong>App Passwords</strong>, basta acessar sua conta no bluesky, acessar configurações e depois <strong>App Passwords</strong>.</p>
-<p>Com essa senha gerada, coloque dentro do arquivo <code>.env</code>, ficando desta forma:</p>
+<h2 id="setting-up-credentials">Setting up credentials</h2>
+<p>To authenticate to the bluesky API we need to provide an <code>identifier</code> and a <code>password</code>, but we cannot use the password to access our account,
+to do this we will create an <strong>App Passwords</strong>, just access your account in bluesky, access settings and then <strong>App Passwords</strong>.</p>
+<p>With this generated password, place it inside the <code>.env</code> file, like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>BLUESKY_IDENTIFIER=&lt;seu_identificador&gt;
 </span></span><span style="display:flex;"><span>BLUESKY_PASSWORD=&lt;seu_app_password&gt;
-</span></span></code></pre></div><h2 id="gerando-o-token-da-api">Gerando o token da API</h2>
-<p>Sempre que nosso bot identificar uma nova hashtag que estamos monitorando, será feito um respost, porém precisamos de um Bearer token para poder fazer o repost,
-vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-token.go</code>.</p>
-<p>Primeiro definimos uma váriavel global para a url da api.</p>
+</span></span></code></pre></div><h2 id="generating-the-api-token">Generating the API token</h2>
+<p>Whenever our bot identifies a new hashtag that we are monitoring, a reply will be made, but we need a Bearer token to be able to make the repost,
+we will create a function that generates the token, we will do this in the <code>get-token.go</code> file.</p>
+<p>First we define a global variable for the API url.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">var</span> (
 </span></span><span style="display:flex;"><span>  API_URL = <span style="color:#f1fa8c">&#34;https://bsky.social/xrpc&#34;</span>
 </span></span><span style="display:flex;"><span>)
-</span></span></code></pre></div><p>Agora definimos nossa struct com os dados que serão retornados pela a api.</p>
+</span></span></code></pre></div><p>Now we define our struct with the data that will be returned by the API.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> DIDDoc <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>  Context            []<span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;@context&#34;`</span>
 </span></span><span style="display:flex;"><span>  ID                 <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
@@ -408,7 +408,7 @@ vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-
 </span></span><span style="display:flex;"><span>  RefreshJwt      <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;refreshJwt&#34;`</span>
 </span></span><span style="display:flex;"><span>  Active          <span style="color:#8be9fd">bool</span>   <span style="color:#f1fa8c">`json:&#34;active&#34;`</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Agora criaremos a funcão <code>getToken</code> que retorna um <code>DIDResponse</code> (pode dar o nome que desejar).</p>
+</span></span></code></pre></div><p>Now we will create the <code>getToken</code> function that returns a <code>DIDResponse</code> (you can give it whatever name you want).</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">getToken</span>() (<span style="color:#ff79c6">*</span>DIDResponse, <span style="color:#8be9fd">error</span>) {
 </span></span><span style="display:flex;"><span>  requestBody, err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">Marshal</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;identifier&#34;</span>: os.<span style="color:#50fa7b">Getenv</span>(<span style="color:#f1fa8c">&#34;BLUESKY_IDENTIFIER&#34;</span>),
@@ -437,14 +437,14 @@ vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>tokenResponse, <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Essa função chama o endpoint do bluesky <code>com.atproto.server.createSession</code>, vamos receber alguns dados, mas o que importa por enquanto é o <code>accessJwt</code> é o que vamos precisar para se autorizar nosso bot via Bearer, com isso a função para gerar o token está pronto.</p>
-<h2 id="criando-o-websocket">Criando o Websocket</h2>
-<p>Essa será a função mais complexa do bot, vamos precisar consumir o endpoint do bluesky.</p>
-<p>Primeiro vamos criar uma váriavel para salvar o endpoint, veja mais nas <a href="https://docs.bsky.app/docs/advanced-guides/firehose">docs</a></p>
+</span></span></code></pre></div><p>This function calls the bluesky endpoint <code>com.atproto.server.createSession</code>, we will receive some data, but what matters for now is the <code>accessJwt</code> which is what we will need to authorize our bot via Bearer, with that the function to generate the token is ready.</p>
+<h2 id="creating-the-websocket">Creating the Websocket</h2>
+<p>This will be the most complex function of the bot, we will need to consume the bluesky endpoint.</p>
+<p>First, let&rsquo;s create a variable to save the endpoint, see more in the <a href="https://docs.bsky.app/docs/advanced-guides/firehose">docs</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">var</span> (
 </span></span><span style="display:flex;"><span>  wsURL = <span style="color:#f1fa8c">&#34;wss://bsky.network/xrpc/com.atproto.sync.subscribeRepos&#34;</span>
 </span></span><span style="display:flex;"><span>)
-</span></span></code></pre></div><p>Agora vamos criar as structs:</p>
+</span></span></code></pre></div><p>Now let&rsquo;s create the structs:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> RepoCommitEvent <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>  Repo   <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;repo&#34;`</span>
 </span></span><span style="display:flex;"><span>  Rev    <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;rev&#34;`</span>
@@ -487,9 +487,9 @@ vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-
 </span></span><span style="display:flex;"><span>  Text  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;text&#34;`</span>
 </span></span><span style="display:flex;"><span>  Reply <span style="color:#ff79c6">*</span>Reply <span style="color:#f1fa8c">`json:&#34;reply&#34;`</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Também vamos usar o pacote <a href="https://github.com/gorilla/websocket">Gorilla Websocket</a>, baixe o pacote com:</p>
+</span></span></code></pre></div><p>We will also use the <a href="https://github.com/gorilla/websocket">Gorilla Websocket</a> package, download the package with:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get github.com/gorilla/websocket
-</span></span></code></pre></div><p>a função <code>Websocket</code> fica assim inicialmente:</p>
+</span></span></code></pre></div><p>the <code>Websocket</code> function initially looks like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">Websocket</span>() <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>  conn, _, err <span style="color:#ff79c6">:=</span> websocket.DefaultDialer.<span style="color:#50fa7b">Dial</span>(wsURL, <span style="color:#ff79c6">nil</span>)
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -506,13 +506,13 @@ vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Com isso já conseguimos ler as mensagens recebidas via websocket com um <code>for</code> infinito, mas as mensagens vem codificadas em <a href="https://surrealdb.com/blog/understanding-cbor">CBOR</a>.</p>
-<h3 id="o-que-é-cbor">O que é CBOR?</h3>
-<p>CBOR (Concise Binary Object Representation) é um formato de dados binário que é usado para representar dados de forma compacta e eficiente.
-Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes binários, o que o torna menor e mais rápido para ser transmitido e processado.</p>
-<p>Para decodificar ele vamos precisar usar <a href="github.com/fxamacker/cbor/v2">este pacote</a>.</p>
+</span></span></code></pre></div><p>With this we can now read messages received via websocket with an infinite <code>for</code>, but the messages are encoded in <a href="https://surrealdb.com/blog/understanding-cbor">CBOR</a>.</p>
+<h3 id="what-is-cbor">What is CBOR?</h3>
+<p>CBOR (Concise Binary Object Representation) is a binary data format that is used to represent data in a compact and efficient way.
+It is similar to JSON, but instead of using human-readable text, it uses binary bytes, which makes it smaller and faster to transmit and process.</p>
+<p>To decode it we will need to use <a href="github.com/fxamacker/cbor/v2">this package</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>decoder <span style="color:#ff79c6">:=</span> cbor.<span style="color:#50fa7b">NewDecoder</span>(bytes.<span style="color:#50fa7b">NewReader</span>(message))
-</span></span></code></pre></div><p>Basta transformar o <code>message</code> em um <code>reader</code>, desta forma:</p>
+</span></span></code></pre></div><p>Just turn the <code>message</code> into a <code>reader</code>, like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">Websocket</span>() <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>  conn, _, err <span style="color:#ff79c6">:=</span> websocket.DefaultDialer.<span style="color:#50fa7b">Dial</span>(wsURL, <span style="color:#ff79c6">nil</span>)
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -547,14 +547,14 @@ Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes bin
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>
-<p><code>decoder.Decode(&amp;evt)</code>: O decoder é responsável por ler os dados recebidos e decodificá-los do formato CBOR para o tipo <code>RepoCommitEvent</code>. O <code>evt</code> armazena os dados decodificados.</p>
+<p><code>decoder.Decode(&amp;evt)</code>: The decoder is responsible for reading the received data and decoding it from the CBOR format to the <code>RepoCommitEvent</code> type. The <code>evt</code> stores the decoded data.</p>
 </li>
 <li>
-<p><code>if err == io.EOF { break }</code>: Se o decoder chegar ao final dos dados (não houver mais mensagens), ele retorna <code>io.EOF</code> (end of file). Quando isso acontecer, o loop é interrompido com <code>break</code>, porque não há mais dados para processar.</p>
+<p><code>if err == io.EOF { break }</code>: If the decoder reaches the end of the data (there are no more messages), it returns <code>io.EOF</code> (end of file). When this happens, the loop is interrupted with <code>break</code>, because there is no more data to process.</p>
 </li>
 </ul>
-<h4 id="criando-o-handleevent">Criando o handleEvent</h4>
-<p>Vamos criar uma função para processar o evento:</p>
+<h4 id="creating-the-handleevent">Creating the handleEvent</h4>
+<p>Let&rsquo;s create a function to process the event:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">handleEvent</span>(evt RepoCommitEvent) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">for</span> _, op <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> evt.Ops {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> op.Action <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;create&#34;</span> {
@@ -572,31 +572,31 @@ Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes bin
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
 <li>
-<p>Parâmetro <code>evt</code>: A função recebe um parâmetro <code>evt</code>, que é um evento do tipo <code>RepoCommitEvent</code>. Este evento contém uma lista de operações <code>Ops</code> e possivelmente blocos de dados <code>Blocks</code> relacionados a essas operações.</p>
+<p><code>evt</code> parameter: The function receives an <code>evt</code> parameter, which is an event of type <code>RepoCommitEvent</code>. This event contains a list of <code>Ops</code> operations and possibly <code>Blocks</code> data blocks related to these operations.</p>
 </li>
 <li>
-<p>Loop sobre <code>Ops</code>: O evento <code>evt</code> pode conter várias operações. O código percorre cada uma dessas operações usando o loop <code>for _, op := range evt.Ops</code>.</p>
+<p>Loop over <code>Ops</code>: The <code>evt</code> event can contain multiple operations. The code iterates through each of these operations using the <code>for _, op := range evt.Ops</code> loop.</p>
 </li>
 <li>
-<p>Verificação da Ação <code>op.Action == &quot;create&quot;</code>: Para cada operação, o código verifica se a ação associada é <code>create</code>, ou seja, se a operação está criando algo novo no bluesky, como um post ou outro tipo de conteúdo.</p>
+<p>Checking the <code>op.Action == &quot;create&quot;</code> action: For each operation, the code checks if the associated action is <code>create</code>, that is, if the operation is creating something new in bluesky, such as a post or other type of content.</p>
 </li>
 <li>
-<p>Se há Blocos <code>len(evt.Blocks) &gt; 0</code>: Se a operação de criação for detectada, o código verifica se o evento contém blocos de dados <code>Blocks</code>. Esses blocos contêm informações adicionais que podem estar relacionadas à operação.</p>
+<p>If there are Blocks <code>len(evt.Blocks) &gt; 0</code>: If the create operation is detected, the code checks if the event contains <code>Blocks</code> data blocks. These blocks contain additional information that may be related to the operation.</p>
 </li>
 <li>
-<p>Processamento dos Blocos <code>handleCARBlocks</code>: Se os blocos estiverem presentes, a função <code>handleCARBlocks</code> é chamada para processar esses blocos. Essa função é responsável por interpretar os dados dentro dos blocos (Vamos abordar o CAR abaixo).</p>
+<p>Processing <code>handleCARBlocks</code> Blocks: If blocks are present, the <code>handleCARBlocks</code> function is called to process these blocks. This function is responsible for interpreting the data within the blocks (We will cover CAR below).</p>
 </li>
 </ul>
-<h4 id="o-que-é-car">O que é CAR?</h4>
-<p>CAR (Content Addressable aRchive) é um formato de arquivo que armazena dados de forma eficiente e segura usando endereçamento por conteúdo. Isso significa que cada pedaço de dado é identificado pelo seu conteúdo em vez de um local específico.</p>
-<p><strong>Aqui está uma explicação simples:</strong></p>
-<p>Conteúdo Identificado por Hash: Cada bloco de dados em um arquivo CAR é identificado por um hash (um identificador único gerado a partir do conteúdo do dado). Isso garante que o mesmo dado sempre tenha o mesmo identificador.</p>
-<p>Usado em IPFS e IPLD: CAR é amplamente utilizado em sistemas como IPFS (InterPlanetary File System) e IPLD (InterPlanetary Linked Data), onde os dados são distribuídos e recuperados pela rede com base no conteúdo, em vez de localização como o bluesky.</p>
-<p>Blocos de Dados: Um arquivo CAR pode armazenar vários blocos de dados, e cada bloco pode ser recuperado individualmente usando seu identificador de conteúdo (CID - Content Identifier).</p>
-<p>Eficiente e Seguro: Como o identificador de um bloco depende do seu conteúdo, é fácil verificar se os dados estão corretos e não foram alterados.</p>
-<p>Essa é uma explicação bem simples, se quiser se aprofundar, recomendo acessar <a href="https://ipld.io/specs/transport/car/carv1/">isso</a>.</p>
-<h4 id="criando-o-handlecarblocks">Criando o handleCARBlocks</h4>
-<p>Essa será a função mais complexa do bot:</p>
+<h4 id="what-is-car">What is CAR?</h4>
+<p>CAR (Content Addressable Archive) is an archive format that stores data efficiently and securely using content addressing. This means that each piece of data is identified by its content rather than a specific location.</p>
+<p><strong>Here is a simple explanation:</strong></p>
+<p>Content Identified by Hash: Each block of data in a CAR file is identified by a hash (a unique identifier generated from the content of the data). This ensures that the same piece of data always has the same identifier.</p>
+<p>Used in IPFS and IPLD: CAR is widely used in systems such as IPFS (InterPlanetary File System) and IPLD (InterPlanetary Linked Data), where data is distributed and retrieved over the network based on content rather than location like bluesky.</p>
+<p>Data Blocks: A CAR file can store multiple blocks of data, and each block can be retrieved individually using its content identifier (CID).</p>
+<p>Efficient and Safe: Since a block&rsquo;s identifier depends on its content, it is easy to verify that the data is correct and has not been altered.</p>
+<p>This is a very simple explanation, if you want to go deeper, I recommend accessing <a href="https://ipld.io/specs/transport/car/carv1/">this</a>.</p>
+<h4 id="creating-the-handlecarblocks">Creating the handleCARBlocks</h4>
+<p>This will be the most complex function of the bot:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">handleCARBlocks</span>(blocks []<span style="color:#8be9fd">byte</span>, op RepoOperation) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(blocks) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;no blocks to process&#34;</span>)
@@ -639,7 +639,7 @@ Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes bin
 </span></span><span style="display:flex;"><span>          }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> utils.<span style="color:#50fa7b">FilterTerms</span>(post.Text) {
-</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">repost</span>(<span style="color:#ff79c6">&amp;</span>post) <span style="color:#6272a4">// ainda vamos criar
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">repost</span>(<span style="color:#ff79c6">&amp;</span>post) <span style="color:#6272a4">// we will still create
 </span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>          }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>      }
@@ -648,27 +648,27 @@ Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes bin
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>A função <code>repost()</code> ainda vamos criar, vamos passar um ponteiro do <code>*Post</code> como parâmetro.</p>
-<p><em>Lembrando que o nosso bot monitora apenas comentário dos posts, caso seja criado algum post e inserido a hashtag que estamos monitorando, não será feito o repost, essa
-validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai impedir, é preciso ter um <code>reply</code> e isso só acontece se for um comentário de um post.</em></p>
-<p>A função <code>handleCARBlocks</code> processa blocos de dados no formato CAR. Vamos entender passo a passo o que a função faz de forma simples:</p>
+</span></span></code></pre></div><p>We will still create the <code>repost()</code> function, we will pass a pointer to <code>*Post</code> as a parameter.</p>
+<p><em>Remember that our bot only monitors post comments, if a post is created and the hashtag we are monitoring is inserted, the repost will not be made, this
+validation <code>if post.Text == &quot;&quot; || post.Reply == nil</code> will prevent it, it is necessary to have a <code>reply</code> and this only happens if it is a comment on a post.</em></p>
+<p>The <code>handleCARBlocks</code> function processes data blocks in CAR format. Let&rsquo;s understand step by step what the function does in a simple way:</p>
 <ul>
-<li>Verificação Inicial dos Blocos:</li>
+<li>Initial Block Verification:</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(blocks) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;no blocks to process&#34;</span>)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Se os blocos estiverem vazios, a função retorna um erro dizendo que não há blocos para processar.</p>
+</span></span></code></pre></div><p>If the blocks are empty, the function returns an error saying that there are no blocks to process.</p>
 <ul>
-<li>Criando um Leitor de Blocos CAR:</li>
+<li>Creating a CAR Block Reader:</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>reader, err <span style="color:#ff79c6">:=</span> carv2.<span style="color:#50fa7b">NewBlockReader</span>(bytes.<span style="color:#50fa7b">NewReader</span>(blocks))
-</span></span></code></pre></div><p>A função cria um leitor de blocos para interpretar os dados contidos no arquivo CAR, estamos usando os pacotes <a href="https://github.com/ipld/go-car">carV2</a> e <a href="github.com/ipfs/go-cid">go-cid</a></p>
-<p>Para instalar execute:</p>
+</span></span></code></pre></div><p>The function creates a block reader to interpret the data contained in the CAR file, we are using the packages <a href="https://github.com/ipld/go-car">carV2</a> and <a href="github.com/ipfs/go-cid">go-cid</a></p>
+<p>To install, run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go install github.com/ipld/go-car/cmd/car@latest
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go get github.com/ipfs/go-cid
 </span></span></code></pre></div><ul>
-<li>Lendo os Blocos:</li>
+<li>Reading the Blocks:</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">for</span> {
 </span></span><span style="display:flex;"><span>  block, err <span style="color:#ff79c6">:=</span> reader.<span style="color:#50fa7b">Next</span>()
@@ -676,23 +676,23 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">break</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>A função entra em um loop para ler todos os blocos de dados um por um. Quando todos os blocos são lidos (ou seja, o fim é alcançado), o loop para.</p>
+</span></span></code></pre></div><p>The function enters a loop to read all data blocks one by one. When all blocks are read (i.e. the end is reached), the loop stops.</p>
 <ul>
-<li>Verificando o CID:</li>
+<li>Checking the CID:</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> opTag, ok <span style="color:#ff79c6">:=</span> op.CID.(cbor.Tag); ok {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> cidBytes, ok <span style="color:#ff79c6">:=</span> opTag.Content.([]<span style="color:#8be9fd">byte</span>); ok {
 </span></span><span style="display:flex;"><span>    c, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">decodeCID</span>(cidBytes)
-</span></span></code></pre></div><p>A função verifica se a operação contém um CID (Content Identifier) que pode ser decodificado. Esse CID identifica o conteúdo específico do bloco.</p>
+</span></span></code></pre></div><p>The function checks whether the operation contains a CID (Content Identifier) ​​that can be decoded. This CID identifies the specific content of the block.</p>
 <ul>
-<li>Comparando e Decodificando o Bloco:</li>
+<li>Comparing and Decoding the Block:</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> block.<span style="color:#50fa7b">Cid</span>().<span style="color:#50fa7b">Equals</span>(c) {
 </span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> post Post
 </span></span><span style="display:flex;"><span>  err <span style="color:#ff79c6">:=</span> cbor.<span style="color:#50fa7b">Unmarshal</span>(block.<span style="color:#50fa7b">RawData</span>(), <span style="color:#ff79c6">&amp;</span>post)
-</span></span></code></pre></div><p>Se o bloco lido tem o mesmo CID que a operação, o conteúdo do bloco é decodificado para um formato que a função entende, como um &ldquo;Post&rdquo;.</p>
+</span></span></code></pre></div><p>If the block read has the same CID as the operation, the block content is decoded into a format that the function understands, such as a &ldquo;Post&rdquo;.</p>
 <ul>
-<li>Filtrando o Post:</li>
+<li>Filtering the Post:</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> post.Text <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">||</span> post.Reply <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">continue</span>
@@ -700,9 +700,9 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> utils.<span style="color:#50fa7b">FilterTerms</span>(post.Text) {
 </span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">repost</span>(<span style="color:#ff79c6">&amp;</span>post)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Se o post tiver texto e uma resposta <code>reply</code>, ele é filtrado com uma função chamada <code>FilterTerms</code>. Se passar no filtro, ele é repostado.</p>
-<h4 id="criando-o-decodecid">Criando o <code>decodeCID</code></h4>
-<p>A função <code>decodeCID</code> é responsável por decodificar um identificador de conteúdo (CID) a partir de um conjunto de bytes. Ela pega esses bytes e tenta transformá-los em um CID que pode ser usado para identificar blocos de dados.</p>
+</span></span></code></pre></div><p>If the post has text and a <code>reply</code>, it is filtered with a function called <code>FilterTerms</code>. If it passes the filter, it is reposted.</p>
+<h4 id="creating-decodecid">Creating <code>decodeCID</code></h4>
+<p>The <code>decodeCID</code> function is responsible for decoding a content identifier (CID) from a set of bytes. It takes these bytes and tries to transform them into a CID that can be used to identify blocks of data.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">decodeCID</span>(cidBytes []<span style="color:#8be9fd">byte</span>) (cid.Cid, <span style="color:#8be9fd">error</span>) {
 </span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> c cid.Cid
 </span></span><span style="display:flex;"><span>  c, err <span style="color:#ff79c6">:=</span> cid.<span style="color:#50fa7b">Decode</span>(<span style="color:#8be9fd;font-style:italic">string</span>(cidBytes))
@@ -712,9 +712,9 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> c, <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Com isso temos o <code>Websocket</code> pronto.</p>
-<h2 id="criando-o-filtro-de-hashtags">Criando o Filtro de hashtags</h2>
-<p>Vamos criar dentro do <code>utils</code> no <code>filter-terms.go</code> o seguinte:</p>
+</span></span></code></pre></div><p>With that, we have the <code>Websocket</code> ready.</p>
+<h2 id="creating-the-hashtag-filter">Creating the Hashtag Filter</h2>
+<p>Let&rsquo;s create the following within <code>utils</code> in <code>filter-terms.go</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">var</span> (
 </span></span><span style="display:flex;"><span>  terms = []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;#hashtag2&#34;</span>, <span style="color:#f1fa8c">&#34;#hashtag1&#34;</span>}
 </span></span><span style="display:flex;"><span>)
@@ -727,10 +727,10 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>É nessa função que definimos as hashtags a serem monitoradas, de forma simples recebemos um  <code>text</code> que vem do websocket e filtramos com base nos <code>terms</code>.</p>
-<h2 id="criando-o-createrecord">Criando o createRecord</h2>
-<p>Vamos criar no arquivo <code>create-record.go</code> uma função chamada <code>createRecord</code>, que será responsável por criar um repost ou um like, isso vai depender do <code>$type</code> que for enviado via parâmetro.</p>
-<p>Primeiramente vamos criar uma struct com os parâmentros que vamos precisar:</p>
+</span></span></code></pre></div><p>It is in this function that we define the hashtags to be monitored, in a simple way we receive a <code>text</code> that comes from the websocket and filter it based on the <code>terms</code>.</p>
+<h2 id="creating-createrecord">Creating createRecord</h2>
+<p>Let&rsquo;s create a function called <code>createRecord</code> in the <code>create-record.go</code> file, which will be responsible for creating a repost or a like, depending on the <code>$type</code> that is sent via parameter.</p>
+<p>First, let&rsquo;s create a struct with the parameters we will need:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> CreateRecordProps <span style="color:#8be9fd;font-style:italic">struct</span> {
 </span></span><span style="display:flex;"><span>  DIDResponse <span style="color:#ff79c6">*</span>DIDResponse
 </span></span><span style="display:flex;"><span>  Resource    <span style="color:#8be9fd">string</span>
@@ -738,12 +738,12 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>  CID         <span style="color:#8be9fd">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
-<li><code>DIDResponse</code>: Vamos usar para extrair o token de autorização.</li>
-<li><code>Resource</code>: Será usado para informar se vamos fazer um like ou repost.</li>
-<li><code>URI</code>: Será usado para inforar a uri do post original.</li>
-<li><code>CID</code>: Foi o que extraimos do CAR, usado como identificador.</li>
+<li><code>DIDResponse</code>: We will use it to extract the authorization token.</li>
+<li><code>Resource</code>: It will be used to inform whether we are going to do a like or repost.</li>
+<li><code>URI</code>: It will be used to inform the uri of the original post.</li>
+<li><code>CID</code>: This is what we extracted from the CAR, used as an identifier.</li>
 </ul>
-<p>A função final ficará assim:</p>
+<p>The final function will look like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">createRecord</span>(r <span style="color:#ff79c6">*</span>CreateRecordProps) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>  body <span style="color:#ff79c6">:=</span> <span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd;font-style:italic">interface</span>{}{
 </span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;$type&#34;</span>:      r.Resource,
@@ -788,10 +788,10 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>É simples de entender, fazemos um <code>POST</code> para o endpoint <code>API_URL/com.atproto.repo.createRecord</code>, informando que vamos criar um record, no <code>body</code> informamos o <code>$type</code>, que informa a api do bluesky o tipo de record que vamos criar, depois montamos a request, inserindo o bearer token e fazemos alguns tratamentos de erro, simples não é?</p>
-<p>Dessa forma podemos usar a função <code>createRecord</code> para criar diversos records, mudando apenas o <code>$type</code>.</p>
-<h2 id="enviando-o-repost-e-like-ao-bluesky">Enviando o repost e like ao Bluesky</h2>
-<p>Com o <code>createRecord</code> pronto, fica simples criar o <code>repost</code>, vamos fazer isso no arquivo <code>repost.go</code>:</p>
+</span></span></code></pre></div><p>It&rsquo;s simple to understand, we make a <code>POST</code> to the <code>API_URL/com.atproto.repo.createRecord</code> endpoint, informing that we are going to create a record, in the <code>body</code> we inform the <code>$type</code>, which informs the bluesky API the type of record we are going to create, then we assemble the request, inserting the bearer token and we do some error handling, simple, isn&rsquo;t it?</p>
+<p>This way we can use the <code>createRecord</code> function to create several records, changing only the <code>$type</code>.</p>
+<h2 id="sending-the-repost-and-like-to-bluesky">Sending the repost and like to Bluesky</h2>
+<p>With <code>createRecord</code> ready, it&rsquo;s simple to create the <code>repost</code>, let&rsquo;s do this in the <code>repost.go</code> file:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">repost</span>(p <span style="color:#ff79c6">*</span>Post) <span style="color:#8be9fd">error</span> {
 </span></span><span style="display:flex;"><span>  token, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">getToken</span>()
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
@@ -821,18 +821,18 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Recebemos um ponteiro do <code>*Post</code> da função <code>Websocket()</code>, montamos o <code>CreateRecordProps</code> informando que vamos fazer um repost através do resource <code>app.bsky.feed.repost</code>, por fim chamamos o <code>createRecord</code>.</p>
-<p>Após criar o post vamos dar um like (opcional), basta chamar novamente o <code>createRecord</code>, mas agora com o resource <code>app.bsky.feed.like</code>, como criamos o resource em uma váriavel, basta setar um novo valor, é o que fazemos <code>resource.Resource = &quot;app.bsky.feed.like&quot;</code>.</p>
-<p>Com isso já conseguimos fazer o repost e o like.</p>
-<h2 id="criando-um-health-check">Criando um health check</h2>
-<p>Essa parte é opcional, será usado unicamente para o deploy, vai servir para o serviço de hospedagem verificar se o nosso bot ainda está funcionando, é um endpoint bem simples que retornar apenas um status code <code>200</code>.</p>
-<p>Vamos fazer no arquivo <code>health-check.go</code>:</p>
+</span></span></code></pre></div><p>We receive a pointer to the <code>*Post</code> from the <code>Websocket()</code> function, we set up the <code>CreateRecordProps</code> informing that we are going to make a repost through the <code>app.bsky.feed.repost</code> resource, and finally we call <code>createRecord</code>.</p>
+<p>After creating the post, we will give it a like (optional), just call <code>createRecord</code> again, but now with the <code>app.bsky.feed.like</code> resource, since we created the resource in a variable, just set a new value, which is what we do <code>resource.Resource = &quot;app.bsky.feed.like&quot;</code>.</p>
+<p>With that, we can now make the repost and the like.</p>
+<h2 id="creating-a-health-check">Creating a health check</h2>
+<p>This part is optional, it will be used only for deployment, it will be used by the hosting service to check if our bot is still working, it is a very simple endpoint that only returns a status code <code>200</code>.</p>
+<p>Let&rsquo;s do it in the <code>health-check.go</code> file:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">HealthCheck</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
 </span></span><span style="display:flex;"><span>  w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>A função <code>HealthCheck</code> retorna apenas um <code>w.WriteHeader(http.StatusOK)</code>, isso poderia ser feito diretamente no arquivo <code>main.go</code> que é onde vamos iniciar nosso servidor web, mas optei separar.</p>
-<h2 id="colocando-o-bot-para-funcionar">Colocando o bot para funcionar</h2>
-<p>Bom, agora só precisamos fazer tudo rodar, vamos fazer isso no <code>main.go</code>:</p>
+</span></span></code></pre></div><p>The <code>HealthCheck</code> function returns only a <code>w.WriteHeader(http.StatusOK)</code>, this could be done directly in the <code>main.go</code> file, which is where we will start our web server, but I chose to separate it.</p>
+<h2 id="getting-the-bot-up-and-running">Getting the bot up and running</h2>
+<p>Well, now we just need to get everything running, let&rsquo;s do that in <code>main.go</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
 </span></span><span style="display:flex;"><span>  slog.<span style="color:#50fa7b">Info</span>(<span style="color:#f1fa8c">&#34;Starting bot&#34;</span>)
 </span></span><span style="display:flex;"><span>  err <span style="color:#ff79c6">:=</span> godotenv.<span style="color:#50fa7b">Load</span>()
@@ -854,32 +854,32 @@ validação <code>if post.Text == &quot;&quot; || post.Reply == nil</code> vai i
 </span></span><span style="display:flex;"><span>    log.<span style="color:#50fa7b">Fatal</span>(err)
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Muito simples também:</p>
+</span></span></code></pre></div><p>Very simple too:</p>
 <ul>
-<li><code>err := godotenv.Load()</code>: Usamos o pacote <a href="https://github.com/joho/godotenv">godotenv</a> para poder acessar as váriaveis do <code>.env</code> localmente.</li>
-<li><code>go func()</code>: Iniciamos nosso webserver para o <code>HealthCheck</code> em uma goroutine.</li>
-<li><code>err = bot.Websocket()</code>: Por último iniciamos o <code>Websocket</code>.</li>
+<li><code>err := godotenv.Load()</code>: We use the <a href="https://github.com/joho/godotenv">godotenv</a> package to be able to access the variables of the <code>.env</code> locally.</li>
+<li><code>go func()</code>: We start our webserver for the <code>HealthCheck</code> in a goroutine.</li>
+<li><code>err = bot.Websocket()</code>: Finally we start the <code>Websocket</code>.</li>
 </ul>
-<p>Agora, vamos rodar:</p>
+<p>Now, let&rsquo;s run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go run cdm/main.go
-</span></span></code></pre></div><p>Teremos nosso bot rodando:</p>
+</span></span></code></pre></div><p>We will have the bot running:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>2024/09/13 09:11:31 INFO Starting bot
 </span></span><span style="display:flex;"><span>2024/09/13 09:11:31 INFO Starting health check server on :8080
 </span></span><span style="display:flex;"><span>2024/09/13 09:11:32 INFO Connected to WebSocket <span style="color:#8be9fd;font-style:italic">url</span><span style="color:#ff79c6">=</span>wss://bsky.network/xrpc/com.atproto.sync.subscribeRepos
-</span></span></code></pre></div><p>Podemos testar no Bluesky, coloquei para fins de testes a hashtag <strong>#bot-teste</strong>, vamos criar um post e comentar nele:</p>
+</span></span></code></pre></div><p>We can test it on Bluesky, I used the hashtag <strong>#bot-teste</strong> for testing purposes, let&rsquo;s create a post and comment on it:</p>
 <p><img alt="post bluesky" src="/posts/bot-bluesky/j435Jdfgksdsd45.png"></p>
-<p>Veja que foi feito o repost e agora tem o like, e no terminal temos os logs:</p>
+<p>See that the repost was made and now it has the like, and in the terminal we have the logs:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>2024/09/13 09:14:16 INFO Published successfully <span style="color:#8be9fd;font-style:italic">resource</span><span style="color:#ff79c6">=</span>app.bsky.feed.repost
 </span></span><span style="display:flex;"><span>2024/09/13 09:14:16 INFO Published successfully <span style="color:#8be9fd;font-style:italic">resource</span><span style="color:#ff79c6">=</span>app.bsky.feed.like
-</span></span></code></pre></div><h2 id="considerações-finais">Considerações finais</h2>
-<p>Abordamos como criar um bot para a rede social Bluesky, utilizando Golang e diversas tecnologias como Websockets, AT Protocol, CAR e CBOR.</p>
-<p>O bot é responsável por monitorar hashtags específicas e, ao encontrar uma delas, faz repost e dá like no post original.</p>
-<p>Esse é apenas um dos recursos que podemos fazer com o bot, a api do Bluesky é muito completa e permite diversas possibilidades, você pode usar esse bot e adicionar novas funcionalidades 🐹.</p>
-<h2 id="links-úteis">Links úteis</h2>
-<p><a href="https://github.com/wiliamvj/go-vagas">repositório</a> do projeto</p>
-<p>Inscreva-se e receba notificações de novas postagens, <a href="https://wiliamvj.substack.com/">participe</a></p>
-<p><a href="https://bsky.app/profile/govagas.bsky.social">perfil do bot no Bluesky</a></p>
-<p><a href="https://bsky.app/profile/govagas.bsky.social">documentação do Bluesky</a></p>
+</span></span></code></pre></div><h2 id="final-considerations">Final considerations</h2>
+<p>We have covered how to create a bot for the Bluesky social network, using Golang and various technologies such as Websockets, AT Protocol, CAR and CBOR.</p>
+<p>The bot is responsible for monitoring specific hashtags and, when it finds one of them, it reposts and likes the original post.</p>
+<p>This is just one of the features we can do with the bot, the Bluesky API is very complete and allows for several possibilities, you can use this bot and add new features 🐹.</p>
+<h2 id="links">Links</h2>
+<p><a href="https://github.com/wiliamvj/go-vagas">repository</a> of the project</p>
+<p>Subscribe and receive notification of new posts, <a href="https://wiliamvj.substack.com/">participate</a></p>
+<p><a href="https://bsky.app/profile/govagas.bsky.social">bot profile on Bluesky</a></p>
+<p><a href="https://bsky.app/profile/govagas.bsky.social">Bluesky documentation</a></p>
 <p><a href="https://github.com/MariaLetta/free-gophers-pack">Gopher credits</a></p>
 </section>
 
