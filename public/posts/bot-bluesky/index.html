@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Criando um Bot para o Bluesky Social</title>
+
+
+<meta name="description" content="" />
+<meta
+  name="keywords"
+  content="Golang, Go, GCP, Sql, Gorm, NestJS, Javascript, Typescript, AWS, SQS, RabbitMq, Kafka, microservices, brazilian devs, software developer, back-end, NodeJS, Unit tests, integration testes"
+/>
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="//localhost:1313/posts/bot-bluesky/" />
+<meta name="twitter:title" content="Criando um Bot para o Bluesky Social" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:image" content="//localhost:1313/posts/bot-bluesky/thumb_efefewfweGFH567.png" />
+<meta
+  name="twitter:image:src"
+  content="//localhost:1313/posts/bot-bluesky/thumb_efefewfweGFH567.png"
+/>
+<meta name="twitter:domain" content="wiliamvj.com" />
+<meta name="twitter:creator" content="@wiliamjoaquim" />
+<meta name="twitter:image:alt" content="Criando um Bot para o Bluesky Social" />
+<meta name="twitter:label1" content="Tempo de leitura"> <meta
+name="twitter:data1" content="9 minutos de leitura">
+<meta name="twitter:app:name:iphone" content="wiliamvj" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Criando um Bot para o Bluesky Social" />
+<meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="//localhost:1313/posts/bot-bluesky/" />
+<meta property="og:image" content="//localhost:1313/posts/bot-bluesky/thumb_efefewfweGFH567.png" />
+<meta property="og:image:alt" content="Criando um Bot para o Bluesky Social" />
+
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Criando um Bot para o Bluesky Social"
+/>
+<meta
+  name="description"
+  content="Como vai funcionar o bot Vamos desenvolver um bot para a rede social Bluesky, vamos utilizar Golang para isso, esse bot vai monitorar algumas hashtags via websocket, caso encontre uma dessas hashtags ele vai fazer um repost e dar um like no post original."
+/>
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/icons/apple-touch.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/icons/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/icons/favicon-16x16.png"
+/>
+<link rel="canonical" href="//localhost:1313/posts/bot-bluesky/" />
+<link rel="robots" href="/robots.txt" />
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+
+
+<script
+  defer
+  src="https://www.googletagmanager.com/gtag/js?id=G-TG8KZ9PQBT"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'G-TG8KZ9PQBT');
+</script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="//localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="//localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hu13304639856342208507.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="460"
+      height="460"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="//localhost:1313/">
+  <h1 id="site-title">Wiliam V<span class="text-wpurple">.</span> Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+        
+      >
+        Artigos
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+         target="_blank" 
+      >
+        Newsletter
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+        
+      >
+        en-US
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">Criando um Bot para o Bluesky Social</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2024-09-12 16:40:41 -0300 -03"
+        title='Thu, Sep 12, 2024, 4:40 PM -03'
+      >
+        Publicado em: 12/09/2024 - 9 minutos de leitura
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+
+  <section><p><img alt="thumbnail" src="thumb_efefewfweGFH567.png"></p>
+<h2 id="como-vai-funcionar-o-bot">Como vai funcionar o bot</h2>
+<p>Vamos desenvolver um bot para a rede social Bluesky, vamos utilizar Golang para isso, esse bot vai monitorar algumas hashtags via websocket,
+caso encontre uma dessas hashtags ele vai fazer um repost e dar um like no post original.</p>
+<p>Vamos abordar algumas coisas bem bacanas como, websocket, <a href="https://atproto.com/pt">AT</a> (protocolo usado pelo bluesky), <a href="https://ipld.io/specs/transport/car/carv1/">CAR</a> (Content Addressable aRchive) e <a href="https://surrealdb.com/blog/understanding-cbor">CBOR</a> (Concise Binary Object Representation) são dois formatos utilizados para armazenar e transmitir dados de forma eficiente.</p>
+<h2 id="estrutura-do-projeto">Estrutura do projeto</h2>
+<p>O projeto vai ter uma estrutura simples, dentro de <code>internal</code> teremos um pacote chamado <code>bot</code> com todos o código para rodar o bot,
+dentro de <code>utils</code> teremos algumas funções para nos ajudar.</p>
+<p>No arquivo <code>.env</code> teremos as credenciais do bluesky para ter acesso a <a href="https://docs.bsky.app/docs/get-started">api</a>.</p>
+<p><img alt="project struct" src="/posts/bot-bluesky/hdFd343DF.png"></p>
+<h2 id="configurando-as-credenciais">Configurando as credenciais</h2>
+<p>Para se autenticar na api do bluesky precisamos informar um <code>identifier</code> e um <code>password</code>, mas não podemos usar o password que utilizamos para acessar a nossa conta,
+para isso vamos criar um <strong>App Passwords</strong>, basta acessar sua conta no bluesky, acessar configurações e depois <strong>App Passwords</strong>.</p>
+<p>Com essa senha gerada, coloque dentro do arquivo <code>.env</code>, ficando desta forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>  BLUESKY_IDENTIFIER=&lt;seu_identificador&gt;
+</span></span><span style="display:flex;"><span>  BLUESKY_PASSWORD=&lt;seu_app_password&gt;
+</span></span></code></pre></div><h2 id="gerando-o-token-da-api">Gerando o token da API</h2>
+<p>Sempre que nosso bot identificar uma nova hashtag que estamos monitorando, será feito um respost, porém precisamos de um Bearer token para poder fazer o repost,
+vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-token.go</code>.</p>
+<p>Primeiro definimos uma váriavel global para a url da api.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> (
+</span></span><span style="display:flex;"><span>    API_URL = <span style="color:#f1fa8c">&#34;https://bsky.social/xrpc&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><p>Agora definimos nossa struct, com os dados que serão retornados pela a api.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> DIDDoc <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Context            []<span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;@context&#34;`</span>
+</span></span><span style="display:flex;"><span>    ID                 <span style="color:#8be9fd">string</span>   <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>    AlsoKnownAs        []<span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;alsoKnownAs&#34;`</span>
+</span></span><span style="display:flex;"><span>    VerificationMethod []<span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>      ID                 <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>      Type               <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;type&#34;`</span>
+</span></span><span style="display:flex;"><span>      Controller         <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;controller&#34;`</span>
+</span></span><span style="display:flex;"><span>      PublicKeyMultibase <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;publicKeyMultibase&#34;`</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#f1fa8c">`json:&#34;verificationMethod&#34;`</span>
+</span></span><span style="display:flex;"><span>    Service []<span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>      ID              <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>      Type            <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;type&#34;`</span>
+</span></span><span style="display:flex;"><span>      ServiceEndpoint <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;serviceEndpoint&#34;`</span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#f1fa8c">`json:&#34;service&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> DIDResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    DID             <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;did&#34;`</span>
+</span></span><span style="display:flex;"><span>    DIDDoc          DIDDoc <span style="color:#f1fa8c">`json:&#34;didDoc&#34;`</span>
+</span></span><span style="display:flex;"><span>    Handle          <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;handle&#34;`</span>
+</span></span><span style="display:flex;"><span>    Email           <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34;`</span>
+</span></span><span style="display:flex;"><span>    EmailConfirmed  <span style="color:#8be9fd">bool</span>   <span style="color:#f1fa8c">`json:&#34;emailConfirmed&#34;`</span>
+</span></span><span style="display:flex;"><span>    EmailAuthFactor <span style="color:#8be9fd">bool</span>   <span style="color:#f1fa8c">`json:&#34;emailAuthFactor&#34;`</span>
+</span></span><span style="display:flex;"><span>    AccessJwt       <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;accessJwt&#34;`</span>
+</span></span><span style="display:flex;"><span>    RefreshJwt      <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;refreshJwt&#34;`</span>
+</span></span><span style="display:flex;"><span>    Active          <span style="color:#8be9fd">bool</span>   <span style="color:#f1fa8c">`json:&#34;active&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Agora criamos a funcão <code>getToken</code> que retorna um <code>DIDResponse</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">getToken</span>() (<span style="color:#ff79c6">*</span>DIDResponse, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    requestBody, err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">Marshal</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#34;identifier&#34;</span>: os.<span style="color:#50fa7b">Getenv</span>(<span style="color:#f1fa8c">&#34;BLUESKY_IDENTIFIER&#34;</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#34;password&#34;</span>:   os.<span style="color:#50fa7b">Getenv</span>(<span style="color:#f1fa8c">&#34;BLUESKY_PASSWORD&#34;</span>),
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;failed to marshal request body: %w&#34;</span>, err)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    url <span style="color:#ff79c6">:=</span> fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s/com.atproto.server.createSession&#34;</span>, API_URL)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    resp, err <span style="color:#ff79c6">:=</span> http.<span style="color:#50fa7b">Post</span>(url, <span style="color:#f1fa8c">&#34;application/json&#34;</span>, bytes.<span style="color:#50fa7b">NewBuffer</span>(requestBody))
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;failed to send request: %w&#34;</span>, err)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> resp.Body.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> resp.StatusCode <span style="color:#ff79c6">!=</span> http.StatusOK {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;unexpected status code: %d&#34;</span>, resp.StatusCode)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> tokenResponse DIDResponse
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(resp.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>tokenResponse); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;failed to decode response: %w&#34;</span>, err)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>tokenResponse, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Essa função chama o endpoint do bluesky <code>com.atproto.server.createSession</code> e vamos receber um além de alguns dados o <code>accessJwt</code> que é o que vamos precisar para nosso bot,
+com isso a função para gerar o token está pronto.</p>
+<h2 id="criando-o-websocket">Criando o Websocket</h2>
+<p>Essa será a função mais complexa do bot, vamos precisar consumir o endpoint do bluesky.</p>
+<p>Primeiro vamos criar uma váriavel para salvar o endpoint:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> (
+</span></span><span style="display:flex;"><span>    wsURL = <span style="color:#f1fa8c">&#34;wss://bsky.network/xrpc/com.atproto.sync.subscribeRepos&#34;</span>
+</span></span><span style="display:flex;"><span>  )
+</span></span></code></pre></div><p>Agora vamos criar as structs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> RepoCommitEvent <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Repo   <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;repo&#34;`</span>
+</span></span><span style="display:flex;"><span>    Rev    <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;rev&#34;`</span>
+</span></span><span style="display:flex;"><span>    Seq    <span style="color:#8be9fd">int64</span>       <span style="color:#f1fa8c">`cbor:&#34;seq&#34;`</span>
+</span></span><span style="display:flex;"><span>    Since  <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;since&#34;`</span>
+</span></span><span style="display:flex;"><span>    Time   <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;time&#34;`</span>
+</span></span><span style="display:flex;"><span>    TooBig <span style="color:#8be9fd">bool</span>        <span style="color:#f1fa8c">`cbor:&#34;tooBig&#34;`</span>
+</span></span><span style="display:flex;"><span>    Prev   <span style="color:#8be9fd;font-style:italic">interface</span>{} <span style="color:#f1fa8c">`cbor:&#34;prev&#34;`</span>
+</span></span><span style="display:flex;"><span>    Rebase <span style="color:#8be9fd">bool</span>        <span style="color:#f1fa8c">`cbor:&#34;rebase&#34;`</span>
+</span></span><span style="display:flex;"><span>    Blocks []<span style="color:#8be9fd">byte</span>      <span style="color:#f1fa8c">`cbor:&#34;blocks&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Ops []RepoOperation <span style="color:#f1fa8c">`cbor:&#34;ops&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> RepoOperation <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Action <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;action&#34;`</span>
+</span></span><span style="display:flex;"><span>    Path   <span style="color:#8be9fd">string</span>      <span style="color:#f1fa8c">`cbor:&#34;path&#34;`</span>
+</span></span><span style="display:flex;"><span>    Reply  <span style="color:#ff79c6">*</span>Reply      <span style="color:#f1fa8c">`cbor:&#34;reply&#34;`</span>
+</span></span><span style="display:flex;"><span>    Text   []<span style="color:#8be9fd">byte</span>      <span style="color:#f1fa8c">`cbor:&#34;text&#34;`</span>
+</span></span><span style="display:flex;"><span>    CID    <span style="color:#8be9fd;font-style:italic">interface</span>{} <span style="color:#f1fa8c">`cbor:&#34;cid&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Reply <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Parent Parent <span style="color:#f1fa8c">`json:&#34;parent&#34;`</span>
+</span></span><span style="display:flex;"><span>    Root   Root   <span style="color:#f1fa8c">`json:&#34;root&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Parent <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Cid <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;cid&#34;`</span>
+</span></span><span style="display:flex;"><span>    Uri <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;uri&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Root <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Cid <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;cid&#34;`</span>
+</span></span><span style="display:flex;"><span>    Uri <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;uri&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">type</span> Post <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>    Type  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;$type&#34;`</span>
+</span></span><span style="display:flex;"><span>    Text  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;text&#34;`</span>
+</span></span><span style="display:flex;"><span>    Reply <span style="color:#ff79c6">*</span>Reply <span style="color:#f1fa8c">`json:&#34;reply&#34;`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Também vamos usar o pacote <a href="https://github.com/gorilla/websocket">Gorilla Websocket</a>, baixe o pacote com:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go get github.com/gorilla/websocket
+</span></span></code></pre></div><p>a função <code>Websocket</code> fica assim inicialmente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">Websocket</span>() <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    conn, _, err <span style="color:#ff79c6">:=</span> websocket.DefaultDialer.<span style="color:#50fa7b">Dial</span>(wsURL, <span style="color:#ff79c6">nil</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Failed to connect to WebSocket&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> conn.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> {
+</span></span><span style="display:flex;"><span>      _, message, err <span style="color:#ff79c6">:=</span> conn.<span style="color:#50fa7b">ReadMessage</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error reading message from WebSocket&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Com isso já conseguimos ler as mensagens recebidas via websoket com um <code>for</code> infinito, mas as mensagens vem codificadas em <a href="https://ipld.io/specs/transport/car/carv1/">CAR</a>.</p>
+<h4 id="o-que-é-cbor">O que é CBOR?</h4>
+<p>CBOR (Concise Binary Object Representation) é um formato de dados binário que é usado para representar dados de forma compacta e eficiente.
+Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes binários, o que o torna menor e mais rápido para ser transmitido e processado.</p>
+<p>Para decodificar ele vamos precisar usar <a href="github.com/fxamacker/cbor/v2">este pacote</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  decoder <span style="color:#ff79c6">:=</span> cbor.<span style="color:#50fa7b">NewDecoder</span>(bytes.<span style="color:#50fa7b">NewReader</span>(message))
+</span></span></code></pre></div><p>Basta transformar o <code>message</code> em um <code>reader</code>, e com isso vamos ter isso:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">Websocket</span>() <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    conn, _, err <span style="color:#ff79c6">:=</span> websocket.DefaultDialer.<span style="color:#50fa7b">Dial</span>(wsURL, <span style="color:#ff79c6">nil</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Failed to connect to WebSocket&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">defer</span> conn.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    slog.<span style="color:#50fa7b">Info</span>(<span style="color:#f1fa8c">&#34;Connected to WebSocket&#34;</span>, <span style="color:#f1fa8c">&#34;url&#34;</span>, wsURL)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> {
+</span></span><span style="display:flex;"><span>      _, message, err <span style="color:#ff79c6">:=</span> conn.<span style="color:#50fa7b">ReadMessage</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error reading message from WebSocket&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      decoder <span style="color:#ff79c6">:=</span> cbor.<span style="color:#50fa7b">NewDecoder</span>(bytes.<span style="color:#50fa7b">NewReader</span>(message))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">for</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">var</span> evt RepoCommitEvent
+</span></span><span style="display:flex;"><span>        err <span style="color:#ff79c6">:=</span> decoder.<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>evt)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">==</span> io.EOF {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>          slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error decoding CBOR message&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><ul>
+<li>
+<p><code>decoder.Decode(&amp;evt)</code>: O decoder é responsável por ler os dados recebidos e decodificá-los do formato CBOR para o tipo <code>RepoCommitEvent</code>. O <code>evt</code> armazena os dados decodificados.</p>
+</li>
+<li>
+<p><code>if err == io.EOF { break }</code>: Se o decoder chegar ao final dos dados (não houver mais mensagens), ele retorna <code>io.EOF</code>. Quando isso acontece, o loop é interrompido com break, porque não há mais dados para processar.</p>
+</li>
+</ul>
+<h4 id="criando-o-handleevent">Criando o <code>handleEvent</code></h4>
+<p>Vamos criar uma função para processar o evento:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">handleEvent</span>(evt RepoCommitEvent) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> _, op <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> evt.Ops {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> op.Action <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;create&#34;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(evt.Blocks) &gt; <span style="color:#bd93f9">0</span> {
+</span></span><span style="display:flex;"><span>          err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">handleCARBlocks</span>(evt.Blocks, op)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>            slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error handling CAR blocks&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><ul>
+<li>
+<p>Parâmetro <code>evt</code>: A função recebe um parâmetro evt, que é um evento de commit <code>RepoCommitEvent</code>. Este evento contém uma lista de operações (Ops) e possivelmente blocos de dados (Blocks) relacionados a essas operações.</p>
+</li>
+<li>
+<p>Loop sobre <code>Ops</code>: O evento <code>evt</code> pode conter várias operações. O código percorre cada uma dessas operações usando o loop <code>for _, op := range evt.Ops</code>.</p>
+</li>
+<li>
+<p>Verificação da Ação <code>op.Action == &quot;create&quot;</code>: Para cada operação, o código verifica se a ação associada é &ldquo;create&rdquo;, ou seja, se a operação está criando algo novo no bluesky, como um post ou outro tipo de conteúdo.</p>
+</li>
+<li>
+<p>Se há Blocos <code>len(evt.Blocks) &gt; 0</code>: Se a operação de criação for detectada, o código verifica se o evento contém blocos de dados (Blocks). Esses blocos contêm informações adicionais que podem estar relacionadas à operação.</p>
+</li>
+<li>
+<p>Processamento dos Blocos <code>handleCARBlocks</code>: Se os blocos estiverem presentes, a função <code>handleCARBlocks</code> é chamada para processar esses blocos. Essa função é responsável por interpretar os dados dentro dos blocos (Vamos abordar o CAR abaixo).</p>
+</li>
+</ul>
+<h4 id="o-que-é-car">O que é CAR?</h4>
+<p>CAR (Content Addressable aRchive) é um formato de arquivo que armazena dados de forma eficiente e segura usando endereçamento por conteúdo. Isso significa que cada pedaço de dado é identificado pelo seu conteúdo em vez de um local específico.</p>
+<p>Aqui está uma explicação simples:</p>
+<p>Conteúdo Identificado por Hash: Cada bloco de dados em um arquivo CAR é identificado por um hash (um identificador único gerado a partir do conteúdo do dado). Isso garante que o mesmo dado sempre tenha o mesmo identificador.</p>
+<p>Usado em IPFS e IPLD: CAR é amplamente utilizado em sistemas como IPFS (InterPlanetary File System) e IPLD (InterPlanetary Linked Data), onde os dados são distribuídos e recuperados pela rede com base no conteúdo, em vez de localização como o bluesky.</p>
+<p>Blocos de Dados: Um arquivo CAR pode armazenar vários blocos de dados, e cada bloco pode ser recuperado individualmente usando seu identificador de conteúdo (CID - Content Identifier).</p>
+<p>Eficiente e Seguro: Como o identificador de um bloco depende do seu conteúdo, é fácil verificar se os dados estão corretos e não foram alterados.</p>
+<h4 id="criando-o-handlecarblocks">Criando o <code>handleCARBlocks</code></h4>
+<p>Essa será a mais complexa do bot:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">handleCARBlocks</span>(blocks []<span style="color:#8be9fd">byte</span>, op RepoOperation) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(blocks) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;no blocks to process&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    reader, err <span style="color:#ff79c6">:=</span> carv2.<span style="color:#50fa7b">NewBlockReader</span>(bytes.<span style="color:#50fa7b">NewReader</span>(blocks))
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error creating CAR block reader&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> {
+</span></span><span style="display:flex;"><span>      block, err <span style="color:#ff79c6">:=</span> reader.<span style="color:#50fa7b">Next</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">==</span> io.EOF {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>        slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error reading CAR block&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> opTag, ok <span style="color:#ff79c6">:=</span> op.CID.(cbor.Tag); ok {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> cidBytes, ok <span style="color:#ff79c6">:=</span> opTag.Content.([]<span style="color:#8be9fd">byte</span>); ok {
+</span></span><span style="display:flex;"><span>          c, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">decodeCID</span>(cidBytes)
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>            slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error decoding CID from bytes&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> block.<span style="color:#50fa7b">Cid</span>().<span style="color:#50fa7b">Equals</span>(c) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">var</span> post Post
+</span></span><span style="display:flex;"><span>            err <span style="color:#ff79c6">:=</span> cbor.<span style="color:#50fa7b">Unmarshal</span>(block.<span style="color:#50fa7b">RawData</span>(), <span style="color:#ff79c6">&amp;</span>post)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>              slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;Error decoding CBOR block&#34;</span>, <span style="color:#f1fa8c">&#34;error&#34;</span>, err)
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> post.Text <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">||</span> post.Reply <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> utils.<span style="color:#50fa7b">FilterTerms</span>(post.Text) {
+</span></span><span style="display:flex;"><span>              <span style="color:#50fa7b">repost</span>(<span style="color:#ff79c6">&amp;</span>post)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>A função <code>handleCARBlocks</code> processa blocos de dados no formato CAR. Vamos entender passo a passo o que a função faz de forma simples:</p>
+<ul>
+<li>Verificação Inicial dos Blocos:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(blocks) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;no blocks to process&#34;</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Se os blocos estiverem vazios, a função retorna um erro dizendo que não há blocos para processar.</p>
+<ul>
+<li>Criando um Leitor de Blocos CAR:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  reader, err <span style="color:#ff79c6">:=</span> carv2.<span style="color:#50fa7b">NewBlockReader</span>(bytes.<span style="color:#50fa7b">NewReader</span>(blocks))
+</span></span></code></pre></div><p>A função cria um leitor de blocos para interpretar os dados contidos no arquivo CAR, estamos usando os pacotes <a href="https://github.com/ipld/go-car">carV2</a> e <a href="github.com/ipfs/go-cid">go-cid</a></p>
+<p>Para instalar execute:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go install github.com/ipld/go-car/cmd/car@latest
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  go get github.com/ipfs/go-cid
+</span></span></code></pre></div><ul>
+<li>Lendo os Blocos:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">for</span> {
+</span></span><span style="display:flex;"><span>      block, err <span style="color:#ff79c6">:=</span> reader.<span style="color:#50fa7b">Next</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">==</span> io.EOF {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">break</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>A função entra em um loop para ler todos os blocos de dados um por um. Quando todos os blocos são lidos (ou seja, o fim é alcançado), o loop para.</p>
+<ul>
+<li>Verificando o CID:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> opTag, ok <span style="color:#ff79c6">:=</span> op.CID.(cbor.Tag); ok {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> cidBytes, ok <span style="color:#ff79c6">:=</span> opTag.Content.([]<span style="color:#8be9fd">byte</span>); ok {
+</span></span><span style="display:flex;"><span>          c, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">decodeCID</span>(cidBytes)
+</span></span></code></pre></div><p>A função verifica se a operação contém um CID (Content Identifier) que pode ser decodificado. Esse CID identifica o conteúdo específico do bloco.</p>
+<ul>
+<li>Comparando e Decodificando o Bloco:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> block.<span style="color:#50fa7b">Cid</span>().<span style="color:#50fa7b">Equals</span>(c) {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">var</span> post Post
+</span></span><span style="display:flex;"><span>      err <span style="color:#ff79c6">:=</span> cbor.<span style="color:#50fa7b">Unmarshal</span>(block.<span style="color:#50fa7b">RawData</span>(), <span style="color:#ff79c6">&amp;</span>post)
+</span></span></code></pre></div><p>Se o bloco lido tem o mesmo CID que a operação, o conteúdo do bloco é decodificado para um formato que a função entende, como um &ldquo;Post&rdquo;.</p>
+<ul>
+<li>Filtrando o Post:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> post.Text <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">||</span> post.Reply <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">continue</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> utils.<span style="color:#50fa7b">FilterTerms</span>(post.Text) {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">repost</span>(<span style="color:#ff79c6">&amp;</span>post)
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Se o post tiver texto e uma resposta <code>reply</code>, ele é filtrado com uma função chamada <code>FilterTerms</code>. Se passar no filtro, ele é repostado.</p>
+<h4 id="criando-o-decodecid">Criando o <code>decodeCID</code></h4>
+<p>A função <code>decodeCID</code> é responsável por decodificar um identificador de conteúdo (CID) a partir de um conjunto de bytes. Ela pega esses bytes e tenta transformá-los em um CID que pode ser usado para identificar blocos de dados.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">decodeCID</span>(cidBytes []<span style="color:#8be9fd">byte</span>) (cid.Cid, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">var</span> c cid.Cid
+</span></span><span style="display:flex;"><span>    c, err <span style="color:#ff79c6">:=</span> cid.<span style="color:#50fa7b">Decode</span>(<span style="color:#8be9fd;font-style:italic">string</span>(cidBytes))
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> c, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;error decoding CID: %w&#34;</span>, err)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> c, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>Com isso temos o <code>Websocket</code> pronto.</p>
+<h2 id="criando-o-websocket-1">Criando o Websocket</h2>
+<p>Vamos criar dentro do <code>utils</code> no <code>filter-term.go</code> o seguinte:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> (
+</span></span><span style="display:flex;"><span>    terms = []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;#hashtag2&#34;</span>, <span style="color:#f1fa8c">&#34;#hashtag1&#34;</span>}
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">FilterTerms</span>(text <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> _, term <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> terms {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> strings.<span style="color:#50fa7b">Contains</span>(strings.<span style="color:#50fa7b">ToLower</span>(text), strings.<span style="color:#50fa7b">ToLower</span>(term)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">true</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>É nessa função que deinimos as hashtags a seremo monitoradas, de forma simples recebemos um  <code>text</code> que vem do websocket e filtramos com base nos <code>terms</code>.</p>
+</section>
+
+  
+
+ <div class="giscus-comment">
+  <script>
+    let theme = localStorage.getItem('theme');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': theme,
+      'data-lang': lang,
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    let giscusScript = document.createElement('script');
+    const article = document.querySelector('article');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    article.appendChild(giscusScript);
+  </script>
+</div>
+ 
+
+
+ 
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2024 —
+  <a href="//localhost:1313/">Wiliam V. Joaquim</a>
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2 f-social">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://bsky.app/profile/wiliamvj.com" target="_blank" rel="noopener noreferrer"
+        >bsky</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+
+<button
+  type="button"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  class="!fixed bottom-5 end-5 hidden rounded-md bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-wpurplehover hover:shadow-lg focus:bg-wpurplehover focus:shadow-lg focus:outline-none focus:ring-0 active:bg-wpurple active:shadow-lg"
+  id="btn-back-to-top"
+>
+  <span class="[&>svg]:w-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="3"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+      />
+    </svg>
+  </span>
+</button>
+
+<script defer>
+  const mybutton = document.getElementById('btn-back-to-top');
+  const scrollFunction = () => {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.classList.remove('hidden');
+    } else {
+      mybutton.classList.add('hidden');
+    }
+  };
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  mybutton.addEventListener('click', backToTop);
+  window.addEventListener('scroll', scrollFunction);
+</script>
+</body>
+</html>
