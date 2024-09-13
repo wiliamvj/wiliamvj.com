@@ -100,10 +100,10 @@ name="twitter:data1" content="9 minutos de leitura">
 <div class="flex-none w-20 h-20 rounded-full overflow-hidden">
   <a href="//localhost:1313/">
     <img
-      srcset="/img/profile-picture_hu13304639856342208507.jpg 80w"
+      srcset="/img/profile-picture_hu8648425526917772597.jpg 80w"
       src="/img/profile-picture.jpg"
-      width="460"
-      height="460"
+      width="1467"
+      height="1447"
       alt="Wiliam V. Joaquim"
     />
   </a>
@@ -441,7 +441,7 @@ vamos criar uma funcão que gera o token, vamos fazer isso no arquivo <code>get-
 com isso a função para gerar o token está pronto.</p>
 <h2 id="criando-o-websocket">Criando o Websocket</h2>
 <p>Essa será a função mais complexa do bot, vamos precisar consumir o endpoint do bluesky.</p>
-<p>Primeiro vamos criar uma váriavel para salvar o endpoint:</p>
+<p>Primeiro vamos criar uma váriavel para salvar o endpoint, veja mais nas <a href="https://docs.bsky.app/docs/advanced-guides/firehose">docs</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> (
 </span></span><span style="display:flex;"><span>    wsURL = <span style="color:#f1fa8c">&#34;wss://bsky.network/xrpc/com.atproto.sync.subscribeRepos&#34;</span>
 </span></span><span style="display:flex;"><span>  )
@@ -712,7 +712,7 @@ Ele é parecido com o JSON, mas em vez de usar texto legível, ele usa bytes bin
 </span></span><span style="display:flex;"><span>  }
 </span></span></code></pre></div><p>Com isso temos o <code>Websocket</code> pronto.</p>
 <h2 id="criando-o-websocket-1">Criando o Websocket</h2>
-<p>Vamos criar dentro do <code>utils</code> no <code>filter-term.go</code> o seguinte:</p>
+<p>Vamos criar dentro do <code>utils</code> no <code>filter-terms.go</code> o seguinte:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">var</span> (
 </span></span><span style="display:flex;"><span>    terms = []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;#hashtag2&#34;</span>, <span style="color:#f1fa8c">&#34;#hashtag1&#34;</span>}
 </span></span><span style="display:flex;"><span>  )

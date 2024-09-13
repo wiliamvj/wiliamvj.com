@@ -122,7 +122,7 @@ com isso a função para gerar o token está pronto.
 
 Essa será a função mais complexa do bot, vamos precisar consumir o endpoint do bluesky.
 
-Primeiro vamos criar uma váriavel para salvar o endpoint:
+Primeiro vamos criar uma váriavel para salvar o endpoint, veja mais nas [docs](https://docs.bsky.app/docs/advanced-guides/firehose)
 
 ```go
   var (
@@ -459,7 +459,7 @@ Com isso temos o `Websocket` pronto.
 
 ## Criando o Websocket
 
-Vamos criar dentro do `utils` no `filter-term.go` o seguinte:
+Vamos criar dentro do `utils` no `filter-terms.go` o seguinte:
 
 ```go
   var (
