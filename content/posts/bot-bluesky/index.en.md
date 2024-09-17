@@ -32,8 +32,8 @@ to do this we will create an **App Passwords**, just access your account in blue
 With this generated password, place it inside the `.env` file, like this:
 
 ```yml
-BLUESKY_IDENTIFIER=<seu_identificador>
-BLUESKY_PASSWORD=<seu_app_password>
+BLUESKY_IDENTIFIER=<your_identifier>
+BLUESKY_PASSWORD=<your_app_password>
 ```
 
 ## Generating the API token
