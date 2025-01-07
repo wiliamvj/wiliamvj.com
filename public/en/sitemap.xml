@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:1313/en/posts/autenticacao-golang-cognito/</loc>
-    <lastmod>2024-02-07T19:03:34-03:00</lastmod>
+    <loc>//localhost:1313/en/posts/bot-bluesky/</loc>
+    <lastmod>2024-09-13T11:00:41-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
-                href="//localhost:1313/posts/autenticacao-golang-cognito/"
+                href="//localhost:1313/posts/bot-bluesky/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="//localhost:1313/en/posts/autenticacao-golang-cognito/"
+                href="//localhost:1313/en/posts/bot-bluesky/"
                 />
   </url><url>
     <loc>//localhost:1313/en/posts/</loc>
-    <lastmod>2024-02-07T19:03:34-03:00</lastmod>
+    <lastmod>2024-09-13T11:00:41-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
@@ -29,7 +29,7 @@
                 />
   </url><url>
     <loc>//localhost:1313/en/</loc>
-    <lastmod>2024-02-07T19:03:34-03:00</lastmod>
+    <lastmod>2024-09-13T11:00:41-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
@@ -39,6 +39,19 @@
                 rel="alternate"
                 hreflang="en"
                 href="//localhost:1313/en/"
+                />
+  </url><url>
+    <loc>//localhost:1313/en/posts/autenticacao-golang-cognito/</loc>
+    <lastmod>2024-02-07T19:03:34-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/posts/autenticacao-golang-cognito/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/posts/autenticacao-golang-cognito/"
                 />
   </url><url>
     <loc>//localhost:1313/en/posts/sql-injection-golang/</loc>

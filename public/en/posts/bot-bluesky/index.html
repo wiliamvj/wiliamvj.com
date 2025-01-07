@@ -370,8 +370,8 @@ within <code>utils</code> we will have some functions to help us.</p>
 <p>To authenticate to the bluesky API we need to provide an <code>identifier</code> and a <code>password</code>, but we cannot use the password to access our account,
 to do this we will create an <strong>App Passwords</strong>, just access your account in bluesky, access settings and then <strong>App Passwords</strong>.</p>
 <p>With this generated password, place it inside the <code>.env</code> file, like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>BLUESKY_IDENTIFIER=&lt;seu_identificador&gt;
-</span></span><span style="display:flex;"><span>BLUESKY_PASSWORD=&lt;seu_app_password&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>BLUESKY_IDENTIFIER=&lt;your_identifier&gt;
+</span></span><span style="display:flex;"><span>BLUESKY_PASSWORD=&lt;your_app_password&gt;
 </span></span></code></pre></div><h2 id="generating-the-api-token">Generating the API token</h2>
 <p>Whenever our bot identifies a new hashtag that we are monitoring, a reply will be made, but we need a Bearer token to be able to make the repost,
 we will create a function that generates the token, we will do this in the <code>get-token.go</code> file.</p>
@@ -876,7 +876,7 @@ validation <code>if post.Text == &quot;&quot; || post.Reply == nil</code> will p
 <p>The bot is responsible for monitoring specific hashtags and, when it finds one of them, it reposts and likes the original post.</p>
 <p>This is just one of the features we can do with the bot, the Bluesky API is very complete and allows for several possibilities, you can use this bot and add new features 🐹.</p>
 <h2 id="links">Links</h2>
-<p><a href="https://github.com/wiliamvj/go-vagas">repository</a> of the project</p>
+<p><a href="https://github.com/wiliamvj/go-vagas/tree/post-blog">repository</a> of the project</p>
 <p>Subscribe and receive notification of new posts, <a href="https://wiliamvj.substack.com/">participate</a></p>
 <p><a href="https://bsky.app/profile/govagas.bsky.social">bot profile on Bluesky</a></p>
 <p><a href="https://bsky.app/profile/govagas.bsky.social">Bluesky documentation</a></p>
@@ -934,7 +934,7 @@ validation <code>if post.Text == &quot;&quot; || post.Reply == nil</code> will p
 
 </main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
   <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
-  © 2024 —
+  © 2025 —
   <a href="//localhost:1313/">Wiliam V. Joaquim</a>
   <span class="font-normal">with</span>
   <a
