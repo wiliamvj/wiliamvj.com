@@ -14,7 +14,7 @@
       <link>//localhost:1313/posts/rate-limiter/</link>
       <pubDate>Tue, 07 Jan 2025 11:56:59 -0300</pubDate>
       <guid>//localhost:1313/posts/rate-limiter/</guid>
-      <description></description>
+      <description>Em sistemas web, é comum que um mesmo cliente (seja um usuário ou serviço) faça múltiplas requisições a um servidor em um curto período de tempo.</description>
     </item>
     <item>
       <title>Criando um Bot para o Bluesky Social</title>

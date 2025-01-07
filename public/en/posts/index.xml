@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Fri, 13 Sep 2024 11:00:41 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jan 2025 11:56:59 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What is Rate Limiter and Why Use It?</title>
+      <link>//localhost:1313/en/posts/rate-limiter/</link>
+      <pubDate>Tue, 07 Jan 2025 11:56:59 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/rate-limiter/</guid>
+      <description>In web systems, it is common for the same client (whether a user or a service) to make multiple requests to a server in a short period of time.</description>
+    </item>
     <item>
       <title>Creating a Bot for Bluesky Social</title>
       <link>//localhost:1313/en/posts/bot-bluesky/</link>

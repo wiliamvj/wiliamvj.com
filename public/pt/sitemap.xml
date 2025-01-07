@@ -4,6 +4,16 @@
   <url>
     <loc>//localhost:1313/posts/rate-limiter/</loc>
     <lastmod>2025-01-07T11:56:59-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/posts/rate-limiter/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/posts/rate-limiter/"
+                />
   </url><url>
     <loc>//localhost:1313/posts/</loc>
     <lastmod>2025-01-07T11:56:59-03:00</lastmod>

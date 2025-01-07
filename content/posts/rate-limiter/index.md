@@ -3,8 +3,10 @@ title: O que é Rate Limiter e Por Que Utilizá-lo?
 date: 2025-01-07T11:56:59-03:00
 draft: false
 tableOfContents: false
-thumbnail: '8df7g897dfg98dfg7.png'
+thumbnail: 'thumb_eeiuywer7.png'
 ---
+
+![thumbnail](thumb_eeiuywer7.png)
 
 Em sistemas web, é comum que um mesmo cliente (seja um usuário ou serviço) faça múltiplas requisições a um servidor em um curto período de tempo. Dependendo do volume de tráfego, isso pode resultar em sobrecarga nos servidores, lentidão no processamento e até mesmo falhas nos sistemas que não conseguem lidar com essa quantidade de requisições.
 
