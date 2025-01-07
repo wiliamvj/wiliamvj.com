@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>What is Rate Limiter and Why Use It?</title>
+
+
+<meta name="description" content="" />
+<meta
+  name="keywords"
+  content="Golang, Go, GCP, Sql, Gorm, NestJS, Javascript, Typescript, AWS, SQS, RabbitMq, Kafka, microservices, brazilian devs, software developer, back-end, NodeJS, Unit tests, integration testes"
+/>
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="//localhost:1313/en/posts/rate-limiter/" />
+<meta name="twitter:title" content="What is Rate Limiter and Why Use It?" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:image" content="//localhost:1313/posts/rate-limiter/thumb_eeiuywer7.png" />
+<meta
+  name="twitter:image:src"
+  content="//localhost:1313/posts/rate-limiter/thumb_eeiuywer7.png"
+/>
+<meta name="twitter:domain" content="wiliamvj.com" />
+<meta name="twitter:creator" content="@wiliamjoaquim" />
+<meta name="twitter:image:alt" content="What is Rate Limiter and Why Use It?" />
+<meta name="twitter:label1" content="Reading time"> <meta
+name="twitter:data1" content="6 minutes read">
+<meta name="twitter:app:name:iphone" content="wiliamvj" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="What is Rate Limiter and Why Use It?" />
+<meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="//localhost:1313/en/posts/rate-limiter/" />
+<meta property="og:image" content="//localhost:1313/posts/rate-limiter/thumb_eeiuywer7.png" />
+<meta property="og:image:alt" content="What is Rate Limiter and Why Use It?" />
+
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="What is Rate Limiter and Why Use It?"
+/>
+<meta
+  name="description"
+  content="In web systems, it is common for the same client (whether a user or a service) to make multiple requests to a server in a short period of time."
+/>
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/icons/apple-touch.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/icons/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/icons/favicon-16x16.png"
+/>
+<link rel="canonical" href="//localhost:1313/en/posts/rate-limiter/" />
+<link rel="robots" href="/robots.txt" />
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+
+
+<script
+  defer
+  src="https://www.googletagmanager.com/gtag/js?id=G-TG8KZ9PQBT"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'G-TG8KZ9PQBT');
+</script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="//localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="//localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hu8648425526917772597.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1467"
+      height="1447"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="//localhost:1313/">
+  <h1 id="site-title">Wiliam V<span class="text-wpurple">.</span> Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/en"
+        class=""
+        
+      >
+        Posts
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+         target="_blank" 
+      >
+        Newsletter
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="/"
+        class=""
+        
+      >
+        pt-BR
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">What is Rate Limiter and Why Use It?</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2025-01-07 11:56:59 -0300 -03"
+        title='Tue, Jan 7, 2025, 11:56 AM -03'
+      >
+        Published in: 07/01/2025 - 6 minutes read
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+
+  <section><p><img alt="thumbnail" src="/posts/rate-limiter/thumb_eeiuywer7.png"></p>
+<p>In web systems, it is common for the same client (whether a user or a service) to make multiple requests to a server in a short period of time. Depending on the volume of traffic, this can result in server overload, slow processing, and even failures in systems that are unable to handle this number of requests.</p>
+<p><strong>Rate Limiter</strong> is a technique used to control the number of requests a client can make to a server during a given period. It acts as a &ldquo;gatekeeper&rdquo;, limiting the number of calls to an API or service within a time window.</p>
+<h3 id="why-use-rate-limiter">Why Use Rate Limiter?</h3>
+<p>Using Rate Limiter in an application is a good practice for several reasons:</p>
+<p><strong>1 - Abuse Protection</strong>: Prevents a client from making excessive or malicious requests, such as denial of service (DoS) attacks, that can overload the system.</p>
+<p><strong>2 - Resource Usage Balance</strong>: Limiting the number of requests helps ensure that server resources are used efficiently and that other users are not harmed.</p>
+<p><strong>3 - Improves Performance</strong>: By limiting requests, you can ensure that the application continues to function smoothly, even with a high number of simultaneous accesses.</p>
+<p><strong>4 - User Experience</strong>: By limiting excessive request traffic, you prevent users from being blocked or experiencing slowness in the application.</p>
+<p><strong>5 - Security</strong>: Helps prevent brute force attacks or attempts to exploit vulnerabilities by limiting the number of requests per second.</p>
+<h3 id="practical-example-using-rate-limiter-in-go-with-chi">Practical Example Using Rate Limiter in Go with Chi</h3>
+<p>Now, let&rsquo;s analyze an example of implementing Rate Limiter in a Go application using the <a href="https://github.com/go-chi/chi">chi</a> package, widely used to manage routing.</p>
+<p>We will use the <a href="https://pkg.go.dev/golang.org/x/time/rate">golang.org/x/time/rate</a> package which provides tools for creating and managing rate limiters based on the Token Bucket algorithm.</p>
+<p>The code below shows how to implement this functionality in an application that uses Go&rsquo;s <code>http.Handler</code> to control the number of requests made by a client.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;strings&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;github.com/go-chi/chi&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;golang.org/x/time/rate&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>	r <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">NewRouter</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// Applies the RateLimiter globally, limiting 5 requests per second and a burst of 10 requests
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	r.<span style="color:#50fa7b">Use</span>(<span style="color:#50fa7b">RateLimiter</span>(rate.<span style="color:#50fa7b">Limit</span>(<span style="color:#bd93f9">5</span>), <span style="color:#bd93f9">10</span>, <span style="color:#bd93f9">1</span><span style="color:#ff79c6">*</span>time.Second))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// Define a route for testing
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	r.<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">Write</span>([]<span style="color:#8be9fd;font-style:italic">byte</span>(<span style="color:#f1fa8c">&#34;Requisição bem-sucedida&#34;</span>))
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	http.<span style="color:#50fa7b">ListenAndServe</span>(<span style="color:#f1fa8c">&#34;:3000&#34;</span>, r)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// RateLimiter middleware to limit a client&#39;s requests
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">RateLimiter</span>(limit rate.Limit, burst <span style="color:#8be9fd">int</span>, waitTime time.Duration) <span style="color:#8be9fd;font-style:italic">func</span>(next http.Handler) http.Handler {
+</span></span><span style="display:flex;"><span>	limiterMap <span style="color:#ff79c6">:=</span> <span style="color:#8be9fd;font-style:italic">make</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#ff79c6">*</span>rate.Limiter)
+</span></span><span style="display:flex;"><span>	lastRequestMap <span style="color:#ff79c6">:=</span> <span style="color:#8be9fd;font-style:italic">make</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]time.Time)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">func</span>(next http.Handler) http.Handler {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> http.<span style="color:#50fa7b">HandlerFunc</span>(<span style="color:#8be9fd;font-style:italic">func</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>			<span style="color:#6272a4">// Capture the client IP
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>      ip <span style="color:#ff79c6">:=</span> strings.<span style="color:#50fa7b">Split</span>(r.RemoteAddr, <span style="color:#f1fa8c">&#34;:&#34;</span>)[<span style="color:#bd93f9">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#6272a4">// Checks if the IP already has a Limiter configured
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>			limiter, exists <span style="color:#ff79c6">:=</span> limiterMap[ip]
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">if</span> !exists {
+</span></span><span style="display:flex;"><span>				limiter = rate.<span style="color:#50fa7b">NewLimiter</span>(limit, burst)
+</span></span><span style="display:flex;"><span>				limiterMap[ip] = limiter
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#6272a4">// Check if the client made a recent request and wait for the timeout if necessary
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>			lastRequestTime, lastRequestExists <span style="color:#ff79c6">:=</span> lastRequestMap[ip]
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">if</span> lastRequestExists <span style="color:#ff79c6">&amp;&amp;</span> time.<span style="color:#50fa7b">Since</span>(lastRequestTime) &lt; waitTime {
+</span></span><span style="display:flex;"><span>				w.<span style="color:#50fa7b">Header</span>().<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Content-Type&#34;</span>, <span style="color:#f1fa8c">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>				w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusTooManyRequests)
+</span></span><span style="display:flex;"><span>				json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;Too many requests&#34;</span>})
+</span></span><span style="display:flex;"><span>				<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#6272a4">// Check if the limit has been reached
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>			<span style="color:#ff79c6">if</span> !limiter.<span style="color:#50fa7b">Allow</span>() {
+</span></span><span style="display:flex;"><span>				lastRequestMap[ip] = time.<span style="color:#50fa7b">Now</span>()
+</span></span><span style="display:flex;"><span>				w.<span style="color:#50fa7b">Header</span>().<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Content-Type&#34;</span>, <span style="color:#f1fa8c">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>				w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusTooManyRequests)
+</span></span><span style="display:flex;"><span>				json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;Too many requests&#34;</span>})
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#6272a4">// If everything is ok, move on to the next handler
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>			next.<span style="color:#50fa7b">ServeHTTP</span>(w, r)
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="how-does-the-code-work">How Does the Code Work?</h3>
+<p><strong>1 - IP Mapping and Limitation</strong>: The code uses two maps: one to store the limiters (<code>limiterMap</code>) and another to record the last request made by an IP (<code>lastRequestMap</code>). The client IP is obtained from the <code>r.RemoteAddr</code> variable.</p>
+<p><strong>2 - Request Control</strong>: For each request, it is checked whether the IP already has a limiter configured. If it does not, a new one is created with the defined limit and burst.</p>
+<p><strong>3 - Check</strong>: Before allowing a request to pass, the code checks whether the client is trying to make a new request within a defined time interval. If the time is not enough, it returns a <strong>429 (Too Many Requests)</strong> error.</p>
+<p><strong>4 - Request Limitation</strong>: The <code>rate.Limiter.Allow()</code> is the method that checks whether the client can make the request or if it has reached the limit. If the limit is reached, the request is blocked and a 429 error is returned.</p>
+<ul>
+<li><strong>Burst</strong>: this is the maximum number of requests that a client can make immediately, without having to wait for the limit to be replenished. It defines a &ldquo;tolerance&rdquo; for traffic spikes above the normal rate configured in the Rate Limiter.</li>
+</ul>
+<p>When trying to make many requests in a short space of time, we receive the error:</p>
+<p><img alt="rate limiter" src="/posts/rate-limiter/fg45fgFgfgh5edwvb.png"></p>
+<h3 id="o-que-pode-ser-usado-no-rate-limiter">O Que Pode Ser Usado no Rate Limiter?</h3>
+<p>Rate Limiting is a technique that can be applied in several ways to identify and limit a client&rsquo;s usage. In our case, we use the client&rsquo;s IP address as a key to track requests and apply restrictions. However, there are other approaches depending on the type of application and usage scenario. Here are some possibilities:</p>
+<p><strong>1 - By IP (as in our example):</strong></p>
+<ul>
+<li>Ideal for limiting requests coming from specific addresses. It is useful in public APIs or in applications accessed by a wide variety of clients.</li>
+<li>Advantage: Simple to implement and effective against abuse of the same address.</li>
+<li>Limitation: Does not work well in shared networks (such as NAT), where several users share the same IP.</li>
+</ul>
+<p><strong>2 - By Authentication Token:</strong></p>
+<ul>
+<li>Useful for APIs where users are authenticated with tokens (JWT, OAuth, etc.). In this case, you track requests based on the token sent by the client.</li>
+<li>Advantage: More granular and can differentiate users even on shared networks.</li>
+<li>Limitation: Requires the application to support authentication.</li>
+</ul>
+<p><strong>3 - By Client ID:</strong></p>
+<ul>
+<li>Common in APIs that provide access keys for each client (such as API keys).</li>
+<li>Advantage: Works well in scenarios where there is integration between services and each client is identified by a unique key.</li>
+<li>Limitation: Does not prevent abuse if the key is shared or exposed.</li>
+</ul>
+<p><strong>4 - Per User Session:</strong></p>
+<ul>
+<li>In applications with sessions (cookies or session tokens), the unique session identifier can be used to limit requests.</li>
+<li>Advantage: Focused on individual experiences within the application.</li>
+<li>Limitation: Need to manage sessions and store identifiers.</li>
+</ul>
+<p><strong>5 - By Route or Endpoint:</strong></p>
+<p>1 - Useful for limiting calls to specific high-load endpoints (such as searches or uploads). Can be combined with other strategies, such as IP or token.
+2 - Advantage: Protects critical endpoints from abuse.
+4 - Limitation: Requires granular configuration for each route.</p>
+<p>There are other ways to limit.</p>
+<p>In the code example, we use the IP address (<code>r.RemoteAddr</code>) because it is a simple and efficient approach for public API scenarios or applications where client identification is not done with tokens or sessions.</p>
+<h3 id="final-considerations">Final considerations</h3>
+<p>Implementing a Rate Limiter is an effective way to ensure the security and stability of your application, as well as offering a more balanced user experience. In the example above, we showed how to integrate it to limit client requests efficiently.
+This is an essential technique to protect your services against abuse, attacks and ensure that traffic is distributed appropriately.</p>
+<h2 id="links">Links</h2>
+<p><a href="https://github.com/wiliamvj/rate-limiter">repository</a> of the example</p>
+</section>
+
+  
+
+ <div class="giscus-comment">
+  <script>
+    let theme = localStorage.getItem('theme');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': theme,
+      'data-lang': lang,
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    let giscusScript = document.createElement('script');
+    const article = document.querySelector('article');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    article.appendChild(giscusScript);
+  </script>
+</div>
+ 
+
+
+ 
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2025 —
+  <a href="//localhost:1313/">Wiliam V. Joaquim</a>
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2 f-social">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://bsky.app/profile/wiliamvj.com" target="_blank" rel="noopener noreferrer"
+        >bsky</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+
+<button
+  type="button"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  class="!fixed bottom-5 end-5 hidden rounded-md bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-wpurplehover hover:shadow-lg focus:bg-wpurplehover focus:shadow-lg focus:outline-none focus:ring-0 active:bg-wpurple active:shadow-lg"
+  id="btn-back-to-top"
+>
+  <span class="[&>svg]:w-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="3"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+      />
+    </svg>
+  </span>
+</button>
+
+<script defer>
+  const mybutton = document.getElementById('btn-back-to-top');
+  const scrollFunction = () => {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.classList.remove('hidden');
+    } else {
+      mybutton.classList.add('hidden');
+    }
+  };
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  mybutton.addEventListener('click', backToTop);
+  window.addEventListener('scroll', scrollFunction);
+</script>
+</body>
+</html>
