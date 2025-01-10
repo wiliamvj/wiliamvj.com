@@ -118,7 +118,7 @@ When trying to make many requests in a short space of time, we receive the error
 
 ![rate limiter](fg45fgFgfgh5edwvb.png)
 
-### O Que Pode Ser Usado no Rate Limiter?
+### What Can Be Used in Rate Limiter?
 
 Rate Limiting is a technique that can be applied in several ways to identify and limit a client's usage. In our case, we use the client's IP address as a key to track requests and apply restrictions. However, there are other approaches depending on the type of application and usage scenario. Here are some possibilities:
 
