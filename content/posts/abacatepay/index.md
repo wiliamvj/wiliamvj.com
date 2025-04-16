@@ -1,6 +1,6 @@
 ---
 title: Gerando Pagamentos via Pix com a AbacatePay
-date: 2025-04-14T11:56:59-03:00
+date: 2025-04-16T11:56:59-03:00
 draft: false
 tableOfContents: false
 thumbnail: 'thumb_76786eehjger.png'
