@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gerando Pagamentos via Pix com a AbacatePay</title>
+
+
+<meta name="description" content="" />
+<meta
+  name="keywords"
+  content="Golang, Go, GCP, Sql, Gorm, NestJS, Javascript, Typescript, AWS, SQS, RabbitMq, Kafka, microservices, brazilian devs, software developer, back-end, NodeJS, Unit tests, integration testes"
+/>
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="//localhost:1313/posts/abacatepay/" />
+<meta name="twitter:title" content="Gerando Pagamentos via Pix com a AbacatePay" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:image" content="//localhost:1313/posts/abacatepay/thumb_76786eehjger.png" />
+<meta
+  name="twitter:image:src"
+  content="//localhost:1313/posts/abacatepay/thumb_76786eehjger.png"
+/>
+<meta name="twitter:domain" content="wiliamvj.com" />
+<meta name="twitter:creator" content="@wiliamjoaquim" />
+<meta name="twitter:image:alt" content="Gerando Pagamentos via Pix com a AbacatePay" />
+<meta name="twitter:label1" content="Tempo de leitura"> <meta
+name="twitter:data1" content="9 minutos de leitura">
+<meta name="twitter:app:name:iphone" content="wiliamvj" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Gerando Pagamentos via Pix com a AbacatePay" />
+<meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="//localhost:1313/posts/abacatepay/" />
+<meta property="og:image" content="//localhost:1313/posts/abacatepay/thumb_76786eehjger.png" />
+<meta property="og:image:alt" content="Gerando Pagamentos via Pix com a AbacatePay" />
+
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Gerando Pagamentos via Pix com a AbacatePay"
+/>
+<meta
+  name="description"
+  content="Recentemente precisei integrar com gateways de pagamento via Pix, para um sistema que estou desenvolvendo, durante esse processo passei por alguns serviços como MercadoPago, Stripe, Pagar."
+/>
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/icons/apple-touch.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/icons/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/icons/favicon-16x16.png"
+/>
+<link rel="canonical" href="//localhost:1313/posts/abacatepay/" />
+<link rel="robots" href="/robots.txt" />
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+
+
+<script
+  defer
+  src="https://www.googletagmanager.com/gtag/js?id=G-TG8KZ9PQBT"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'G-TG8KZ9PQBT');
+</script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="//localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="//localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hu8648425526917772597.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1467"
+      height="1447"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="//localhost:1313/">
+  <h1 id="site-title">Wiliam V<span class="text-wpurple">.</span> Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+        
+      >
+        Artigos
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+         target="_blank" 
+      >
+        Newsletter
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+        
+      >
+        en-US
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">Gerando Pagamentos via Pix com a AbacatePay</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2025-04-14 11:56:59 -0300 -03"
+        title='Mon, Apr 14, 2025, 11:56 AM -03'
+      >
+        Publicado em: 14/04/2025 - 9 minutos de leitura
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+
+  <section><p><img alt="thumbnail" src="/posts/abacatepay/thumb_76786eehjger.png"></p>
+<p>Recentemente precisei integrar com gateways de pagamento via Pix, para um sistema que estou desenvolvendo, durante esse processo passei por alguns serviços como MercadoPago, Stripe, Pagar.me, entre outros, todos eles com uma burocracia e complexidade que não estava disposto a ter nesse momento, gostaria apenas de gerar um código pix de forma simples.</p>
+<p>Fazendo algumas pesquisas acabei conhecendo a <a href="https://www.abacatepay.com/">AbacatePay</a> uma solução recém criada, mas com a proposta de ser simples, dando uma olhada na sua documentação é realmente simples, e suas taxas são bem atrativas, com isso resolvi dar uma chance e testar, e nesse novo post vou mostrar como fiz essa integração.</p>
+<h3 id="estruturando-o-projeto">Estruturando o projeto</h3>
+<p>Primeiramente, vamos usar Golang, é claro :)!</p>
+<p>Para exemplificar, vou deixar um print da estrutura do nosso projeto:</p>
+<p><img alt="rate limiter" src="/posts/abacatepay/estrutura_Dfsf.png"></p>
+<p>Já abortei em outros posts sobre essa estrutura, você pode ver <a href="/posts/api-golang-parte-1/">aqui</a></p>
+<h2 id="criando-o-handler">Criando o handler</h2>
+<p>O handler será responsável por receber as requisições validar os dados de entrada através de um dto e repassar para o service.</p>
+<p><code>handler.go</code>: Será responsável por iniciar uma instância do handler e definir os metódos que precisamos implementar, vamos ter apenas dois métodos, uma para gerar o pix e outro para receber um webhook (vamos abordar sobre o webhhok).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewHandler</span>(service service.PaymentService) Handler {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>handler{
+</span></span><span style="display:flex;"><span>		service,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> handler <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	service service.PaymentService
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> Handler <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">CreatePix</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">Webhook</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Com isso, precisamos implementar, mas antes vamos criar um validador para os dados de entrada da nossa aplicação, vamos criar dentro da pasta <strong>dto</strong></p>
+<p>Vamos validar os dados de entrada manualmente, mas você pode usar algum pacote como o <a href="https://github.com/go-playground/validator">go-plaayground validator</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> CreatePixRequest <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	Name  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	Email <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34;`</span>
+</span></span><span style="display:flex;"><span>	Phone <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;phone&#34;`</span>
+</span></span><span style="display:flex;"><span>	CPF   <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;cpf&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (d <span style="color:#ff79c6">*</span>CreatePixRequest) <span style="color:#50fa7b">Validate</span>() <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> d.Name <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;name is required&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> d.Email <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;email is required&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> d.Phone <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;phone is required&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> d.CPF <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> errors.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;cpf is required&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> WebhookRequest <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	Event <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;event&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Validamos de forma bem simples a request, você pode aprimorar essa validação, como validar se é um email válido ou telefone.</p>
+<p>Com o <code>validation</code> pronto, vamos implementar o handler!</p>
+<p><code>create_pix.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> CreatePixResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	Name  <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>	Email <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;email&#34;`</span>
+</span></span><span style="display:flex;"><span>	Phone <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;phone&#34;`</span>
+</span></span><span style="display:flex;"><span>	CPF   <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;cpf&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">CreatePix</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">defer</span> r.Body.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">var</span> data dto.CreatePixRequest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>data)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>		json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;invalid json&#34;</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> data.<span style="color:#50fa7b">Validate</span>(); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>		json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;error&#34;</span>: err.<span style="color:#50fa7b">Error</span>(),
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	rs, err <span style="color:#ff79c6">:=</span> h.service.<span style="color:#50fa7b">CreatePix</span>(r.<span style="color:#50fa7b">Context</span>(), <span style="color:#ff79c6">&amp;</span>data)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>		json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;error to create pix&#34;</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	w.<span style="color:#50fa7b">Header</span>().<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Content-Type&#34;</span>, <span style="color:#f1fa8c">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>	w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusCreated)
+</span></span><span style="display:flex;"><span>	json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(rs)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Não irei me aprofundar muito em Go, mas de forma simples, tranformamos o <code>body</code> na struct <code>CreatePixRequest</code>, depois chamamos o <code>Validate</code> que criamos, por fim repassamos para o service que é onde vai conter nossa regra de negócio, o service terminando o processamento, repassamos a reposta ao usuário.</p>
+<h2 id="registrando-as-rotas">Registrando as rotas</h2>
+<p>Com o handler pronto, precisamos registrar as nossas rotas e para isso vamos criar dentro da pasta <strong>handler</strong> uma pasta <strong>routes</strong> e um arquivo <code>routes.go</code></p>
+<p><code>routes.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">InitRoutes</span>(router chi.Router, h handler.Handler) {
+</span></span><span style="display:flex;"><span>	router.<span style="color:#50fa7b">Route</span>(<span style="color:#f1fa8c">&#34;/payment&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(r chi.Router) {
+</span></span><span style="display:flex;"><span>		r.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/pix&#34;</span>, h.CreatePix)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// rota para receber os eventos via webhook
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	router.<span style="color:#50fa7b">Post</span>(<span style="color:#f1fa8c">&#34;/webhook&#34;</span>, h.Webhook)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Registramos duas rotas, uma para gerar o pix e outra para receber o webhook.</p>
+<h2 id="criando-o-service">Criando o service</h2>
+<p>O service vai ser responsável pela regra de negócio, será no service que vamos chamar a api da <a href="https://www.abacatepay.com/">AbacatePay</a>.</p>
+<p><code>service.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewService</span>(abacatepayclient abacatepay.Client) PaymentService {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>service{abacatepayclient}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> service <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	abacatepayclient abacatepay.Client
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> PaymentService <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">CreatePix</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>dto.CreatePixRequest) (<span style="color:#ff79c6">*</span>CreatePixRequest, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">ProcessWebhook</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>dto.WebhookRequest) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Fica semelhante ao handler, mas agora o <code>NewService</code> recebe um parâmetro que vai ser o client que vamos criar para chamar a api da AbacatePay.</p>
+<p>Antes de implementar os metódos do service, precisamos criar o <code>httpClient</code> chamando a api.</p>
+<h2 id="criando-o-http-client">Criando o http Client</h2>
+<p>Dentro da pasta <strong>pkg</strong> vamos criar outra pasta chamada <strong>abacatepay</strong> e um arquivo chamado <code>client.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">var</span> (
+</span></span><span style="display:flex;"><span>	baseURL = <span style="color:#f1fa8c">&#34;https://api.abacatepay.com/v1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	accessToken = os.<span style="color:#50fa7b">Getenv</span>(<span style="color:#f1fa8c">&#34;ABACATEPAY_KEY&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">NewAbacatePayClient</span>() Client {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&amp;</span>httpClient{
+</span></span><span style="display:flex;"><span>		client: <span style="color:#ff79c6">&amp;</span>http.Client{
+</span></span><span style="display:flex;"><span>			Timeout: <span style="color:#bd93f9">15</span> <span style="color:#ff79c6">*</span> time.Second,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> httpClient <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	client <span style="color:#ff79c6">*</span>http.Client
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> Client <span style="color:#8be9fd;font-style:italic">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">abacateLogger</span>(body io.ReadCloser, statusCode <span style="color:#8be9fd">int</span>, url <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">RegisterUser</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>dto.CreatePixRequest) (<span style="color:#ff79c6">*</span>RegisterUserResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">GerarPix</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>GerarPixRequest) (<span style="color:#ff79c6">*</span>GerarPixResponse, <span style="color:#8be9fd">error</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Nesse arquivo vamos ter o &ldquo;contrutor&rdquo; <code>NewAbacatePayClient</code> e os metódos que vamos precisar, vamos criar mais um para fins de exemplo que será o <code>RegisterUser</code> mas vamos usar apenas o <code>GerarPix</code>.</p>
+<p>Repare que usamos o <code>accessToken</code> buscando de uma variável de ambiente, esse token deve ser adquirido na plataforma da abacatepay e adicionado no <code>.env</code>, vou deixar tudo isso no repositório do projeto.</p>
+<p>Também criei um  <code>abacateLogger</code> apenas para melhorar os logs usando o <a href="https://github.com/sirupsen/logrus">logrus</a>.</p>
+<p><code>gerar_pix.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> GerarPixResponse <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	Error any <span style="color:#f1fa8c">`json:&#34;error&#34;`</span>
+</span></span><span style="display:flex;"><span>	Data  <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>		ID       <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;id&#34;`</span>
+</span></span><span style="display:flex;"><span>		Status   <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;status&#34;`</span>
+</span></span><span style="display:flex;"><span>		BRCode   <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;brCode&#34;`</span>
+</span></span><span style="display:flex;"><span>		BRCode64 <span style="color:#8be9fd">string</span> <span style="color:#f1fa8c">`json:&#34;brCodeBase64&#34;`</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#6272a4">// add more fields here
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	} <span style="color:#f1fa8c">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">type</span> GerarPixRequest <span style="color:#8be9fd;font-style:italic">struct</span> {
+</span></span><span style="display:flex;"><span>	Name        <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>	Email       <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>	Phone       <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>	CPF         <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>	Amount      <span style="color:#8be9fd">int64</span>
+</span></span><span style="display:flex;"><span>	ExpiresIn   <span style="color:#8be9fd">int64</span>
+</span></span><span style="display:flex;"><span>	Description <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>httpClient) <span style="color:#50fa7b">GerarPix</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>GerarPixRequest) (<span style="color:#ff79c6">*</span>GerarPixResponse, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>	requestURL <span style="color:#ff79c6">:=</span> fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%v/pixQrCode/create&#34;</span>, baseURL)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	body <span style="color:#ff79c6">:=</span> <span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd;font-style:italic">interface</span>{}{
+</span></span><span style="display:flex;"><span>		<span style="color:#f1fa8c">&#34;amount&#34;</span>:      d.Amount,
+</span></span><span style="display:flex;"><span>		<span style="color:#f1fa8c">&#34;description&#34;</span>: d.Description,
+</span></span><span style="display:flex;"><span>		<span style="color:#f1fa8c">&#34;expiresIn&#34;</span>:   d.ExpiresIn,
+</span></span><span style="display:flex;"><span>		<span style="color:#f1fa8c">&#34;customer&#34;</span>: <span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd;font-style:italic">interface</span>{}{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;name&#34;</span>:      d.Name,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;cellphone&#34;</span>: d.Phone,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;email&#34;</span>:     d.Email,
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;taxId&#34;</span>:     d.CPF,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	bodyBytes, err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">Marshal</span>(body)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	req, err <span style="color:#ff79c6">:=</span> http.<span style="color:#50fa7b">NewRequestWithContext</span>(ctx, http.MethodPost, requestURL, bytes.<span style="color:#50fa7b">NewBuffer</span>(bodyBytes))
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	req.Header.<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Content-Type&#34;</span>, <span style="color:#f1fa8c">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>	req.Header.<span style="color:#50fa7b">Set</span>(<span style="color:#f1fa8c">&#34;Authorization&#34;</span>, fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;Bearer %s&#34;</span>, accessToken))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	rs, err <span style="color:#ff79c6">:=</span> h.client.<span style="color:#50fa7b">Do</span>(req)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">defer</span> rs.Body.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> rs.StatusCode <span style="color:#ff79c6">!=</span> http.StatusOK <span style="color:#ff79c6">&amp;&amp;</span> rs.StatusCode <span style="color:#ff79c6">!=</span> http.StatusCreated {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, h.<span style="color:#50fa7b">abacateLogger</span>(rs.Body, rs.StatusCode, requestURL)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">var</span> pix <span style="color:#ff79c6">*</span>GerarPixResponse
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(rs.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>pix); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> pix.Error <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, h.<span style="color:#50fa7b">abacateLogger</span>(rs.Body, rs.StatusCode, requestURL)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> pix, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Esse método é bem simples, apenas pegamos os dados que vamos receber, chamamos a api da AbacatePay e retornamos o que recebermos da api, isso já é suficiente para ter um pix pronto para o cliente efetuar o pagamento, simples não é?</p>
+<p>O <code>GerarPixResponse</code> não tem todos os dados que a api retorna, você pode conferir nas <a href="https://docs.abacatepay.com/pages/pix-qrcode/create">docs</a> e adicionar.</p>
+<p>O método <code>RegisterUser</code> segue a mesma lógica, você pode ver no repositório.</p>
+<p>Com o http client criado, vamos implementar o service:</p>
+<p><code>create_pix.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">CreatePix</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>dto.CreatePixRequest) (<span style="color:#ff79c6">*</span>CreatePixRequest, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>	pix, err <span style="color:#ff79c6">:=</span> s.abacatepayclient.<span style="color:#50fa7b">GerarPix</span>(ctx, <span style="color:#ff79c6">&amp;</span>abacatepay.GerarPixRequest{
+</span></span><span style="display:flex;"><span>		Name:        d.Name,
+</span></span><span style="display:flex;"><span>		Email:       d.Email,
+</span></span><span style="display:flex;"><span>		Phone:       d.Phone,
+</span></span><span style="display:flex;"><span>		CPF:         d.CPF,
+</span></span><span style="display:flex;"><span>		Amount:      <span style="color:#bd93f9">9900</span>,
+</span></span><span style="display:flex;"><span>		ExpiresIn:   <span style="color:#bd93f9">2000</span>,
+</span></span><span style="display:flex;"><span>		Description: <span style="color:#f1fa8c">&#34;AbacatePay Pix&#34;</span>,
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	rs <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">&amp;</span>CreatePixRequest{
+</span></span><span style="display:flex;"><span>		ID:     pix.Data.ID,
+</span></span><span style="display:flex;"><span>		Status: pix.Data.Status,
+</span></span><span style="display:flex;"><span>		QRCode: pix.Data.BRCode,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> rs, <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Como nossa é regra é simples, o service ficou simples, fazemos apenas a chamada do <code>abacatepayclient.GerarPix</code> passando o que recebemos no dto, pegamos a resposta e repassamos ao usuários, retornamos apenas o <code>id</code>, <code>status</code> e <code>qrcode</code>, mas você pode retornar mais dados.</p>
+<p>Isso já nos retorna um id, esse id pode ser usado para consultar o status do pagamento, usando esse <a href="https://docs.abacatepay.com/pages/pix-qrcode/check">endpoint</a>, e a abacate ainda fornece outro endpoint que você pode confirmar esse pagamento, veja <a href="https://docs.abacatepay.com/pages/pix-qrcode/simulate-payment">aqui</a> que bacana, basta informar o id que foi retornado e esse pagamento será confirmado e será enviado um webhook.</p>
+<h2 id="configurando-o-webhook">Configurando o Webhook</h2>
+<p>Um webhook é uma forma de um sistema avisar outro automaticamente quando algo acontece. No nosso caso uma forma da AbacatePay nos informar que algo mudou, para isso precisamos registrar um endpoint do tipo <code>Post</code> que receba essa informação.</p>
+<p>Agora vamos implementear o <code>ProcessWebhook</code> do handler.</p>
+<p><code>webhook.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>handler) <span style="color:#50fa7b">Webhook</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">defer</span> r.Body.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	secret <span style="color:#ff79c6">:=</span> r.URL.<span style="color:#50fa7b">Query</span>().<span style="color:#50fa7b">Get</span>(<span style="color:#f1fa8c">&#34;webhookSecret&#34;</span>)
+</span></span><span style="display:flex;"><span>	expectedSecret <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Getenv</span>(<span style="color:#f1fa8c">&#34;ABACATEPAY_WEBHOOK_SECRET&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> secret <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">||</span> secret <span style="color:#ff79c6">!=</span> expectedSecret {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusUnauthorized)
+</span></span><span style="display:flex;"><span>		json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;unauthorized webhook&#34;</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">var</span> data dto.WebhookRequest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err <span style="color:#ff79c6">:=</span> json.<span style="color:#50fa7b">NewDecoder</span>(r.Body).<span style="color:#50fa7b">Decode</span>(<span style="color:#ff79c6">&amp;</span>data)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>		json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;invalid json&#34;</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> h.service.<span style="color:#50fa7b">ProcessWebhook</span>(r.<span style="color:#50fa7b">Context</span>(), <span style="color:#ff79c6">&amp;</span>data); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>		json.<span style="color:#50fa7b">NewEncoder</span>(w).<span style="color:#50fa7b">Encode</span>(<span style="color:#8be9fd;font-style:italic">map</span>[<span style="color:#8be9fd">string</span>]<span style="color:#8be9fd">string</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#f1fa8c">&#34;error&#34;</span>: <span style="color:#f1fa8c">&#34;erro to process notification&#34;</span>,
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusOK)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Segue o mesmo padrão do <code>CreatePix</code> validamos os dados e repassamos para o service, mas nesse caso temos que validar o <code>webhookSecret</code> esse secret é informado lá na AbacatePay ao criar um webhook, e será sempre enviado no query params, basta extrair e validar, por isso salvamos esse secrete em uma variável de ambiente <code>ABACATEPAY_WEBHOOK_SECRET</code>.</p>
+<p>Nosso service fica assim:
+<code>process_webhook.go</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (s <span style="color:#ff79c6">*</span>service) <span style="color:#50fa7b">ProcessWebhook</span>(ctx context.Context, d <span style="color:#ff79c6">*</span>dto.WebhookRequest) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;event&#34;</span>, d.Event)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// aqui você pode enviar para uma fila e processar posteriormente
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Não vamos implementar aqui, pois isso varia conforme a regra de negócio, você pode enviar um e-mail para o usuário, atualizar algo no banco de dados.</p>
+<p>No exemplo recebemos o evento <code>billing.paid</code>, poderiamos disparar um e-mail, liberar um acesso ao produto.</p>
+<p>Mas tudo isso leva um certo tempo, e nao podemos deixar a AbacatePay esperando esse processamento, alguns serviços exigem que o nosso endpoint que recebe o webhook responda em um tempo determinado, como 500 milisegundos por exemplo, disparar um e-mail, atualizar registro no banco, tudo isso faria que o tempo fosse atingido e o webhook seria marcado como não entregue, causando retentativas e possivelmente problemas (caso o sistema não esteja preparado para lidar com idempotência).</p>
+<p>Por isso é uma boa prática responder o mais rápido possível, você pode jogar isso para uma fila, com RabbitMQ, SQS, Kafka, e processar essa informação do webhook posteriormente.</p>
+<p>Mas, como estamos em desenvolvimento, não vamos receber esse webhook, pois ele precisa ser enviado para um endereço que esteja na web, nosso querido localhost não vale :)</p>
+<p>Pra resolver isso, podemos usar um túnel, que vai disponibilizar um endereço para nós e redirecionar o tráfego para nosso localhost por exemplo.</p>
+<p>Você pode usar o <a href="https://ngrok.com/">ngrok</a> (é pago, mas é possível brincar com a versão free), <a href="https://github.com/anderspitman/awesome-tunneling">aqui</a> tem uma lista de várias soluções para tunelamento.</p>
+<p>No meu exemplo eu usei o <a href="https://www.cloudflare.com/pt-br/lp/dg/product/zero-trust-security/">zero trust</a> da cloudflare, tem um limite free muito bom, a única desvantagem é que precisa adicionar um domínio a cloudflare.</p>
+<p>Caso use o ngrok, eles fornecerão um dominio aleatório, como <code>https://399a-185-153-176-85.ngrok-free.app</code>, portanto lá no painel da AbacatePay informe o webhook como <code>https://399a-185-153-176-85.ngrok-free.app/webhook</code>.</p>
+<h2 id="rodando-o-projeto">Rodando o projeto</h2>
+<p>Agora basta iniciar tudo no <code>main.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>	slog.<span style="color:#50fa7b">Info</span>(<span style="color:#f1fa8c">&#34;starting server...&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	router <span style="color:#ff79c6">:=</span> chi.<span style="color:#50fa7b">NewRouter</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// setup your cors here
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>	router.<span style="color:#50fa7b">Use</span>(cors.<span style="color:#50fa7b">Handler</span>(cors.Options{
+</span></span><span style="display:flex;"><span>		AllowedOrigins:   []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;https://*&#34;</span>, <span style="color:#f1fa8c">&#34;http://*&#34;</span>},
+</span></span><span style="display:flex;"><span>		AllowedMethods:   []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;GET&#34;</span>, <span style="color:#f1fa8c">&#34;POST&#34;</span>, <span style="color:#f1fa8c">&#34;PUT&#34;</span>, <span style="color:#f1fa8c">&#34;DELETE&#34;</span>, <span style="color:#f1fa8c">&#34;OPTIONS&#34;</span>},
+</span></span><span style="display:flex;"><span>		AllowedHeaders:   []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;Accept&#34;</span>, <span style="color:#f1fa8c">&#34;Authorization&#34;</span>, <span style="color:#f1fa8c">&#34;Content-Type&#34;</span>},
+</span></span><span style="display:flex;"><span>		ExposedHeaders:   []<span style="color:#8be9fd">string</span>{<span style="color:#f1fa8c">&#34;Link&#34;</span>},
+</span></span><span style="display:flex;"><span>		AllowCredentials: <span style="color:#ff79c6">false</span>,
+</span></span><span style="display:flex;"><span>		MaxAge:           <span style="color:#bd93f9">300</span>,
+</span></span><span style="display:flex;"><span>	}))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	service <span style="color:#ff79c6">:=</span> service.<span style="color:#50fa7b">NewService</span>(abacatepay.<span style="color:#50fa7b">NewAbacatePayClient</span>())
+</span></span><span style="display:flex;"><span>	handler <span style="color:#ff79c6">:=</span> handler.<span style="color:#50fa7b">NewHandler</span>(service)
+</span></span><span style="display:flex;"><span>	routes.<span style="color:#50fa7b">InitRoutes</span>(router, handler)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	port <span style="color:#ff79c6">:=</span> fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;:%s&#34;</span>, <span style="color:#f1fa8c">&#34;8080&#34;</span>)
+</span></span><span style="display:flex;"><span>	slog.<span style="color:#50fa7b">Info</span>(fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;Server running on port %s&#34;</span>, port))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err <span style="color:#ff79c6">:=</span> http.<span style="color:#50fa7b">ListenAndServe</span>(port, router)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to start server&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;main webserver&#34;</span>))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Iniciamos as rotas usando o <a href="https://github.com/go-chi/chi">go-chi</a> para roteamento, depois criamos as estâncias do <code>service</code>, <code>handler</code> e <code>abacatePayService</code>.</p>
+<p>Agora basta rodar:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go run main.go
+</span></span></code></pre></div><p>ou se preferir com docker</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker compose up -d
+</span></span></code></pre></div><p>Com isso nossa integração com a AbacatePay está rodando 🎉</p>
+<h3 id="conclusão">Conclusão</h3>
+<p>Embora a <a href="https://www.abacatepay.com/">AbacatePay</a> seja uma solução recente sua ,a sua a simplicidade me chamou a atenção, para quem busca uma integração ssem complicações com pix, pode ser uma ótima escolha, principalmente por sua taxa ser bem atrativa.</p>
+<p>Sempre olhe a <a href="https://docs.abacatepay.com/pages/introduction">documentação</a>, a da AbacatePay é bem simples de entender.</p>
+<h2 id="links-úteis">Links úteis</h2>
+<p><a href="https://github.com/wiliamvj/rate-limiter">repositório</a> do exemplo.</p>
+</section>
+
+  
+
+ <div class="giscus-comment">
+  <script>
+    let theme = localStorage.getItem('theme');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': theme,
+      'data-lang': lang,
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    let giscusScript = document.createElement('script');
+    const article = document.querySelector('article');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    article.appendChild(giscusScript);
+  </script>
+</div>
+ 
+
+
+ 
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2025 —
+  <a href="//localhost:1313/">Wiliam V. Joaquim</a>
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2 f-social">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://bsky.app/profile/wiliamvj.com" target="_blank" rel="noopener noreferrer"
+        >bsky</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+
+<button
+  type="button"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  class="!fixed bottom-5 end-5 hidden rounded-md bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-wpurplehover hover:shadow-lg focus:bg-wpurplehover focus:shadow-lg focus:outline-none focus:ring-0 active:bg-wpurple active:shadow-lg"
+  id="btn-back-to-top"
+>
+  <span class="[&>svg]:w-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="3"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+      />
+    </svg>
+  </span>
+</button>
+
+<script defer>
+  const mybutton = document.getElementById('btn-back-to-top');
+  const scrollFunction = () => {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.classList.remove('hidden');
+    } else {
+      mybutton.classList.add('hidden');
+    }
+  };
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  mybutton.addEventListener('click', backToTop);
+  window.addEventListener('scroll', scrollFunction);
+</script>
+</body>
+</html>
