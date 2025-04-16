@@ -10,7 +10,7 @@ thumbnail: 'thumb_76786eehjger.png'
 
 Recentemente precisei integrar com gateways de pagamento via Pix, para um sistema que estou desenvolvendo, durante esse processo passei por alguns serviços como MercadoPago, Stripe, Pagar.me, entre outros, todos eles com uma burocracia e complexidade que não estava disposto a ter nesse momento, gostaria apenas de gerar um código pix de forma simples.
 
-Fazendo algumas pesquisas acabei conhecendo a [AbacatePay](https://www.abacatepay.com/) uma solução recém criada, mas com a proposta de ser simples, dando uma olhada na sua documentação é realmente simples, e suas taxas são bem atrativas, com isso resolvi dar uma chance e testar, e nesse novo post vou mostrar como fiz essa integração.
+Fazendo algumas pesquisas acabei conhecendo a [AbacatePay](https://www.abacatepay.com/) uma solução recém criada, mas com a proposta de ser simples, dando uma olhada na sua documentação é realmente simples sua integração, e suas taxas são bem atrativas, com isso resolvi dar uma chance e testar, nesse novo post vou mostrar como fiz essa integração.
 
 ### Estruturando o projeto
 
