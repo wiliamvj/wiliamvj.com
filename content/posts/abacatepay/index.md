@@ -462,4 +462,4 @@ Sempre olhe a [documentação](https://docs.abacatepay.com/pages/introduction), 
 
 ## Links úteis
 
-[repositório](https://github.com/wiliamvj/rate-limiter) do exemplo.
+[repositório](https://github.com/wiliamvj/abacatepay-integracao) do exemplo.
