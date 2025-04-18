@@ -100,10 +100,10 @@ name="twitter:data1" content="9 minutos de leitura">
 <div class="flex-none w-20 h-20 rounded-full overflow-hidden">
   <a href="//localhost:1313/">
     <img
-      srcset="/img/profile-picture_hu8648425526917772597.jpg 80w"
+      srcset="/img/profile-picture_hu12039210640750353870.jpg 80w"
       src="/img/profile-picture.jpg"
-      width="1467"
-      height="1447"
+      width="1024"
+      height="1024"
       alt="Wiliam V. Joaquim"
     />
   </a>
@@ -343,10 +343,10 @@ name="twitter:data1" content="9 minutos de leitura">
     <div class="meta">
       
       <time
-        datetime="2025-04-14 11:56:59 -0300 -03"
-        title='Mon, Apr 14, 2025, 11:56 AM -03'
+        datetime="2025-04-16 11:56:59 -0300 -03"
+        title='Wed, Apr 16, 2025, 11:56 AM -03'
       >
-        Publicado em: 14/04/2025 - 9 minutos de leitura
+        Publicado em: 16/04/2025 - 9 minutos de leitura
       </time>
 
        
@@ -358,7 +358,7 @@ name="twitter:data1" content="9 minutos de leitura">
 
   <section><p><img alt="thumbnail" src="/posts/abacatepay/thumb_76786eehjger.png"></p>
 <p>Recentemente precisei integrar com gateways de pagamento via Pix, para um sistema que estou desenvolvendo, durante esse processo passei por alguns serviços como MercadoPago, Stripe, Pagar.me, entre outros, todos eles com uma burocracia e complexidade que não estava disposto a ter nesse momento, gostaria apenas de gerar um código pix de forma simples.</p>
-<p>Fazendo algumas pesquisas acabei conhecendo a <a href="https://www.abacatepay.com/">AbacatePay</a> uma solução recém criada, mas com a proposta de ser simples, dando uma olhada na sua documentação é realmente simples, e suas taxas são bem atrativas, com isso resolvi dar uma chance e testar, e nesse novo post vou mostrar como fiz essa integração.</p>
+<p>Fazendo algumas pesquisas acabei conhecendo a <a href="https://www.abacatepay.com/">AbacatePay</a> uma solução recém criada, mas com a proposta de ser simples, dando uma olhada na sua documentação é realmente simples sua integração, e suas taxas são bem atrativas, com isso resolvi dar uma chance e testar, nesse novo post vou mostrar como fiz essa integração.</p>
 <h3 id="estruturando-o-projeto">Estruturando o projeto</h3>
 <p>Primeiramente, vamos usar Golang, é claro :)!</p>
 <p>Para exemplificar, vou deixar um print da estrutura do nosso projeto:</p>
@@ -701,7 +701,7 @@ name="twitter:data1" content="9 minutos de leitura">
 </span></span><span style="display:flex;"><span>		slog.<span style="color:#50fa7b">Error</span>(<span style="color:#f1fa8c">&#34;error to start server&#34;</span>, <span style="color:#f1fa8c">&#34;err&#34;</span>, err, slog.<span style="color:#50fa7b">String</span>(<span style="color:#f1fa8c">&#34;package&#34;</span>, <span style="color:#f1fa8c">&#34;main webserver&#34;</span>))
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Iniciamos as rotas usando o <a href="https://github.com/go-chi/chi">go-chi</a> para roteamento, depois criamos as estâncias do <code>service</code>, <code>handler</code> e <code>abacatePayService</code>.</p>
+</span></span></code></pre></div><p>Iniciamos as rotas usando o <a href="https://github.com/go-chi/chi">go-chi</a> para roteamento, depois criamos as instâncias do <code>service</code>, <code>handler</code> e <code>abacatePayService</code>.</p>
 <p>Agora basta rodar:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go run main.go
 </span></span></code></pre></div><p>ou se preferir com docker</p>
@@ -711,7 +711,7 @@ name="twitter:data1" content="9 minutos de leitura">
 <p>Embora a <a href="https://www.abacatepay.com/">AbacatePay</a> seja uma solução recente sua ,a sua a simplicidade me chamou a atenção, para quem busca uma integração ssem complicações com pix, pode ser uma ótima escolha, principalmente por sua taxa ser bem atrativa.</p>
 <p>Sempre olhe a <a href="https://docs.abacatepay.com/pages/introduction">documentação</a>, a da AbacatePay é bem simples de entender.</p>
 <h2 id="links-úteis">Links úteis</h2>
-<p><a href="https://github.com/wiliamvj/rate-limiter">repositório</a> do exemplo.</p>
+<p><a href="https://github.com/wiliamvj/abacatepay-integracao">repositório</a> do exemplo.</p>
 </section>
 
   

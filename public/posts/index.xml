@@ -7,14 +7,14 @@
     <generator>Hugo</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Mon, 14 Apr 2025 11:56:59 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 16 Apr 2025 11:56:59 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Gerando Pagamentos via Pix com a AbacatePay</title>
       <link>//localhost:1313/posts/abacatepay/</link>
-      <pubDate>Mon, 14 Apr 2025 11:56:59 -0300</pubDate>
+      <pubDate>Wed, 16 Apr 2025 11:56:59 -0300</pubDate>
       <guid>//localhost:1313/posts/abacatepay/</guid>
-      <description>Recentemente precisei intergrar com gateways de pagamento via Pix, para um sistema que estou desenvolvendo, durante esse processo passei por alguns serviços como MercadoPago, Stripe, Pagar.</description>
+      <description>Recentemente precisei integrar com gateways de pagamento via Pix, para um sistema que estou desenvolvendo, durante esse processo passei por alguns serviços como MercadoPago, Stripe, Pagar.</description>
     </item>
     <item>
       <title>O que é Rate Limiter e Por Que Utilizá-lo?</title>
