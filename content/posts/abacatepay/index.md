@@ -458,7 +458,7 @@ Com isso nossa integração com a AbacatePay está rodando 🎉
 
 Embora a [AbacatePay](https://www.abacatepay.com/) seja uma solução recente sua ,a sua a simplicidade me chamou a atenção, para quem busca uma integração ssem complicações com pix, pode ser uma ótima escolha, principalmente por sua taxa ser bem atrativa.
 
-Sempre olhe a [documentação](https://docs.abacatepay.com/pages/introduction), a da AbacatePay é bem simples de entender.
+Sempre olhe a [documentação](https://docs.abacatepay.com/pages/introduction) a da AbacatePay é bem simples de entender.
 
 ## Links úteis
 
