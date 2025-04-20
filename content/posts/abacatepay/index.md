@@ -446,7 +446,7 @@ Agora basta rodar:
 go run main.go
 ```
 
-ou se preferir com docker
+ou se preferir rodar com docker
 
 ```bash
 docker compose up -d
