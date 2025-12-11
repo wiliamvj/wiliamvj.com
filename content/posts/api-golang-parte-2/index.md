@@ -1,9 +1,9 @@
 ---
-title: 'API completa em Golang - Parte 2'
+title: "API completa em Golang - Parte 2"
 date: 2023-12-05T17:38:31-03:00
 draft: false
 tableOfContents: false
-thumbnail: 'ODggcvG44fhfry546K.png'
+thumbnail: "ODggcvG44fhfry546K.png"
 ---
 
 ![thumbnail](ODggcvG44fhfry546K.png)
@@ -19,24 +19,24 @@ Se ainda não viu a [parte 1](/posts/api-golang-parte-1/), leia esse post primei
 Vamos criar na raiz do projeto um arquivo `docker-compose.yml` para criar uma imagem do postgreSQL:
 
 ```yml
-version: '3.9'
+version: "3.9"
 
 services:
-  postgres:
-    container_name: postgres_apigo
-    image: postgres:14.5
-    environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
-      PG_DATA: /var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    volumes:
-      - apigo:/var/lib/postgresql/data
+    postgres:
+        container_name: postgres_apigo
+        image: postgres:14.5
+        environment:
+            POSTGRES_HOST: ${POSTGRES_HOST}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_DB: ${POSTGRES_DB}
+            PG_DATA: /var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        volumes:
+            - apigo:/var/lib/postgresql/data
 volumes:
-  apigo:
+    apigo:
 ```
 
 O código acima vai criar uma imagem do postgreSQL e um volume, para garantir que nossos dados não sejam perdidos sempre que o docker parar. Vamos precisar também de um arquivo `.env` para guardadas as credenciais de acesso ao banco de dados, também na raiz do projeto:
@@ -91,7 +91,7 @@ Com nossa migrations pronta, podemos criar nossa primeira tabela, vamos criar a 
 
 ```sql
   CREATE TABLE users (
-    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -100,7 +100,7 @@ Com nossa migrations pronta, podemos criar nossa primeira tabela, vamos criar a 
   );
 ```
 
-Repare que o `id` da nossa tabela `users` é um `VARCHAR(36)`, vamos usar o [uuid](https://bit.ly/414qfto), poderíamos usar uma extensão do postgreSQL como o [uuid-ossp](https://www.postgresql.org/docs/current/uuid-ossp.html) para gerar nossos ids, porém se nossa aplicação ficar responsável por gerar seu próprios ids, teremos a possibilidade de saber o `id` do nosso usuário antes mesmo de salvar no banco de dados, mas se preferir você pode instalar essa extensão e deixar o banco de dados responsável por gerar o `id` do usuário.
+Repare que o `id` da nossa tabela `users` é um `CHAR(36)`, vamos usar o [uuid](https://bit.ly/414qfto), poderíamos usar uma extensão do postgreSQL como o [uuid-ossp](https://www.postgresql.org/docs/current/uuid-ossp.html) para gerar nossos ids, porém se nossa aplicação ficar responsável por gerar seu próprios ids, teremos a possibilidade de saber o `id` do nosso usuário antes mesmo de salvar no banco de dados, mas se preferir você pode instalar essa extensão e deixar o banco de dados responsável por gerar o `id` do usuário.
 
 Nossa migration que desfaz isso, chamamos de down `000001_init.down.sql` ficaria assim:
 
@@ -141,15 +141,15 @@ Vamos iniciar a configuração do sqlc, também já fiz post sobre [como utiliza
 Primeiro precisamos criar um arquivo de configuração do sqlc na raiz do projeto, chamado `sqlc.yaml`:
 
 ```yaml
-version: '2'
+version: "2"
 sql:
-  - schema: 'internal/database/migrations'
-    queries: 'internal/database/queries'
-    engine: 'postgresql'
-    gen:
-      go:
-        package: 'sqlc'
-        out: 'internal/database/sqlc'
+    - schema: "internal/database/migrations"
+      queries: "internal/database/queries"
+      engine: "postgresql"
+      gen:
+          go:
+              package: "sqlc"
+              out: "internal/database/sqlc"
 ```
 
 Nesse arquivo determinamos o banco de dados que vamos usar, o caminho onde vai estão nossas migrations, queries e o caminho onde o sqlc vai salvar os arquivos gerados, você pode optar por outro caminho para salvar os arquivos do sqlc, assim como o nome do package.

@@ -362,24 +362,24 @@ name="twitter:data1" content="11 minutos de leitura">
 <p>Se ainda não viu a <a href="/posts/api-golang-parte-1/">parte 1</a>, leia esse post primeiro.</p>
 <h2 id="configurando-o-banco-de-dados">Configurando o banco de dados</h2>
 <p>Vamos criar na raiz do projeto um arquivo <code>docker-compose.yml</code> para criar uma imagem do postgreSQL:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;3.9&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#34;3.9&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">services</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">postgres</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">container_name</span>: postgres_apigo
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">image</span>: postgres:14.5
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">environment</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_HOST</span>: ${POSTGRES_HOST}
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_PASSWORD</span>: ${POSTGRES_PASSWORD}
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_USER</span>: ${POSTGRES_USER}
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">POSTGRES_DB</span>: ${POSTGRES_DB}
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">PG_DATA</span>: /var/lib/postgresql/data
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">ports</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#bd93f9">5432</span>:<span style="color:#bd93f9">5432</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">volumes</span>:
-</span></span><span style="display:flex;"><span>      - apigo:/var/lib/postgresql/data
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">postgres</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">container_name</span>: postgres_apigo
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">image</span>: postgres:14.5
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">environment</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">POSTGRES_HOST</span>: ${POSTGRES_HOST}
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">POSTGRES_PASSWORD</span>: ${POSTGRES_PASSWORD}
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">POSTGRES_USER</span>: ${POSTGRES_USER}
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">POSTGRES_DB</span>: ${POSTGRES_DB}
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">PG_DATA</span>: /var/lib/postgresql/data
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">ports</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#bd93f9">5432</span>:<span style="color:#bd93f9">5432</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">volumes</span>:
+</span></span><span style="display:flex;"><span>            - apigo:/var/lib/postgresql/data
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">volumes</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">apigo</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">apigo</span>:
 </span></span></code></pre></div><p>O código acima vai criar uma imagem do postgreSQL e um volume, para garantir que nossos dados não sejam perdidos sempre que o docker parar. Vamos precisar também de um arquivo <code>.env</code> para guardadas as credenciais de acesso ao banco de dados, também na raiz do projeto:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>  POSTGRES_DB=<span style="color:#f1fa8c">&#34;golang_api_users&#34;</span>
 </span></span><span style="display:flex;"><span>  POSTGRES_USER=<span style="color:#f1fa8c">&#34;golang_api_users&#34;</span>
@@ -411,14 +411,14 @@ name="twitter:data1" content="11 minutos de leitura">
 <h2 id="criando-nossa-primeira-tabela">Criando nossa primeira tabela</h2>
 <p>Com nossa migrations pronta, podemos criar nossa primeira tabela, vamos criar a tabela user com os primeiros campos que vamos precisar, vamos criar no arquivo <code>up</code> gerado pelo golang-migrate, no meu caso chamado <code>000001_init.up.sql</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">CREATE</span> <span style="color:#ff79c6">TABLE</span> users (
-</span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
+</span></span><span style="display:flex;"><span>    id <span style="color:#8be9fd;font-style:italic">CHAR</span>(<span style="color:#bd93f9">36</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">PRIMARY</span> <span style="color:#ff79c6">KEY</span>,
 </span></span><span style="display:flex;"><span>    name <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
 </span></span><span style="display:flex;"><span>    email <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">UNIQUE</span>,
 </span></span><span style="display:flex;"><span>    password <span style="color:#8be9fd;font-style:italic">VARCHAR</span>(<span style="color:#bd93f9">255</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>,
 </span></span><span style="display:flex;"><span>    created_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span> <span style="color:#ff79c6">DEFAULT</span> <span style="color:#ff79c6">CURRENT_TIMESTAMP</span>,
 </span></span><span style="display:flex;"><span>    updated_at <span style="color:#ff79c6">TIMESTAMP</span>(<span style="color:#bd93f9">3</span>) <span style="color:#ff79c6">NOT</span> <span style="color:#ff79c6">NULL</span>
 </span></span><span style="display:flex;"><span>  );
-</span></span></code></pre></div><p>Repare que o <code>id</code> da nossa tabela <code>users</code> é um <code>VARCHAR(36)</code>, vamos usar o <a href="https://bit.ly/414qfto">uuid</a>, poderíamos usar uma extensão do postgreSQL como o <a href="https://www.postgresql.org/docs/current/uuid-ossp.html">uuid-ossp</a> para gerar nossos ids, porém se nossa aplicação ficar responsável por gerar seu próprios ids, teremos a possibilidade de saber o <code>id</code> do nosso usuário antes mesmo de salvar no banco de dados, mas se preferir você pode instalar essa extensão e deixar o banco de dados responsável por gerar o <code>id</code> do usuário.</p>
+</span></span></code></pre></div><p>Repare que o <code>id</code> da nossa tabela <code>users</code> é um <code>CHAR(36)</code>, vamos usar o <a href="https://bit.ly/414qfto">uuid</a>, poderíamos usar uma extensão do postgreSQL como o <a href="https://www.postgresql.org/docs/current/uuid-ossp.html">uuid-ossp</a> para gerar nossos ids, porém se nossa aplicação ficar responsável por gerar seu próprios ids, teremos a possibilidade de saber o <code>id</code> do nosso usuário antes mesmo de salvar no banco de dados, mas se preferir você pode instalar essa extensão e deixar o banco de dados responsável por gerar o <code>id</code> do usuário.</p>
 <p>Nossa migration que desfaz isso, chamamos de down <code>000001_init.down.sql</code> ficaria assim:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#ff79c6">DROP</span> <span style="color:#ff79c6">TABLE</span> <span style="color:#ff79c6">IF</span> <span style="color:#ff79c6">EXISTS</span> users;
 </span></span></code></pre></div><p>Isso remove a tabela que criamos. Agora vamos rodar as migrations com nosso <code>make</code>:</p>
@@ -436,15 +436,15 @@ name="twitter:data1" content="11 minutos de leitura">
 </span></span></code></pre></div><h2 id="configurando-o-sqlc">Configurando o SQLC</h2>
 <p>Vamos iniciar a configuração do sqlc, também já fiz post sobre <a href="https://wiliamvj.com/posts/golang-sqlc/">como utilizar o go com sqlc</a>.</p>
 <p>Primeiro precisamos criar um arquivo de configuração do sqlc na raiz do projeto, chamado <code>sqlc.yaml</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;2&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#34;2&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">sql</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ff79c6">schema</span>: <span style="color:#f1fa8c">&#39;internal/database/migrations&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">queries</span>: <span style="color:#f1fa8c">&#39;internal/database/queries&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">engine</span>: <span style="color:#f1fa8c">&#39;postgresql&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">gen</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">go</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">package</span>: <span style="color:#f1fa8c">&#39;sqlc&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">out</span>: <span style="color:#f1fa8c">&#39;internal/database/sqlc&#39;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ff79c6">schema</span>: <span style="color:#f1fa8c">&#34;internal/database/migrations&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">queries</span>: <span style="color:#f1fa8c">&#34;internal/database/queries&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">engine</span>: <span style="color:#f1fa8c">&#34;postgresql&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">gen</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">go</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">package</span>: <span style="color:#f1fa8c">&#34;sqlc&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">out</span>: <span style="color:#f1fa8c">&#34;internal/database/sqlc&#34;</span>
 </span></span></code></pre></div><p>Nesse arquivo determinamos o banco de dados que vamos usar, o caminho onde vai estão nossas migrations, queries e o caminho onde o sqlc vai salvar os arquivos gerados, você pode optar por outro caminho para salvar os arquivos do sqlc, assim como o nome do package.</p>
 <p>Vamos criar nossa primeira query, apenas para buscar um usuário pelo id, dentro da pasta queries crie um arquivo chamado <code>user.sql</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>  <span style="color:#6272a4">-- name: GetUserByID :one

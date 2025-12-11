@@ -1,9 +1,9 @@
 ---
-title: 'Usando migrations com Golang'
+title: "Usando migrations com Golang"
 date: 2023-11-18T17:00:30-03:00
 draft: false
 tableOfContents: false
-thumbnail: 'dsfU80Olpdrfdg.png'
+thumbnail: "dsfU80Olpdrfdg.png"
 ---
 
 ![thumbnail](dsfU80Olpdrfdg.png)
@@ -113,7 +113,7 @@ No arquivo de `up`, vamos criar a seguinte tabela:
 
 ```sql
   CREATE TABLE users (
-    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,

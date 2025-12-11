@@ -1,9 +1,9 @@
 ---
-title: 'API completa em Golang - Parte 7'
+title: "API completa em Golang - Parte 7"
 date: 2024-02-03T19:03:34-03:00
 draft: false
 tableOfContents: false
-thumbnail: 'thumb_8erterfdfg34fghfgh.jpg'
+thumbnail: "thumb_8erterfdfg34fghfgh.jpg"
 ---
 
 ![thumbnail](thumb_8erterfdfg34fghfgh.jpg)
@@ -772,14 +772,14 @@ Vamos ter uma nova migration vazia na pasta **migrations**
 
 ```sql
   CREATE TABLE category (
-    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP(3) NOT NULL
   );
 
   CREATE TABLE product (
-    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     price INTEGER NOT NULL,
     description TEXT NULL,
@@ -788,7 +788,7 @@ Vamos ter uma nova migration vazia na pasta **migrations**
   );
 
   CREATE TABLE product_category (
-    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     product_id VARCHAR(36) NOT NULL,
     category_id VARCHAR(36) NOT NULL,
     created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

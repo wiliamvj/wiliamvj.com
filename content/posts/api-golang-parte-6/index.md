@@ -1,9 +1,9 @@
 ---
-title: 'API completa em Golang - Parte 6'
+title: "API completa em Golang - Parte 6"
 date: 2024-01-23T19:03:34-03:00
 draft: false
 tableOfContents: false
-thumbnail: 'thumb_re435g5G5gGfgfOp.png'
+thumbnail: "thumb_re435g5G5gGfgfOp.png"
 ---
 
 ![thumbnail](thumb_re435g5G5gGfgfOp.png)
@@ -28,7 +28,7 @@ Vamos criar uma nova migration com o comando `make create_migration`. Criamos es
 
 ```sql
   CREATE TABLE address (
-    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    id CHAR(36) NOT NULL PRIMARY KEY,
     cep VARCHAR(255) NOT NULL,
     ibge VARCHAR(255) NOT NULL,
     uf VARCHAR(255) NOT NULL,
