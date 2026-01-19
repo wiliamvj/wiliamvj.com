@@ -1,9 +1,9 @@
 ---
 title: Gerando Pagamentos via Pix com a AbacatePay
 date: 2025-04-16T11:56:59-03:00
-draft: false
+draft: true
 tableOfContents: false
-thumbnail: 'thumb_76786eehjger.png'
+thumbnail: "thumb_76786eehjger.png"
 ---
 
 ![thumbnail](thumb_76786eehjger.png)
@@ -84,7 +84,7 @@ Validamos de forma bem simples a request, você pode aprimorar essa validação,
 
 Com o `validation` pronto, vamos implementar o handler!
 
-`create_pix.go`: 
+`create_pix.go`:
 
 ```go
 type CreatePixResponse struct {
@@ -137,8 +137,9 @@ Não irei me aprofundar muito em Go, mas de forma simples, tranformamos o `body`
 
 Com o handler pronto, precisamos registrar as nossas rotas e para isso vamos criar dentro da pasta **handler** uma pasta **routes** e um arquivo `routes.go`
 
-`routes.go`: 
-```go	
+`routes.go`:
+
+```go
 func InitRoutes(router chi.Router, h handler.Handler) {
 	router.Route("/payment", func(r chi.Router) {
 		r.Post("/pix", h.CreatePix)
@@ -155,7 +156,7 @@ Registramos duas rotas, uma para gerar o pix e outra para receber o webhook.
 
 O service vai ser responsável pela regra de negócio, será no service que vamos chamar a api da [AbacatePay](https://www.abacatepay.com/).
 
-`service.go`: 
+`service.go`:
 
 ```go
 func NewService(abacatepayclient abacatepay.Client) PaymentService {
@@ -211,9 +212,10 @@ Nesse arquivo vamos ter o "contrutor" `NewAbacatePayClient` e os metódos que va
 
 Repare que usamos o `accessToken` buscando de uma variável de ambiente, esse token deve ser adquirido na plataforma da abacatepay e adicionado no `.env`, vou deixar tudo isso no repositório do projeto.
 
-Também criei um  `abacateLogger` apenas para melhorar os logs usando o [logrus](https://github.com/sirupsen/logrus).
+Também criei um `abacateLogger` apenas para melhorar os logs usando o [logrus](https://github.com/sirupsen/logrus).
 
 `gerar_pix.go`:
+
 ```go
 type GerarPixResponse struct {
 	Error any `json:"error"`
@@ -294,7 +296,8 @@ O método `RegisterUser` segue a mesma lógica, você pode ver no repositório.
 
 Com o http client criado, vamos implementar o service:
 
-`create_pix.go`: 
+`create_pix.go`:
+
 ```go
 func (s *service) CreatePix(ctx context.Context, d *dto.CreatePixRequest) (*CreatePixRequest, error) {
 	pix, err := s.abacatepayclient.GerarPix(ctx, &abacatepay.GerarPixRequest{
@@ -326,11 +329,11 @@ Isso já nos retorna um id, esse id pode ser usado para consultar o status do pa
 
 ## Configurando o Webhook
 
-Um webhook é uma forma de um sistema avisar outro automaticamente quando algo acontece. No nosso caso uma forma da AbacatePay nos informar que algo mudou, para isso precisamos registrar um endpoint do tipo `Post` que receba essa informação. 
+Um webhook é uma forma de um sistema avisar outro automaticamente quando algo acontece. No nosso caso uma forma da AbacatePay nos informar que algo mudou, para isso precisamos registrar um endpoint do tipo `Post` que receba essa informação.
 
 Agora vamos implementear o `ProcessWebhook` do handler.
 
-`webhook.go`: 
+`webhook.go`:
 
 ```go
 func (h *handler) Webhook(w http.ResponseWriter, r *http.Request) {
@@ -372,7 +375,6 @@ func (h *handler) Webhook(w http.ResponseWriter, r *http.Request) {
 
 Segue o mesmo padrão do `CreatePix` validamos os dados e repassamos para o service, mas nesse caso temos que validar o `webhookSecret` esse secret é informado lá na AbacatePay ao criar um webhook, e será sempre enviado no query params, basta extrair e validar, por isso salvamos esse secrete em uma variável de ambiente `ABACATEPAY_WEBHOOK_SECRET`.
 
-
 Nosso service fica assim:
 `process_webhook.go`:
 
@@ -386,7 +388,7 @@ func (s *service) ProcessWebhook(ctx context.Context, d *dto.WebhookRequest) err
 }
 ```
 
-Não vamos implementar aqui, pois isso varia conforme a regra de negócio, você pode enviar um e-mail para o usuário, atualizar algo no banco de dados. 
+Não vamos implementar aqui, pois isso varia conforme a regra de negócio, você pode enviar um e-mail para o usuário, atualizar algo no banco de dados.
 
 No exemplo recebemos o evento `billing.paid`, poderiamos disparar um e-mail, liberar um acesso ao produto.
 

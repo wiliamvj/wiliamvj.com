@@ -2,9 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:1313/posts/abacatepay/</loc>
-    <lastmod>2025-04-16T11:56:59-03:00</lastmod>
-  </url><url>
     <loc>//localhost:1313/posts/</loc>
     <lastmod>2025-04-16T11:56:59-03:00</lastmod>
     <xhtml:link
