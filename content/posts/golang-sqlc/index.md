@@ -1,9 +1,9 @@
 ---
-title: 'Tenha controle sobre seu SQL com Golang e SQLC'
+title: "Tenha controle sobre seu SQL com Golang e SQLC"
 date: 2023-11-25T17:11:00-03:00
 draft: false
 tableOfContents: false
-thumbnail: 'dfgU78Lpfdg34.png'
+thumbnail: "dfgU78Lpfdg34.png"
 ---
 
 ![thumbnail](dfgU78Lpfdg34.png)
@@ -16,7 +16,7 @@ O Uso de ORM geralmente é recomendado devido sua a praticidade de uso, agilidad
 
 Em Go, a comunidade desencoraja o uso de ORM, apesar do [GORM](https://gorm.io/) ser um excelente ORM, o uso dele pode sim fazer sentido em pequenas aplicações que não necessitam de uma query mais complexa.
 
-## O usar em Go então?
+## O que ultilizar com Go então?
 
 Podemos usar o [GORM](https://gorm.io/), como mencionei, podemos fazer nossas queries e usar apenas o driver do banco de dados, como o [pq](github.com/lib/pq) para PostgreSQL (é a opção mais trabalhosa, porém com controle total), mas como o intuito do post é falar sobre o SQLC, vamos usar ele.
 
@@ -103,15 +103,15 @@ Se receber uma versão `v1.20.0` por exemplo, está tudo certo (não precisa ser
 Precisamos antes criar um arquivo de config do SLQC, chamado `sqlc.yaml` na raiz do projeto, nele vamos definir o banco que vamos usar, caminho das pastas e outras configs.
 
 ```yaml
-version: '2'
+version: "2"
 sql:
-  - schema: 'internal/database/migrations'
-    queries: 'internal/database/queries'
-    engine: 'postgresql'
-    gen:
-      go:
-        package: 'db'
-        out: 'internal/database/db'
+    - schema: "internal/database/migrations"
+      queries: "internal/database/queries"
+      engine: "postgresql"
+      gen:
+          go:
+              package: "db"
+              out: "internal/database/db"
 ```
 
 - `schema`: onde fica nosso arquivo da estrutura da nossa tabela no banco de dados.

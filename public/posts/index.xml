@@ -136,6 +136,13 @@
       <description>O pacote fmt é um pacote padrão do Go e muito utilizado, porém para quem esta iniciando em Go pode parecer um pouco confuso.</description>
     </item>
     <item>
+      <title>Utilizando Dbr</title>
+      <link>//localhost:1313/posts/dbr/</link>
+      <pubDate>Wed, 01 Nov 2023 15:06:59 -0300</pubDate>
+      <guid>//localhost:1313/posts/dbr/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Usando contratos com NestJS, facilitando seus testes unitários</title>
       <link>//localhost:1313/posts/nestjs-contratos/</link>
       <pubDate>Wed, 11 Oct 2023 14:56:59 -0300</pubDate>

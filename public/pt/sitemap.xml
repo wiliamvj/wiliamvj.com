@@ -152,6 +152,9 @@
     <loc>//localhost:1313/posts/fmt-go/</loc>
     <lastmod>2023-11-01T15:06:59-03:00</lastmod>
   </url><url>
+    <loc>//localhost:1313/posts/dbr/</loc>
+    <lastmod>2023-11-01T15:06:59-03:00</lastmod>
+  </url><url>
     <loc>//localhost:1313/posts/nestjs-contratos/</loc>
     <lastmod>2023-10-11T14:56:59-03:00</lastmod>
     <xhtml:link
