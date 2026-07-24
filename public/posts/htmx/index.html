@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth dark">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>      
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Criando aplicações web com HTMX e Golang</title>
+
+
+<meta name="description" content="" />
+<meta
+  name="keywords"
+  content="Golang, Go, GCP, Sql, Gorm, NestJS, Javascript, Typescript, AWS, SQS, RabbitMq, Kafka, microservices, brazilian devs, software developer, back-end, NodeJS, Unit tests, integration testes"
+/>
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="//localhost:1313/posts/htmx/" />
+<meta name="twitter:title" content="Criando aplicações web com HTMX e Golang" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:image" content="//localhost:1313/posts/htmx/thumb_d873hdfdf23t2.png" />
+<meta
+  name="twitter:image:src"
+  content="//localhost:1313/posts/htmx/thumb_d873hdfdf23t2.png"
+/>
+<meta name="twitter:domain" content="wiliamvj.com" />
+<meta name="twitter:creator" content="@wiliamjoaquim" />
+<meta name="twitter:image:alt" content="Criando aplicações web com HTMX e Golang" />
+<meta name="twitter:label1" content="Tempo de leitura"> <meta
+name="twitter:data1" content="11 minutos de leitura">
+<meta name="twitter:app:name:iphone" content="wiliamvj" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Criando aplicações web com HTMX e Golang" />
+<meta property="og:site_name" content="Wiliam V. Joaquim - Software Developer'" />
+<meta property="og:description" content="" />
+<meta property="og:url" content="//localhost:1313/posts/htmx/" />
+<meta property="og:image" content="//localhost:1313/posts/htmx/thumb_d873hdfdf23t2.png" />
+<meta property="og:image:alt" content="Criando aplicações web com HTMX e Golang" />
+
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Criando aplicações web com HTMX e Golang"
+/>
+<meta
+  name="description"
+  content="Vamos construir uma aplicação simples TODO list utilizando Golang, HTMX, SQLite e Tailwind CSS. A proposta é mostrar como desenvolver uma aplicação web moderna sem depender de frameworks JavaScript complexos, aproveitando a renderização no servidor e atualizações parciais das páginas."
+/>
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/icons/apple-touch.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="/icons/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="/icons/favicon-16x16.png"
+/>
+<link rel="canonical" href="//localhost:1313/posts/htmx/" />
+<link rel="robots" href="/robots.txt" />
+<link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+
+
+<script
+  defer
+  src="https://www.googletagmanager.com/gtag/js?id=G-TG8KZ9PQBT"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'G-TG8KZ9PQBT');
+</script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
+
+<link rel="stylesheet" href="//localhost:1313/css/app.css" /></head>
+
+  <body class="max-w-screen-md mx-auto">
+    <div class="header">
+      <header
+  class="flex flex-col sm:flex-row items-center gap-5 sm:gap-10 pt-16 sm:py-12"
+>
+   
+
+
+<div class="flex-none w-20 h-20 rounded-full overflow-hidden">
+  <a href="//localhost:1313/">
+    <img
+      srcset="/img/profile-picture_hu12039210640750353870.jpg 80w"
+      src="/img/profile-picture.jpg"
+      width="1024"
+      height="1024"
+      alt="Wiliam V. Joaquim"
+    />
+  </a>
+</div>
+
+
+  <div class="flex flex-col gap-5">
+    <a href="//localhost:1313/">
+  <h1 id="site-title">Wiliam V<span class="text-wpurple">.</span> Joaquim</h1>
+</a>
+ <nav>
+  <ul class="px-4 lg:px-0">
+     
+    <li>
+      <a
+        href="/"
+        class=""
+        
+      >
+        Artigos
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="https://wiliamvj.substack.com/"
+        class=""
+         target="_blank" 
+      >
+        Newsletter
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li>
+      <a
+        href="/en/"
+        class=""
+        
+      >
+        en-US
+      </a>
+      <span class="text-wpurple text-lg">.</span>
+    </li>
+    
+    <li class="-mt-2 block lg:hidden"><button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+</li>
+  </ul>
+</nav>
+
+  </div>
+</header>
+
+      <div class="lg:inline-block hidden">
+        <button
+  class="toggle-theme"
+  aria-label="Toggle Theme"
+  title="Toggle Theme"
+  onclick="toggleTheme()"
+>
+  <span class="theme-icon light hidden dark:block">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+  </span>
+  <span class="theme-icon dark block dark:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+</svg>
+  </span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = localStorage.getItem('theme');
+    setTheme(theme);
+  });
+
+  function setTheme(theme) {
+    const html = document.querySelector('html');
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+      document.querySelector('.theme-icon.light').style.display = 'none';
+      document.querySelector('.theme-icon.dark').style.display = 'block';
+    } else {
+      html.classList.add('dark');
+      document.querySelector('.theme-icon.dark').style.display = 'none';
+      document.querySelector('.theme-icon.light').style.display = 'block';
+    }
+  }
+
+  function toggleTheme() {
+    const theme = localStorage.getItem('theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+    reloadGiscus(newTheme);
+  }
+</script>
+
+
+<script>
+  function reloadGiscus(theme) {
+    const existingGiscusScript = document.getElementById('giscus-script');
+    if (existingGiscusScript) existingGiscusScript.remove();
+
+    let giscusScript = document.createElement('script');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': giscusTheme,
+      'data-lang': 'pt',
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    document.body.appendChild(giscusScript);
+  }
+</script>
+
+
+      </div>
+    </div>
+
+    <main id="content">
+
+<article class="flex flex-col gap-10">
+  <header class="flex flex-col gap-2">
+    <h2 class="title-small">Criando aplicações web com HTMX e Golang</h2>
+
+    <div class="meta">
+      
+      <time
+        datetime="2026-07-24 17:00:30 -0300 -03"
+        title='Fri, Jul 24, 2026, 5:00 PM -03'
+      >
+        Publicado em: 24/07/2026 - 11 minutos de leitura
+      </time>
+
+       
+    </div>
+  </header>
+
+  
+
+
+  <section><p><img alt="thumbnail" src="/posts/htmx/thumb_d873hdfdf23t2.png"></p>
+<p>Vamos construir uma aplicação simples TODO list utilizando Golang, HTMX, SQLite e Tailwind CSS. A proposta é mostrar como desenvolver uma aplicação web moderna sem depender de frameworks JavaScript complexos, aproveitando a renderização no servidor e atualizações parciais das páginas.</p>
+<p>Durante o desenvolvimento veremos como estruturar o projeto em Go, criar as rotas da aplicação, persistir os dados com SQLite e utilizar o HTMX para atualizar a interface de forma dinâmica, sem recarregar a página. Para o visual, usaremos o Tailwind CSS.</p>
+<h2 id="estrutura-do-nosso-projeto-de-exemplo">Estrutura do nosso projeto de exemplo</h2>
+<p><img alt="Project structure" src="/posts/htmx/hgsdfjhgsdjw5435.png"></p>
+<ul>
+<li><strong>db</strong>: Responsável pela conexão com o banco de dados SQLite e inicialização da base.</li>
+<li><strong>handlers</strong>: Contém os handlers HTTP da aplicação, responsáveis por processar as requisições e renderizar os templates HTML.</li>
+<li><strong>models</strong>: Define as estruturas (models) utilizadas pela aplicação, como a entidade <code>Todo</code>.</li>
+<li><strong>static/css</strong>: Arquivos estáticos utilizados pela aplicação, como fontes e estilos personalizados.</li>
+<li><strong>templates</strong>: Contém todos os templates HTML da aplicação.
+<ul>
+<li><strong>partials</strong>: Templates parciais reutilizáveis, como o componente de exibição de uma tarefa.</li>
+</ul>
+</li>
+<li><strong>main.go</strong>: Ponto de entrada da aplicação, responsável por configurar as dependências, registrar as rotas e iniciar o servidor HTTP.</li>
+</ul>
+<h2 id="o-que-é-htmx">O que é HTMX?</h2>
+<p><strong>HTMX</strong> é uma biblioteca JavaScript que permite adicionar interatividade às aplicações web de forma declarativa, diretamente no HTML. Em vez de escrever código JavaScript complexo para fazer requisições AJAX e atualizar partes da página, você utiliza atributos HTML simples.</p>
+<p>A ideia central do HTMX é estender o HTML para permitir que qualquer elemento da página possa fazer requisições HTTP e atualizar partes específicas do DOM com a resposta do servidor. Tudo isso sem recarregar a página inteira.</p>
+<p>Isso se encaixa perfeitamente com aplicações Go que renderizam templates no servidor, pois o HTMX trabalha com respostas HTML parciais — exatamente o que os templates Go já fazem nativamente.</p>
+<h3 id="por-que-usar-htmx-com-go">Por que usar HTMX com Go?</h3>
+<p>Utilizar HTMX em uma aplicação Go traz várias vantagens:</p>
+<p><strong>1 - Simplicidade</strong>: Não precisa configurar uma API rest completa com JSON. O servidor responde diretamente com HTML e o HTMX injeta esse HTML no local correto da página.
+<strong>2 - Menos JavaScript</strong>: A lógica de interatividade fica no HTML, não em arquivos <code>.js</code> ou <code>.ts</code>. O servidor Go continua sendo o local da regra de negócios da aplicação.
+<strong>3 - Renderização no Servidor</strong>: Aproveita todo o poder dos templates nativos do Go (<code>html/template</code>) para renderizar componentes parciais que o HTMX substitui dinamicamente.
+<strong>4 - Progressivo</strong>: Você pode adicionar HTMX em partes específicas da aplicação sem reescrever tudo. Uma página tradicional pode ganhar interatividade gradualmente.
+<strong>5 - Leveza</strong>: A biblioteca leve, sem dependências.</p>
+<h2 id="configurando-o-projeto">Configurando o Projeto</h2>
+<p>Vamos começar pela estrutura base. O <code>main.go</code> configura o servidor, carrega os templates e registra as rotas:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;html/template&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;path/filepath&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;strings&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;htmx/db&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;htmx/handlers&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">main</span>() {
+</span></span><span style="display:flex;"><span>	database <span style="color:#ff79c6">:=</span> db.<span style="color:#50fa7b">InitDB</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">defer</span> database.<span style="color:#50fa7b">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	tmpl, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">parseTemplates</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		log.<span style="color:#50fa7b">Fatalf</span>(<span style="color:#f1fa8c">&#34;Erro ao carregar templates: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	todoHandler <span style="color:#ff79c6">:=</span> handlers.<span style="color:#50fa7b">NewTodoHandler</span>(database, tmpl)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	mux <span style="color:#ff79c6">:=</span> http.<span style="color:#50fa7b">NewServeMux</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	fs <span style="color:#ff79c6">:=</span> http.<span style="color:#50fa7b">FileServer</span>(http.<span style="color:#50fa7b">Dir</span>(<span style="color:#f1fa8c">&#34;static&#34;</span>))
+</span></span><span style="display:flex;"><span>	mux.<span style="color:#50fa7b">Handle</span>(<span style="color:#f1fa8c">&#34;/static/&#34;</span>, http.<span style="color:#50fa7b">StripPrefix</span>(<span style="color:#f1fa8c">&#34;/static/&#34;</span>, fs))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	mux.<span style="color:#50fa7b">HandleFunc</span>(<span style="color:#f1fa8c">&#34;/dashboard&#34;</span>, todoHandler.Index)
+</span></span><span style="display:flex;"><span>	mux.<span style="color:#50fa7b">HandleFunc</span>(<span style="color:#f1fa8c">&#34;/todos/create&#34;</span>, todoHandler.Create)
+</span></span><span style="display:flex;"><span>	mux.<span style="color:#50fa7b">HandleFunc</span>(<span style="color:#f1fa8c">&#34;/todos/toggle&#34;</span>, todoHandler.Toggle)
+</span></span><span style="display:flex;"><span>	mux.<span style="color:#50fa7b">HandleFunc</span>(<span style="color:#f1fa8c">&#34;/todos/delete&#34;</span>, todoHandler.Delete)
+</span></span><span style="display:flex;"><span>	mux.<span style="color:#50fa7b">HandleFunc</span>(<span style="color:#f1fa8c">&#34;/&#34;</span>, todoHandler.Index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	fmt.<span style="color:#50fa7b">Println</span>(<span style="color:#f1fa8c">&#34;Servidor rodando em http://localhost:8080&#34;</span>)
+</span></span><span style="display:flex;"><span>	log.<span style="color:#50fa7b">Fatal</span>(http.<span style="color:#50fa7b">ListenAndServe</span>(<span style="color:#f1fa8c">&#34;:8080&#34;</span>, mux))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">parseTemplates</span>() (<span style="color:#ff79c6">*</span>template.Template, <span style="color:#8be9fd">error</span>) {
+</span></span><span style="display:flex;"><span>	funcMap <span style="color:#ff79c6">:=</span> template.FuncMap{
+</span></span><span style="display:flex;"><span>		<span style="color:#f1fa8c">&#34;add&#34;</span>: <span style="color:#8be9fd;font-style:italic">func</span>(a, b <span style="color:#8be9fd">int</span>) <span style="color:#8be9fd">int</span> { <span style="color:#ff79c6">return</span> a <span style="color:#ff79c6">+</span> b },
+</span></span><span style="display:flex;"><span>		<span style="color:#f1fa8c">&#34;sub&#34;</span>: <span style="color:#8be9fd;font-style:italic">func</span>(a, b <span style="color:#8be9fd">int</span>) <span style="color:#8be9fd">int</span> { <span style="color:#ff79c6">return</span> a <span style="color:#ff79c6">+</span> b },
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	tmpl <span style="color:#ff79c6">:=</span> template.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;&#34;</span>).<span style="color:#50fa7b">Funcs</span>(funcMap)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Walk</span>(<span style="color:#f1fa8c">&#34;templates&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(path <span style="color:#8be9fd">string</span>, info os.FileInfo, err <span style="color:#8be9fd">error</span>) <span style="color:#8be9fd">error</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> !info.<span style="color:#50fa7b">IsDir</span>() <span style="color:#ff79c6">&amp;&amp;</span> strings.<span style="color:#50fa7b">HasSuffix</span>(path, <span style="color:#f1fa8c">&#34;.html&#34;</span>) {
+</span></span><span style="display:flex;"><span>			b, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">ReadFile</span>(path)
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			name <span style="color:#ff79c6">:=</span> filepath.<span style="color:#50fa7b">Base</span>(path)
+</span></span><span style="display:flex;"><span>			_, err = tmpl.<span style="color:#50fa7b">New</span>(name).<span style="color:#50fa7b">Parse</span>(<span style="color:#8be9fd;font-style:italic">string</span>(b))
+</span></span><span style="display:flex;"><span>			<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#ff79c6">return</span> err
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> tmpl, err
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>A função <code>parseTemplates</code> carrega todos os arquivos <code>.html</code> do diretório templates e registra funções auxiliares no <code>FuncMap</code>, no caso, add e sub, que usaremos mais tarde para calcular estatísticas das tarefas.</p>
+<h2 id="os-templates-da-aplicação">Os Templates da Aplicação</h2>
+<p>A aplicação utiliza uma estrutura de templates em camadas. O <code>layout.html</code> é o esqueleto da página e inclui o HTMX via CDN:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;!doctype html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">html</span> <span style="color:#50fa7b">lang</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;pt-BR&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">charset</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;UTF-8&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">meta</span> <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;viewport&#34;</span> <span style="color:#50fa7b">content</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;width=device-width, initial-scale=1.0&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">title</span>&gt;TODO&lt;/<span style="color:#ff79c6">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">link</span> <span style="color:#50fa7b">rel</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;stylesheet&#34;</span> <span style="color:#50fa7b">href</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/static/css/app.css&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">script</span> <span style="color:#50fa7b">src</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;https://cdn.tailwindcss.com&#34;</span>&gt;&lt;/<span style="color:#ff79c6">script</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">script</span> <span style="color:#50fa7b">src</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;https://unpkg.com/htmx.org@2.0.0&#34;</span>&gt;&lt;/<span style="color:#ff79c6">script</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">body</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;bg-slate-50 min-h-screen flex items-center justify-center p-4 antialiased text-slate-900&#34;</span>
+</span></span><span style="display:flex;"><span>  &gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">div</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;w-full max-w-md bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      {{ template &#34;index.html&#34; . }}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">html</span>&gt;
+</span></span></code></pre></div><p>Note que o HTMX é carregado simplesmente com uma tag <code>&lt;script&gt;</code>. Não há build, nem bundler, nem configuração extra.</p>
+<p>O template <code>index.html</code> contém o formulário de criação e a lista de tarefas:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;p-6 space-y-6&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">form</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;todo-form&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-post</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/todos/create&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-target</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;#todo-list&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-swap</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;innerHTML scroll:no-change&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-on:htmx:after-request</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;document.getElementById(&#39;todo-form&#39;).reset()&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;flex gap-2&#34;</span>
+</span></span><span style="display:flex;"><span>  &gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">input</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;text&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">name</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;title&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">placeholder</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Adicionar nova tarefa...&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">required</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2&#34;</span>
+</span></span><span style="display:flex;"><span>    /&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">button</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;submit&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 bg-slate-900 text-slate-50 hover:bg-slate-900/90 h-10 px-4 py-2 shrink-0&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      Adicionar
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">button</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">form</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;todo-list&#34;</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;max-h-[360px] overflow-y-auto pr-1&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    {{ template &#34;todo-list.html&#34; . }}
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span></code></pre></div><p>Aqui entram os atributos do HTMX. Vamos entender cada um:</p>
+<ul>
+<li>
+<p><code>hx-post</code>: Quando o formulário for enviado, o HTMX intercepta o evento e faz uma requisição <code>POST</code> para <code>/todos/create</code>, em vez de recarregar a página.</p>
+</li>
+<li>
+<p><code>hx-target&quot;</code>: Define qual elemento será atualizado com a resposta do servidor. No caso, a <code>div</code> com id <code>todo-list</code>.</p>
+</li>
+<li>
+<p><code>hx-swap=</code>: Especifica como o conteúdo será inserido. <code>innerHTML</code> substitui o conteúdo interno do target.</p>
+</li>
+<li>
+<p><code>hx-on:htmx:after-request&quot;</code>: Escuta o evento <code>htmx:after-request</code> (disparado após a requisição terminar) e executa o JavaScript para limpar o formulário, deixando o input pronto para a próxima tarefa.</p>
+</li>
+</ul>
+<p>Veja mais tags do HTMX <a href="https://htmx.org/reference/">aqui</a>.</p>
+<p>O template <code>todo-list.html</code> renderiza a lista e as estatísticas:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">div</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;sticky top-0 bg-white z-10 flex items-center justify-between text-xs text-slate-500 pb-2 px-1 border-b border-slate-100 mb-3&#34;</span>
+</span></span><span style="display:flex;"><span>&gt;
+</span></span><span style="display:flex;"><span>  {{ $total := len . }} {{ $completed := 0 }} {{ range . }} {{ if .Completed }}
+</span></span><span style="display:flex;"><span>  {{ $completed = add $completed 1 }} {{ end }} {{ end }}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;flex gap-2&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">span</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 border border-slate-200&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      Pendentes:
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">strong</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;ml-1 text-slate-900&#34;</span>&gt;{{ sub $total $completed }}&lt;/<span style="color:#ff79c6">strong</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">span</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">span</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-200/60&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      Concluídas:
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">strong</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;ml-1 text-emerald-900&#34;</span>&gt;{{ $completed }}&lt;/<span style="color:#ff79c6">strong</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">span</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">span</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;font-medium text-slate-400&#34;</span>&gt;Total: {{ $total }}&lt;/<span style="color:#ff79c6">span</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">ul</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;space-y-2&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  {{ range . }} {{ template &#34;todo-item.html&#34; . }} {{ else }}
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">p</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;text-sm text-slate-500 text-center py-8 border border-dashed border-slate-200 rounded-lg bg-slate-50/50&#34;</span>
+</span></span><span style="display:flex;"><span>  &gt;
+</span></span><span style="display:flex;"><span>    Nenhuma tarefa encontrada.
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">p</span>&gt;
+</span></span><span style="display:flex;"><span>  {{ end }}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">ul</span>&gt;
+</span></span></code></pre></div><p>E cada item da lista é um template parcial reutilizável, <code>todo-item.html</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">li</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;todo-{{ .ID }}&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;flex items-center justify-between p-3 rounded-lg border border-slate-100 bg-slate-50/50 hover:bg-slate-100/50 transition-colors&#34;</span>
+</span></span><span style="display:flex;"><span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;flex items-center space-x-3&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">&lt;!-- prettier-ignore --&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">input</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">type</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;checkbox&#34;</span>
+</span></span><span style="display:flex;"><span>      {{ <span style="color:#50fa7b">if</span> .<span style="color:#50fa7b">Completed</span> }} <span style="color:#50fa7b">checked</span> {{ <span style="color:#50fa7b">end</span> }}
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">hx-post</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/todos/toggle?id={{ .ID }}&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">hx-target</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;#todo-list&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">hx-swap</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;innerHTML scroll:no-change&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-950 cursor-pointer&#34;</span>
+</span></span><span style="display:flex;"><span>    /&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">span</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;text-sm font-medium {{ if .Completed }}line-through text-slate-400{{ else }}text-slate-700{{ end }}&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      {{ .Title }}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">span</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">button</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-delete</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/todos/delete?id={{ .ID }}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-target</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;#todo-list&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">hx-swap</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;innerHTML scroll:no-change&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">class</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;inline-flex items-center justify-center rounded-md text-sm font-medium text-slate-400 hover:text-red-600 hover:bg-red-50 h-8 w-8 transition-colors&#34;</span>
+</span></span><span style="display:flex;"><span>  &gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">svg</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">xmlns</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;http://www.w3.org/2000/svg&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">width</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;16&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">height</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;16&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">viewBox</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;0 0 24 24&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fill</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;none&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">stroke</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;currentColor&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">stroke-width</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">stroke-linecap</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;round&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">stroke-linejoin</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;round&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">path</span> <span style="color:#50fa7b">d</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;M3 6h18&#34;</span>&gt;&lt;/<span style="color:#ff79c6">path</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">path</span> <span style="color:#50fa7b">d</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6&#34;</span>&gt;&lt;/<span style="color:#ff79c6">path</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">path</span> <span style="color:#50fa7b">d</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2&#34;</span>&gt;&lt;/<span style="color:#ff79c6">path</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">svg</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#ff79c6">button</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">li</span>&gt;
+</span></span></code></pre></div><p>No item da tarefa, temos mais dois atributos HTMX em ação:</p>
+<ul>
+<li>
+<p><code>hx-post=&quot;/todos/toggle?id={{ .ID }}&quot;</code>: no checkbox: ao marcar ou desmarcar, faz uma requisição <code>POST</code> para alternar o status da tarefa e atualiza a lista.</p>
+</li>
+<li>
+<p><code>hx-delete=&quot;/todos/delete?id={{ .ID }}&quot;</code>: no botão de excluir: faz uma requisição <code>DELETE</code> para remover a tarefa. O HTMX suporta os métodos HTTP padrão diretamente nos atributos.</p>
+</li>
+</ul>
+<p>Em ambos os casos, <code>hx-target=&quot;#todo-list&quot;</code> e <code>hx-swap=&quot;innerHTML scroll:no-change&quot;</code> garantem que apenas a lista seja re-renderizada, mantendo o resto da página intacto.</p>
+<h2 id="os-handlers-no-go">Os Handlers no Go</h2>
+<p>Os handlers processam as requisições e respondem com HTML parcial. Veja o handler de criação:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>TodoHandler) <span style="color:#50fa7b">Create</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> r.Method <span style="color:#ff79c6">!=</span> http.MethodPost {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, <span style="color:#f1fa8c">&#34;Método não permitido&#34;</span>, http.StatusMethodNotAllowed)
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	title <span style="color:#ff79c6">:=</span> r.<span style="color:#50fa7b">FormValue</span>(<span style="color:#f1fa8c">&#34;title&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> strings.<span style="color:#50fa7b">TrimSpace</span>(title) <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		w.<span style="color:#50fa7b">WriteHeader</span>(http.StatusBadRequest)
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	_, err <span style="color:#ff79c6">:=</span> h.db.<span style="color:#50fa7b">Exec</span>(<span style="color:#f1fa8c">&#34;INSERT INTO todos (title, completed) VALUES (?, ?)&#34;</span>, title, <span style="color:#ff79c6">false</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	todos, err <span style="color:#ff79c6">:=</span> h.<span style="color:#50fa7b">getAllTodos</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err = h.tmpl.<span style="color:#50fa7b">ExecuteTemplate</span>(w, <span style="color:#f1fa8c">&#34;todo-list.html&#34;</span>, todos)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		log.<span style="color:#50fa7b">Printf</span>(<span style="color:#f1fa8c">&#34;Erro ao renderizar template todo-list.html: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>O ponto importante aqui é a última linha: <code>h.tmpl.ExecuteTemplate(w, &quot;todo-list.html&quot;, todos)</code>. Em vez de retornar JSON, o handler renderiza o template <code>todo-list.html</code> diretamente na resposta HTTP. O HTMX recebe esse HTML e o injeta no <code>#todo-list</code> da página. O mesmo padrão se repete nos handlers de <code>toggle</code> e <code>delete</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>TodoHandler) <span style="color:#50fa7b">Toggle</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// ... validação e update no banco ...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>	todos, err <span style="color:#ff79c6">:=</span> h.<span style="color:#50fa7b">getAllTodos</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err = h.tmpl.<span style="color:#50fa7b">ExecuteTemplate</span>(w, <span style="color:#f1fa8c">&#34;todo-list.html&#34;</span>, todos)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> (h <span style="color:#ff79c6">*</span>TodoHandler) <span style="color:#50fa7b">Delete</span>(w http.ResponseWriter, r <span style="color:#ff79c6">*</span>http.Request) {
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4">// ... validação e delete no banco ...
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>	todos, err <span style="color:#ff79c6">:=</span> h.<span style="color:#50fa7b">getAllTodos</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	err = h.tmpl.<span style="color:#50fa7b">ExecuteTemplate</span>(w, <span style="color:#f1fa8c">&#34;todo-list.html&#34;</span>, todos)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		http.<span style="color:#50fa7b">Error</span>(w, err.<span style="color:#50fa7b">Error</span>(), http.StatusInternalServerError)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Toda a lógica de estado da aplicação fica no servidor. O HTMX apenas orquestra as requisições e atualizações do DOM.</p>
+<p><strong>Como Funciona o Fluxo?</strong></p>
+<p>1 - Carregamento Inicial: O usuário acessa <code>/dashboard</code>. O handler Index renderiza o <code>layout.html</code> completo, que inclui o <code>index.html</code> e a lista inicial de tarefas.</p>
+<p>2 - Adicionar Tarefa: O usuário digita no formulário e clica em &ldquo;Adicionar&rdquo;. O HTMX intercepta o submit, faz POST para<code> /todos/create</code> e recebe o HTML da lista atualizada. O conteúdo de <code>#todo-list</code> é substituído. O formulário é limpo pelo evento <code>htmx:afterRequest</code>.</p>
+<p>3 - Marcar como Concluída: O usuário clica no checkbox. O HTMX faz <code>POST</code> para <code>/todos/toggle</code>. O servidor atualiza o banco, busca todas as tarefas e renderiza <code>todo-list.html</code> com os novos dados. A lista é atualizada e o checkbox reflete a mudança.</p>
+<p>4 - Excluir Tarefa: O usuário clica no ícone para deletar. O HTMX faz <code>DELETE</code> para <code>/todos/delete</code>. O servidor remove do banco e retorna a lista sem a tarefa excluída.</p>
+<h4 id="veja-como-ficou-nosso-projetinho">Veja como ficou nosso projetinho</h4>
+<p><img alt="projeto rodando" src="/posts/htmx/hgfhfgh456.gif"></p>
+<h2 id="o-banco-de-dados">O Banco de Dados</h2>
+<p>A persistência é feita com SQLite.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> db
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;database/sql&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f1fa8c">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	_ <span style="color:#f1fa8c">&#34;modernc.org/sqlite&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">InitDB</span>() <span style="color:#ff79c6">*</span>sql.DB {
+</span></span><span style="display:flex;"><span>  db, err <span style="color:#ff79c6">:=</span> sql.<span style="color:#50fa7b">Open</span>(<span style="color:#f1fa8c">&#34;sqlite&#34;</span>, <span style="color:#f1fa8c">&#34;todos.db&#34;</span>);
+</span></span><span style="display:flex;"><span> 	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		log.<span style="color:#50fa7b">Fatalf</span>(<span style="color:#f1fa8c">&#34;Erro ao abrir banco de dados: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	db.<span style="color:#50fa7b">SetMaxOpenConns</span>(<span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	query <span style="color:#ff79c6">:=</span> <span style="color:#f1fa8c">`
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">	CREATE TABLE IF NOT EXISTS todos (
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">		id INTEGER PRIMARY KEY AUTOINCREMENT,
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">		title TEXT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">		completed BOOLEAN NOT NULL DEFAULT 0
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">	);`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	_, err = db.<span style="color:#50fa7b">Exec</span>(query)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+</span></span><span style="display:flex;"><span>		log.<span style="color:#50fa7b">Fatalf</span>(<span style="color:#f1fa8c">&#34;Erro ao criar tabela: %v&#34;</span>, err)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">return</span> db
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="nem-tudo-são-flores-contras-de-usar-htmx">Nem Tudo São Flores: Contras de Usar HTMX</h2>
+<p><strong>1 - Tudo na Mão</strong>: Diferente de React ou Vue, onde você tem um ecossistema enorme de bibliotecas e componentes prontos (<code>npm install</code> e pronto), com HTMX você precisa construir cada interação do zero. Não existe um <code>react-select</code> ou <code>vue-datepicker</code> para importar — ou você escreve o componente inteiro em templates Go ou não tem.</p>
+<p><strong>2 - Gerenciamento de Estado Manual</strong>: Frameworks modernos têm soluções robustas para estado global (Redux, Context API). Com HTMX, o estado vive apenas no servidor. Isso é ótimo até você precisar sincronizar múltiplas partes da interface sem recarregar tudo. Aí você acaba criando hacks no HTML ou fazendo mais requisições do que gostaria.</p>
+<p><strong>3 - Dev Experience Mais Lenta</strong>: Sem Hot Module Replacement, sem <code>vite</code> recarregando só o que mudou. Toda alteração no template exige refresh do navegador. Para quem está acostumado com a fluidez de um <code>npm run dev</code> em React, isso pesa no dia a dia.</p>
+<p><strong>4 - Limite para Aplicações Complexas</strong>: HTMX brilha em CRUDs e dashboards. Mas se você precisa de uma interface altamente interativa — drag and drop complexo, edição em tempo real, gráficos dinâmicos com estado local rico — a abordagem &ldquo;servidor primeiro&rdquo; começa a travar. Você acaba escrevendo JavaScript anyway, só que de forma menos estruturada.</p>
+<p><strong>5 - Dependência Total do Servidor</strong>: Cada clique, cada toggle, cada filtro faz uma requisição HTTP. Em conexões lentas ou instáveis, a experiência do usuário sofre. SPAs modernas podem cachear dados e funcionar offline; com HTMX, se o servidor cair, a interface para.</p>
+<p><strong>6 - Reatividade Limitada</strong>: Não há binding bidirecional automático. Se um campo de formulário precisa atualizar outro elemento da tela em tempo real enquanto o usuário digita, você precisa configurar eventos HTMX manualmente. Em Vue ou React, isso é <code>v-model</code> ou <code>useState</code> e pronto.</p>
+<h2 id="conclusão">Conclusão</h2>
+<p>O HTMX se encaixa naturalmente no ecossistema Go. Ao invés de criar uma API REST separada e um frontend em React ou Vue, você mantém tudo no servidor: rotas, lógica de negócio, templates HTML. O HTMX adiciona a camada de interatividade de forma declarativa, diretamente no markup.</p>
+<p>Essa abordagem é ideal para aplicações internas, dashboards, CRUDs e qualquer projeto onde a simplicidade e a velocidade de desenvolvimento são prioridades. Você escreve menos código, tem menos camadas para manter e ainda entrega uma experiência moderna ao usuário.</p>
+<p>Mas é importante ter claro que HTMX não é bala de prata. Se você está construindo algo que exige muita interatividade no cliente, estado complexo compartilhado entre componentes ou precisa funcionar com pouca dependência do servidor, frameworks como React, Vue ou Angular ainda são a escolha mais adequada. A chave é escolher a ferramenta certa para o problema certo e para aplicações simples e diretas, HTMX + Go é uma combinação poderosa e produtiva.</p>
+<h2 id="links-úteis">Links úteis</h2>
+<ul>
+<li><a href="https://github.com/wiliamvj/htmx">Repositório</a> do exemplo</li>
+<li><a href="https://htmx.org/docs/">Documentação do HTMX</a></li>
+<li><a href="https://pkg.go.dev/html/template">Templates no Go</a></li>
+</ul>
+</section>
+
+  
+
+ <div class="giscus-comment">
+  <script>
+    let theme = localStorage.getItem('theme');
+    const giscusTheme = theme === 'light' ? 'noborder_light' : 'noborder_dark';
+    var currentUrl = window.location.href;
+    const lang = currentUrl.indexOf('/en/') !== -1 ? 'en' : 'pt';
+    let giscusAttributes = {
+      id: 'giscus-script',
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wiliamvj\/wiliamvj.com',
+      'data-repo-id': 'R_kgDOLkkfgA',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOLkkfgM4CeL5M',
+      'data-mapping': 'title',
+      'data-strict': '0',
+      'data-reactions-enabled':
+        '1',
+      'data-emit-metadata':
+        '0',
+      'data-input-position':
+        'top',
+      'data-theme': theme,
+      'data-lang': lang,
+      'data-loading': 'lazy',
+      crossorigin: 'anonymous',
+      async: '',
+    };
+
+    let giscusScript = document.createElement('script');
+    const article = document.querySelector('article');
+    Object.entries(giscusAttributes).forEach(([key, value]) =>
+      giscusScript.setAttribute(key, value)
+    );
+    article.appendChild(giscusScript);
+  </script>
+</div>
+ 
+
+
+ 
+
+
+  <footer>
+    
+  </footer>
+</article>
+
+</main><footer class="pt-5 pb-6 lg:grid lg:gap-3 lg:grid-cols-2">
+  <div class="text-xs font-semibold text-gray-500 order-2 sm:order-1">
+  © 2026 —
+  <a href="//localhost:1313/">Wiliam V. Joaquim</a>
+  <span class="font-normal">with</span>
+  <a
+    href="https://github.com/nixentric/Lowkey-Hugo-Theme"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lowkey
+  </a>
+</div>
+ <div class="order-1 sm:order-2 f-social">
+  <ul class="flex sm:justify-end gap-5">
+     
+    <li>
+      <a href="https://www.linkedin.com/in/wiliamvj/" target="_blank" rel="noopener noreferrer"
+        >linkedin</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://bsky.app/profile/wiliamvj.com" target="_blank" rel="noopener noreferrer"
+        >bsky</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://twitter.com/wiliamjoaquim" target="_blank" rel="noopener noreferrer"
+        >x</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://github.com/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >github</a
+      >
+    </li>
+    
+    <li>
+      <a href="https://dev.to/wiliamvj" target="_blank" rel="noopener noreferrer"
+        >dev.to</a
+      >
+    </li>
+     
+  </ul>
+</div>
+
+</footer>
+
+<button
+  type="button"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  class="!fixed bottom-5 end-5 hidden rounded-md bg-wpurple p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-wpurplehover hover:shadow-lg focus:bg-wpurplehover focus:shadow-lg focus:outline-none focus:ring-0 active:bg-wpurple active:shadow-lg"
+  id="btn-back-to-top"
+>
+  <span class="[&>svg]:w-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="3"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+      />
+    </svg>
+  </span>
+</button>
+
+<script defer>
+  const mybutton = document.getElementById('btn-back-to-top');
+  const scrollFunction = () => {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.classList.remove('hidden');
+    } else {
+      mybutton.classList.add('hidden');
+    }
+  };
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  mybutton.addEventListener('click', backToTop);
+  window.addEventListener('scroll', scrollFunction);
+</script>
+</body>
+</html>

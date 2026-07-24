@@ -361,7 +361,7 @@ name="twitter:data1" content="12 minutos de leitura">
 <p>Lidar com o SQL muitas vezes se torna complicado e cansativo, lidar com tantas queries, indexações, performance, segurança, transações e tudo que envolve o uso do SQL, pensando nisso cada vez mais é adotado o uso de ORM, visando facilitar nossas vidas.</p>
 <p>O Uso de ORM geralmente é recomendado devido sua a praticidade de uso, agilidade, entrega de queries mais seguras e rápidas (nem sempre), porém nem tudo é perfeito, o uso de ORM acaba nos limitando quando é preciso fazer uma query mais complexa, a grande maioria dos ORM não oferecem uma boa performance com queries complexas ou até mesmo não tem suporte, precisando então usar SQL no próprio ORM.</p>
 <p>Em Go, a comunidade desencoraja o uso de ORM, apesar do <a href="https://gorm.io/">GORM</a> ser um excelente ORM, o uso dele pode sim fazer sentido em pequenas aplicações que não necessitam de uma query mais complexa.</p>
-<h2 id="o-usar-em-go-então">O usar em Go então?</h2>
+<h2 id="o-que-ultilizar-com-go-então">O que ultilizar com Go então?</h2>
 <p>Podemos usar o <a href="https://gorm.io/">GORM</a>, como mencionei, podemos fazer nossas queries e usar apenas o driver do banco de dados, como o <a href="github.com/lib/pq">pq</a> para PostgreSQL (é a opção mais trabalhosa, porém com controle total), mas como o intuito do post é falar sobre o SQLC, vamos usar ele.</p>
 <h2 id="o-que-é-o-sqlc">O que é o SQLC?</h2>
 <p><a href="https://sqlc.dev/">SQLC</a> é um pacote para facilitar a execução e manipulação das nossas consultas ao banco, ele gera o código automaticamente de acordo com a query SQL que escrevemos.</p>
@@ -416,15 +416,15 @@ Na pasta <strong>internal/database/migrations</strong>, vamos deixar a migration
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  sqlc version
 </span></span></code></pre></div><p>Se receber uma versão <code>v1.20.0</code> por exemplo, está tudo certo (não precisa ser a mesma versão do exemplo).</p>
 <p>Precisamos antes criar um arquivo de config do SLQC, chamado <code>sqlc.yaml</code> na raiz do projeto, nele vamos definir o banco que vamos usar, caminho das pastas e outras configs.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#39;2&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#34;2&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">sql</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ff79c6">schema</span>: <span style="color:#f1fa8c">&#39;internal/database/migrations&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">queries</span>: <span style="color:#f1fa8c">&#39;internal/database/queries&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">engine</span>: <span style="color:#f1fa8c">&#39;postgresql&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">gen</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">go</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">package</span>: <span style="color:#f1fa8c">&#39;db&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">out</span>: <span style="color:#f1fa8c">&#39;internal/database/db&#39;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ff79c6">schema</span>: <span style="color:#f1fa8c">&#34;internal/database/migrations&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">queries</span>: <span style="color:#f1fa8c">&#34;internal/database/queries&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">engine</span>: <span style="color:#f1fa8c">&#34;postgresql&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">gen</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">go</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">package</span>: <span style="color:#f1fa8c">&#34;db&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">out</span>: <span style="color:#f1fa8c">&#34;internal/database/db&#34;</span>
 </span></span></code></pre></div><ul>
 <li><code>schema</code>: onde fica nosso arquivo da estrutura da nossa tabela no banco de dados.</li>
 <li><code>queries</code>: Pasta com as queries que vamos criar.</li>

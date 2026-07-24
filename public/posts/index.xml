@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>pt</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Tue, 07 Jan 2025 11:56:59 -0300</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jul 2026 17:00:30 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Criando aplicações web com HTMX e Golang</title>
+      <link>//localhost:1313/posts/htmx/</link>
+      <pubDate>Fri, 24 Jul 2026 17:00:30 -0300</pubDate>
+      <guid>//localhost:1313/posts/htmx/</guid>
+      <description>Vamos construir uma aplicação simples TODO list utilizando Golang, HTMX, SQLite e Tailwind CSS. A proposta é mostrar como desenvolver uma aplicação web moderna sem depender de frameworks JavaScript complexos, aproveitando a renderização no servidor e atualizações parciais das páginas.</description>
+    </item>
     <item>
       <title>O que é Rate Limiter e Por Que Utilizá-lo?</title>
       <link>//localhost:1313/posts/rate-limiter/</link>
@@ -134,13 +141,6 @@
       <pubDate>Wed, 01 Nov 2023 15:06:59 -0300</pubDate>
       <guid>//localhost:1313/posts/fmt-go/</guid>
       <description>O pacote fmt é um pacote padrão do Go e muito utilizado, porém para quem esta iniciando em Go pode parecer um pouco confuso.</description>
-    </item>
-    <item>
-      <title>Utilizando Dbr</title>
-      <link>//localhost:1313/posts/dbr/</link>
-      <pubDate>Wed, 01 Nov 2023 15:06:59 -0300</pubDate>
-      <guid>//localhost:1313/posts/dbr/</guid>
-      <description></description>
     </item>
     <item>
       <title>Usando contratos com NestJS, facilitando seus testes unitários</title>
