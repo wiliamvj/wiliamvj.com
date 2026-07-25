@@ -377,6 +377,8 @@ Toda a lógica de estado da aplicação fica no servidor. O HTMX apenas orquestr
 
 #### Veja como ficou nosso projetinho
 
+Vamos rodar o projeto com `go run .` ou `go run main.go`, certifique-se de estar na raiz do projeto.
+
 ![projeto rodando](hgfhfgh456.gif)
 
 ## O Banco de Dados

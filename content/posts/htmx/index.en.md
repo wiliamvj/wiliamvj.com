@@ -377,6 +377,8 @@ All the application state logic stays on the server. HTMX only orchestrates the 
 
 #### See how our little project turned out
 
+Let's run the project using `go run .` or `go run main.go`; make sure you are at the project root.
+
 ![project run](hgfhfgh456.gif)
 
 ## The Database

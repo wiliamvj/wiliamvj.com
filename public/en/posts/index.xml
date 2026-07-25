@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>{year}</copyright>
-    <lastBuildDate>Tue, 07 Jan 2025 11:56:59 -0300</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jul 2026 17:00:30 -0300</lastBuildDate>
     <atom:link href="//localhost:1313/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating Web Applications with HTMX and Golang</title>
+      <link>//localhost:1313/en/posts/htmx/</link>
+      <pubDate>Fri, 24 Jul 2026 17:00:30 -0300</pubDate>
+      <guid>//localhost:1313/en/posts/htmx/</guid>
+      <description>Let&amp;rsquo;s build a simple TODO list application using Golang, HTMX, SQLite and Tailwind CSS. The goal is to show how to develop a modern web application without relying on complex JavaScript frameworks, taking advantage of server-side rendering and partial page updates.</description>
+    </item>
     <item>
       <title>What is Rate Limiter and Why Use It?</title>
       <link>//localhost:1313/en/posts/rate-limiter/</link>

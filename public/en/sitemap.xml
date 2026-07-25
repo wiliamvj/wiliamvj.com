@@ -2,8 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>//localhost:1313/en/posts/htmx/</loc>
+    <lastmod>2026-07-24T17:00:30-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/posts/htmx/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/posts/htmx/"
+                />
+  </url><url>
     <loc>//localhost:1313/en/posts/</loc>
-    <lastmod>2025-01-07T11:56:59-03:00</lastmod>
+    <lastmod>2026-07-24T17:00:30-03:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pt"
@@ -13,6 +26,19 @@
                 rel="alternate"
                 hreflang="en"
                 href="//localhost:1313/en/posts/"
+                />
+  </url><url>
+    <loc>//localhost:1313/en/</loc>
+    <lastmod>2026-07-24T17:00:30-03:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="//localhost:1313/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/en/"
                 />
   </url><url>
     <loc>//localhost:1313/en/posts/rate-limiter/</loc>
@@ -26,19 +52,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="//localhost:1313/en/posts/rate-limiter/"
-                />
-  </url><url>
-    <loc>//localhost:1313/en/</loc>
-    <lastmod>2025-01-07T11:56:59-03:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="//localhost:1313/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="//localhost:1313/en/"
                 />
   </url><url>
     <loc>//localhost:1313/en/posts/bot-bluesky/</loc>

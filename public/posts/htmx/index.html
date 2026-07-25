@@ -685,6 +685,7 @@ name="twitter:data1" content="11 minutos de leitura">
 <p>3 - Marcar como Concluída: O usuário clica no checkbox. O HTMX faz <code>POST</code> para <code>/todos/toggle</code>. O servidor atualiza o banco, busca todas as tarefas e renderiza <code>todo-list.html</code> com os novos dados. A lista é atualizada e o checkbox reflete a mudança.</p>
 <p>4 - Excluir Tarefa: O usuário clica no ícone para deletar. O HTMX faz <code>DELETE</code> para <code>/todos/delete</code>. O servidor remove do banco e retorna a lista sem a tarefa excluída.</p>
 <h4 id="veja-como-ficou-nosso-projetinho">Veja como ficou nosso projetinho</h4>
+<p>Vamos rodar o projeto com <code>go run .</code> ou <code>go run main.go</code>, certifique-se de estar na raiz do projeto.</p>
 <p><img alt="projeto rodando" src="/posts/htmx/hgfhfgh456.gif"></p>
 <h2 id="o-banco-de-dados">O Banco de Dados</h2>
 <p>A persistência é feita com SQLite.</p>
